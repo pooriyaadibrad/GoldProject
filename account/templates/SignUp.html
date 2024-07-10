@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,12 +6,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet" href="../../static/src/Style/output.css">
+    <link rel="stylesheet" href="{% static 'src/Style/output.css' %}">
 </head>
 
 <body class=" flex  bg-blue-950 justify-center items-center">
+<form action="/signin/" method="post">
+      {% csrf_token %}
     <div class="flex  flex-col ">
-        <img src="../../static/src/img/unnamed%201.png" alt="">
+        <img src="{% static 'src/img/unnamed 1.png' %}" alt="">
         <h1 class="mx-auto text-2xl text-white font-bold">ساخت حساب </h1>
 
         <div class="mx-5 " dir="rtl">
@@ -31,7 +34,7 @@
             </label>
             <div class="relative w-full">
 
-                <input
+                <input name="NationCode"
                     class="appearance-none border-2 rounded-3xl w-full py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-[#14A6A1] focus:bg-white text-gray-700 pr-16 font-bold "
                     id="password" type="text" maxlength="10" onkeypress="return /[0-9]/i.test(event.key)"
                     autocomplete="off" placeholder="کد ملی  را وارد کنید" />
@@ -50,11 +53,11 @@
                     <label
                         class=" px-2 py-1 rounded-2xl text-sm text-gray-600 font-bold cursor-pointer js-password-label"
                         for="toggle">
-                        <img src="../../static/src/ShowEyes.svg" alt="">
+                        <img src="{% static 'src/ShowEyes.svg' %}" alt="">
 
                     </label>
                 </div>
-                <input
+                <input name="password"
                     class="appearance-none border-2 rounded-3xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
                     id="password" type="password" autocomplete="off" placeholder="رمز عبور خود را وارد کنید" />
 
@@ -68,11 +71,15 @@
             class="bg-gray-300 rounded-3xl px-3 py-2 w-2/3 mx-auto mt-10 mb-3 hover:bg-blue-400 hover:text-white transition-all delay-150 font-bold text-gray-700 ">ثبت‌ نام</button>
 
         <div class="mx-auto flex ">
-            <span class="underline text-blue-400 cursor-pointer">وارد شوید</span>
+            <a href="/" class="underline text-blue-400 cursor-pointer">وارد شوید</a>
             <h4 class="text-white">حساب کاربری دارید؟</h4>
 
         </div>
     </div>
+</form>
+
+
+
     <script>
 
 
