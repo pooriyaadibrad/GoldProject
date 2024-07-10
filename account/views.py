@@ -10,14 +10,13 @@ def Logout(request):
     logout(request)
     pass
 def Login(request):
+        return render(request,template_name='Login.html',context={'NationCode':'NationCode','password':'password'})
+
+
+def LoginRequest(request):
+    print('this is test')
     if request.method == 'POST':
         NationCode = request.POST['NationCode']
         password = request.POST['password']
-        user = authenticate(request, NationCode=NationCode, password=password)
-        if user is not None:
-            login(request, user)
-            pass
-    else:
-        return render(request,template_name='Login.html')
-
+        return render(request, 'Login.html',{'NationCode':NationCode,'password':password})
 

@@ -10,21 +10,18 @@
 </head>
 
 <body class=" flex bg-blue-950 justify-center items-center">
-    <form action="" method="post">
+    <form  id="loginForm" action="/LoginRequest/" method="post">
         {% csrf_token %}
     <div class="flex flex-col ">
-        <img src="{% static 'src/img/unnamed%201.png' %}" alt="">
+        <img src="{% static 'src/img/unnamed 1.png' %}" alt="">
         <h1 class="mx-auto text-2xl text-white font-bold">ساخت حساب </h1>
-
         <div class="mx-5" dir="rtl">
-
             <!-- username-->
             <label class="font-medium block mb-1 mt-6 text-white" for="password">
                 کد ملی
             </label>
             <div class="relative w-full">
-
-                <input
+                <input name="NationCode"
                     class="appearance-none border-2 rounded-3xl w-full py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-[#14A6A1] focus:bg-white text-gray-700 pr-16 font-bold "
                     id="password" type="text" maxlength="10" onkeypress="return /[0-9]/i.test(event.key)"
                     autocomplete="off" placeholder="کد ملی  را وارد کنید" />
@@ -47,7 +44,7 @@
 
                     </label>
                 </div>
-                <input
+                <input name="password"
                     class="appearance-none border-2 rounded-3xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
                     id="password" type="password" autocomplete="off" placeholder="رمز عبور خود را وارد کنید" />
 
@@ -57,7 +54,7 @@
 
         </div>
         <!--button login-->
-        <button
+        <button id="Login"
             class="bg-gray-300 rounded-3xl px-3 py-2 w-2/3 mx-auto mt-10 mb-3 hover:bg-blue-400 hover:text-white transition-all delay-150 font-bold text-gray-700 ">ورود</button>
 
         <div class="mx-auto flex ">
@@ -67,6 +64,9 @@
         </div>
     </div>
     </form>
+    {{ NationCode }}
+    {{ password }}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
 
 
@@ -79,18 +79,18 @@
 
             if (password.type === 'password') {
                 password.type = 'text'
-                passwordLabel.innerHTML = " <img src=\'../../static/src/HiddenEyes.svg' width=\'20px\' height=\'20px\'>"
+                passwordLabel.innerHTML = " <img src='../../static/src/HiddenEyes.svg' width=\'20px\' height=\'20px\'>"
 
             } else {
                 password.type = 'password'
                 passwordLabel.innerHTML = 'show'
-                passwordLabel.innerHTML = " <img src=\'../../static/src/ShowEyes.svg' width=\'20px\' height=\'40px\'>"
+                passwordLabel.innerHTML = " <img src='../../static/src/ShowEyes.svg' width=\'20px\' height=\'40px\'>"
             }
 
             password.focus()
         })
         //chenge color btn mosafer or pazirande
-
+       
     </script>
 </body>
 
