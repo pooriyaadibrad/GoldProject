@@ -4,17 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="../Style/output.css">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="../../static/src/Style/output.css">
 </head>
 
-<body class=" flex bg-blue-950 justify-center items-center">
-    <div class="flex flex-col ">
-        <img src="../img/unnamed 1.png" alt="">
+<body class=" flex  bg-blue-950 justify-center items-center">
+    <div class="flex  flex-col ">
+        <img src="../../static/src/img/unnamed%201.png" alt="">
         <h1 class="mx-auto text-2xl text-white font-bold">ساخت حساب </h1>
 
-        <div class="mx-5" dir="rtl">
+        <div class="mx-5 " dir="rtl">
+            <!-- name & family name-->
+            <label class="font-medium block mb-1 mt-6 text-white" for="password">
+                نام و نام خانوادگی
+            </label>
+            <div class="relative w-full">
 
+                <input
+                    class="appearance-none border-2 rounded-3xl w-full py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-[#14A6A1] focus:bg-white text-gray-700 pr-16 font-bold "
+                    id="password" type="text" maxlength="10" onkeypress="return /[0-9]/i.test(event.key)"
+                    autocomplete="off" placeholder=" نام و نام خانوادگی  را وارد کنید" />
+            </div>
             <!-- username-->
             <label class="font-medium block mb-1 mt-6 text-white" for="password">
                 کد ملی
@@ -40,7 +50,7 @@
                     <label
                         class=" px-2 py-1 rounded-2xl text-sm text-gray-600 font-bold cursor-pointer js-password-label"
                         for="toggle">
-                        <img src="../ShowEyes.svg" alt="">
+                        <img src="../../static/src/ShowEyes.svg" alt="">
 
                     </label>
                 </div>
@@ -55,11 +65,11 @@
         </div>
         <!--button login-->
         <button
-            class="bg-gray-300 rounded-3xl px-3 py-2 w-2/3 mx-auto mt-10 mb-3 hover:bg-blue-400 hover:text-white transition-all delay-150 font-bold text-gray-700 ">ورود</button>
+            class="bg-gray-300 rounded-3xl px-3 py-2 w-2/3 mx-auto mt-10 mb-3 hover:bg-blue-400 hover:text-white transition-all delay-150 font-bold text-gray-700 ">ثبت‌ نام</button>
 
         <div class="mx-auto flex ">
-            <span class="underline text-blue-400  cursor-pointer">بسازید</span>
-            <h4 class="text-white">حساب کاربری ندارید؟</h4>
+            <span class="underline text-blue-400 cursor-pointer">وارد شوید</span>
+            <h4 class="text-white">حساب کاربری دارید؟</h4>
 
         </div>
     </div>
@@ -75,12 +85,12 @@
 
             if (password.type === 'password') {
                 password.type = 'text'
-                passwordLabel.innerHTML = " <img src=\'../HiddenEyes.svg' width=\'20px\' height=\'20px\'>"
+                passwordLabel.innerHTML = " <img src=\'../src/HiddenEyes.svg' width=\'20px\' height=\'20px\'>"
 
             } else {
                 password.type = 'password'
                 passwordLabel.innerHTML = 'show'
-                passwordLabel.innerHTML = " <img src=\'../ShowEyes.svg' width=\'20px\' height=\'40px\'>"
+                passwordLabel.innerHTML = " <img src=\'../src/ShowEyes.svg' width=\'20px\' height=\'40px\'>"
             }
 
             password.focus()

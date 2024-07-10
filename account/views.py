@@ -6,10 +6,10 @@ def signin(request):
         NationCode = request.POST['NationCode']
         password = request.POST['password']
         pass
-def logout(request):
+def Logout(request):
     logout(request)
     pass
-def login(request):
+def Login(request):
     if request.method == 'POST':
         NationCode = request.POST['NationCode']
         password = request.POST['password']
@@ -17,5 +17,7 @@ def login(request):
         if user is not None:
             login(request, user)
             pass
+    else:
+        return render(request,template_name='Login.html')
 
 
