@@ -9,6 +9,14 @@
 </head>
 
 <body dir="rtl">
+    {% if messages %}
+
+        {% for message in messages %}
+        <div dir="rtl" class="alert alert-primary" role="alert">
+        {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
     <div class="flex">
         <!--NAV-->
         <div class="bg-[#BAEDE4] w-60 h-[100vh] shadow-2xl">

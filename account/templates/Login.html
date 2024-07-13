@@ -10,7 +10,15 @@
 </head>
 
 <body class=" flex bg-blue-950 justify-center items-center">
-    <form  id="loginForm" action="/LoginRequest/" method="post">
+  {% if messages %}
+
+        {% for message in messages %}
+        <div dir="rtl" class="alert alert-primary" role="alert">
+        {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+    <form  id="loginForm" action="/" method="post">
         {% csrf_token %}
     <div class="flex flex-col ">
         <img src="{% static 'src/img/unnamed 1.png' %}" alt="">
@@ -23,7 +31,7 @@
             <div class="relative w-full">
                 <input name="NationCode"
                     class="appearance-none border-2 rounded-3xl w-full py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-[#14A6A1] focus:bg-white text-gray-700 pr-16 font-bold "
-                    id="password" type="text" maxlength="10" onkeypress="return /[0-9]/i.test(event.key)"
+                    id="password" type="text" maxlength="50" onkeypress="return /[0-9]/i.test(event.key)"
                     autocomplete="off" placeholder="کد ملی  را وارد کنید" />
             </div>
 
@@ -45,7 +53,7 @@
                     </label>
                 </div>
                 <input name="password"
-                    class="appearance-none border-2 rounded-3xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
+                    class="appearance-none border-2 rounded-3xl w-full  py-3 px-3 leading-tight border-gray-300  -gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
                     id="password" type="password" autocomplete="off" placeholder="رمز عبور خود را وارد کنید" />
 
 
