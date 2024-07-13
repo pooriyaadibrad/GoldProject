@@ -20,6 +20,7 @@ def signin(request):
         return render(request,template_name='SignUp.html')
 def Logout(request):
     logout(request)
+    messages.success(request, 'خروج شما موفق بود!')
     return redirect('login')
 def Login(request):
         return render(request,template_name='Login.html')

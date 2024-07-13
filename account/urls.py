@@ -4,4 +4,5 @@ urlpatterns = [
     path('', views.LoginRequest, name='login'),
     path('signin/', views.signin, name='index'),
     path('adminCustome/', views.admin, name='adminCustome'),
+    path('logout/', views.Logout, name='logout'),
 ]
