@@ -10,14 +10,16 @@
 </head>
 
 <body class=" flex bg-blue-950 justify-center items-center">
-  {% if messages %}
-
-        {% for message in messages %}
-        <div dir="rtl" class="alert alert-primary" role="alert">
+      {% if messages %}
+          {% for message in messages %}
+              
+        <div class="absolute top-0 bg-lime-500 px-4 py-2 text-white rounded-3xl ">
         {{ message }}
         </div>
         {% endfor %}
-    {% endif %}
+   
+
+ {% endif %}
     <form id="loginForm" action="/" method="post">
         {% csrf_token %}
     <div class="flex flex-col ">
