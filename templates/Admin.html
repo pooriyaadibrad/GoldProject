@@ -1,0 +1,174 @@
+{% extends 'mainAdmin.html' %}
+{% load static %}
+{% block title %}پنل ادمین{% endblock %}
+
+            <!--Baners-->
+            {% block content %} 
+            <div>
+
+                <div
+                    class="grid grid-cols-2 gap-12  md:gap-3 md:grid-cols-4 mt-24 child:rounded-xl child:font-bold mx-5 text-slate-200 text-xs md:text-sm lg:text-lg text-nowrap font-bold">
+                    <div
+                        class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
+                        <img src="{% static 'src/img/ID not Verified.png' %}" class="w-20 absolute -top-8" alt="">
+                        <span>درخواست های تایید نشده</span>
+                        <span>43</span>
+                    </div>
+                    <div
+                        class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400  px-10 py-10">
+                        <img src="{% static 'src/img/Gold Bars.png' %}" class="w-20 absolute -top-8" alt="">
+                        <span>درخواست های تایید نشده</span>
+                        <span>43</span>
+                    </div>
+                    <div
+                        class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
+                        <img src="{% static 'src/img/Split Money.png' %}" class="w-20 absolute -top-10" alt="">
+                        <span>درخواست های تایید نشده</span>
+                        <span>43</span>
+                    </div>
+                    <div
+                        class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
+                        <img src="{% static 'src/img/Cash.png' %}" class="w-20 absolute -top-8" alt="">
+                        <span>درخواست های تایید نشده</span>
+                        <span>43</span>
+                    </div>
+                </div>
+            </div>
+            <!--chart & table-->
+            <div class=" mt-5  justify-around grid grid-cols-1 lg:grid-cols-2">
+                <!--table-->
+                <article class="mt-5 mx-10 ">
+
+
+                    <div class=" overflow-auto max-h-[58vh] shadow-md sm:rounded-lg">
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                            <!--header of table-->
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 child:text-nowrap">
+                                <tr class>
+                                    <th scope="col" class="flex items-center justify-center my-4 text-nowrap">
+                                        نام مشتری
+                                    </th>
+                                
+                                   
+                                 
+                                    <th scope="col" class="px-6 my-4">
+                                        مبلغ
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        نوع
+    
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        شماره تلفن
+                                    </th>
+    
+    
+    
+                                </tr>
+                            </thead>
+                            <!--body of table-->
+                            <tbody>
+                                <!--nth row table-->
+                                <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                    <th scope="row"
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                        جعفر
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        127549808
+                                    </td>
+                                    <td class="px-6 py-4 ">
+                                        برداشت
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        09123527895
+                                    </td>
+                                  
+                                </tr>
+    
+                                <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                    <th scope="row"
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                        جعفر
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        127549808
+                                    </td>
+                                    <td class="px-6 py-4 ">
+                                        واریز
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        09123527895
+                                    </td>
+                                   
+                                </tr>
+    
+                                <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                    <th scope="row"
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                        جعفر
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        127549808
+                                    </td>
+                                    <td class="px-6 py-4 ">
+                                        برداشت
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        09123527895
+                                    </td>
+                                  
+                                </tr>
+    
+    
+                            </tbody>
+                        </table>
+                    </div>
+    
+                </article>
+                    <!--chart-->
+                <div class="min-w-[300px] w-full max-w-[700px] mx-auto mt-5    ">
+                    <canvas id="myChart"></canvas>
+
+                </div>
+
+            </div>
+          
+       
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'src/js/showHidde.js' %}"></script>
+
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'],
+                datasets: [{
+                    label: 'نمودار مقایسه',
+                    backgroundColor: '#172554',
+                    borderColor: '#172554',
+                    data: [27, 19, 3, 5, 2, 40],
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+    /*    fetch('https://fakestoreapi.com/products/1')
+            .then(res => res.json())
+            .then(json => console.log(json))
+        */
+
+    </script>
+
+
+  {% endblock %}

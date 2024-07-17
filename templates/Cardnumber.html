@@ -1,0 +1,60 @@
+{% extends 'mainAdmin.html' %}
+{% load static %}
+{% block title %}تعیین شماره کارت{% endblock %}
+
+         {% block content %} 
+
+
+
+            <!--start table-->
+
+            <div class="mt-20">
+                <span class="mx-20 font-bold font-sans text-xl">تعیین شماره کارت</span>
+            </div>
+
+            <article class="mt-10 mx-10 ">
+
+                <div class="p-6 ">
+                    
+                    <div class=" w-full  grid grid-cols-1 md:grid-cols-4 items-center justify-center gap-10 px-10">
+                        <div
+                            class="bg-gradient-to-b from-blue-900 to-blue-500 items-center justify-center w-full max-w-72 h-36 rounded-xl relative ">
+                            <div class="w-full h-6 bg-gray-800 mt-4 absolute items-center justify-center">
+                                <p class=" pt-14 text-base text-center justify-center items-center" id="CardNumber">
+                                    6037661296571245</p>
+                                <p class=" pt-4 text-sm text-center justify-center items-center" id="Name">کاظم
+                                    کاظمی</p>
+                            </div>
+                        </div>
+                        <input type="text " id="CardNumberInput" class="bg-gray-200 h-8 p-2 border border-1 border-blue-500 "
+                            placeholder="شماره کارت خود را وارد کنید ...">
+                        <input type="text " id="NameInput" class="bg-gray-200 h-8 p-2 border border-1 border-blue-500"
+                            placeholder="نام و نام خانوادگی صاحب کارت را وارد کنید ...">
+                        <button onclick="getValue()"
+                            class="px-6 py-3 mx-auto  md:mx-0 w-max rounded bg-green-600 text-white hover:bg-green-500 items-center justify-center text-center text-[1.25rem]"
+                            type="button">
+                            تایید
+                        </button>
+            
+                    </div>
+                </div>
+
+            </article>
+
+   
+    
+
+    <script>
+        function getValue() {
+            let inputField = document.getElementById("CardNumberInput");
+            let inputField2 = document.getElementById("NameInput");
+
+            let value = inputField.value;
+            let value2 = inputField2.value;
+
+            document.getElementById("CardNumber").innerHTML = value;
+            document.getElementById("Name").innerHTML = value2;
+        }
+    </script>
+
+{% endblock %}

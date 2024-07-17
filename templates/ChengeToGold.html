@@ -1,0 +1,140 @@
+{% extends 'mainAdmin.html' %}
+{% load static %}
+{% block title %}تبدیل به طلا{% endblock %}
+
+
+
+
+
+            {% block content %} 
+
+
+
+
+            <!--start table-->
+
+            <div class="mt-20">
+                <span class="mx-20 font-bold font-sans text-xl">تبدیل وجه به طلا</span>
+            </div>
+
+            <article class="mt-10 mx-10 ">
+
+
+                <div class=" overflow-auto max-h-[58vh] shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                        <!--header of table-->
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 child:text-nowrap">
+                            <tr class>
+                                <th scope="col" class="flex items-center justify-center my-4">
+                                    نام مشتری
+                                </th>
+                                <th scope="col" class="px-6 py-3flex items-center justify-center my-4">
+                                    کد ملی
+                                </th>
+                                <th scope="col" class="flex items-center px-6 my-4">
+                                    شماره تماس
+                                </th>
+                                <th scope="col" class="px-8 py-3 lowercase">
+                                    گرم(g)
+                                </th>
+                                <th scope="col" class="px-6 my-4">
+                                    مبلغ 
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    وضعیت
+                                    
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    موجودی کیف پول
+                                </th>
+                                
+                               
+                               
+                            </tr>
+                        </thead>
+                        <!--body of table-->
+                        <tbody>
+                            <!--nth row table-->
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    جعفر
+                                </th>
+                                <td class="px-6 py-4">
+                                    127549808
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    09133256564646
+                                </td>
+                                <td class="px-6 py-4">
+                                    25
+                                </td>
+                                <td class="px-6 py-4">
+                                    999999999$
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="text-gray-600 mx-auto font-bold">درحال برسی</span>
+                                </td>
+                                
+                                <td class="px-6 py-4  gap-4 child:text-nowrap">
+                                    987466000$
+                                </td>
+                            </tr>
+
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    جعفر
+                                </th>
+                                <td class="px-6 py-4">
+                                    127549808
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    09133256564646
+                                </td>
+                                <td class="px-6 py-4">
+                                    2
+                                </td>
+                                <td class="px-6 py-4">
+                                    125$
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="text-lime-500 font-bold">تایید شد</span>
+                                </td>
+                                
+                                <td class="px-6 py-4  gap-4 child:text-nowrap">
+                                    10000000$
+                                </td>
+                            </tr>
+
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    جعفر
+                                </th>
+                                <td class="px-6 py-4">
+                                    127549808
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    09133256564646
+                                </td>
+                                <td class="px-6 py-4">
+                                    1000
+                                </td>
+                                <td class="px-6 py-4">
+                                    1999999999$
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="text-red-600 mx-auto font-bold">رد شد</span>
+                                </td>
+                                
+                                <td class="px-6 py-4  gap-4 child:text-nowrap">
+                                    2500$
+                                </td>
+                            </tr>
+
+                           
+                        </tbody>
+                    </table>
+                </div>
+
+            </article>
+               {% endblock %}
+     
