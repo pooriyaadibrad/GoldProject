@@ -31,6 +31,19 @@
                 کد ملی
             </label>
             <div class="relative w-full">
+                                <div class="absolute inset-y-0 right-0 flex items-center px-2">
+                    <input class="hidden js-password-toggle" id="toggle" type="checkbox" />
+                    <label
+                        class=" px-2 py-1 rounded-2xl text-sm text-gray-600 font-bold "
+                        for="toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                            <path fill-rule="evenodd" d="M4.5 3.75a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V6.75a3 3 0 0 0-3-3h-15Zm4.125 3a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Zm-3.873 8.703a4.126 4.126 0 0 1 7.746 0 .75.75 0 0 1-.351.92 7.47 7.47 0 0 1-3.522.877 7.47 7.47 0 0 1-3.522-.877.75.75 0 0 1-.351-.92ZM15 8.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15ZM14.25 12a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H15a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15Z" clip-rule="evenodd" />
+                          </svg>
+                          
+                          
+
+                    </label>
+                </div>
                 <input name="NationCode"
                     class="appearance-none border-2 rounded-3xl w-full py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-[#14A6A1] focus:bg-white text-gray-700 pr-16 font-bold "
                     id="password" type="text" maxlength="50" onkeypress="return /[0-9]/i.test(event.key)"
