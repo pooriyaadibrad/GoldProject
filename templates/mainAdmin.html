@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'src/Style/output.css' %}">
+    {% block link %}{% endblock %}
 </head>
 
 <body dir="rtl">
@@ -307,7 +308,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{% static 'src/js/showHidde.js' %}"></script>
 
-
+{% block script %}{% endblock %}
 
 </body>
 

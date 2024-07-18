@@ -1,9 +1,10 @@
 {% extends 'mainAdmin.html' %}
+ {% block link %}{% include 'linkJdata.html' %}{% endblock %}
 {% load static %}
 {% block title %}گزارشات{% endblock %}
 
 
-  
+
 
 {% block content %}
             <div class="mt-20">
@@ -149,7 +150,7 @@
 
             </article>
 
-       
+
     <script>
 
         jalaliDatepicker.startWatch({

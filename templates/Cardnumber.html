@@ -26,9 +26,9 @@
                                     کاظمی</p>
                             </div>
                         </div>
-                        <input type="text " id="CardNumberInput" class="bg-gray-200 h-8 p-2 border border-1 border-blue-500 "
+                        <input type="text" id="CardNumberInput" class="bg-gray-200 h-8 p-2 border border-1 border-blue-500 "
                             placeholder="شماره کارت خود را وارد کنید ...">
-                        <input type="text " id="NameInput" class="bg-gray-200 h-8 p-2 border border-1 border-blue-500"
+                        <input type="text" id="NameInput" class="bg-gray-200 h-8 p-2 border border-1 border-blue-500"
                             placeholder="نام و نام خانوادگی صاحب کارت را وارد کنید ...">
                         <button onclick="getValue()"
                             class="px-6 py-3 mx-auto  md:mx-0 w-max rounded bg-green-600 text-white hover:bg-green-500 items-center justify-center text-center text-[1.25rem]"
@@ -41,9 +41,10 @@
 
             </article>
 
-   
+   {% endblock %}
     
-
+    {% block script %}
+        <script src="{% static 'jquery-3.7.1.min.js.js' %}"></script>
     <script>
         function getValue() {
             let inputField = document.getElementById("CardNumberInput");
@@ -55,6 +56,20 @@
             document.getElementById("CardNumber").innerHTML = value;
             document.getElementById("Name").innerHTML = value2;
         }
+        $.ajax(
+            {
+                uri:'',
+                data:{
+
+
+                },
+                dataType:'json',
+                success:function (data){
+                    
+                }
+            }
+        )
+
     </script>
 
 {% endblock %}
