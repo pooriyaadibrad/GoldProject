@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django_jalali.db import models as jalali_models
+
 # Create your models here.
 class paymentAccount(models.Model):
     number = models.CharField(max_length=16, unique=True)
@@ -15,6 +16,7 @@ class Invoice(models.Model):
     price = models.DecimalField(max_digits=12, decimal_places=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
+
 class sellRequst(Invoice):
     image=models.ImageField(upload_to="media/sell/")
 class BuyRequst(Invoice):

@@ -10,6 +10,13 @@
 </head>
 
 <body class=" flex  bg-blue-950 justify-center items-center">
+{% if messages %}
+          {% for message in messages %}
+        <div class="absolute top-0 bg-lime-500 px-4 py-2 text-white rounded-3xl ">
+        {{ message }}
+        </div>
+        {% endfor %}
+{% endif %}
 <form action="/signin/" method="post">
       {% csrf_token %}
     <div class="flex  flex-col ">
@@ -71,7 +78,7 @@
             class="bg-gray-300 rounded-3xl px-3 py-2 w-2/3 mx-auto mt-10 mb-3 hover:bg-blue-400 hover:text-white transition-all delay-150 font-bold text-gray-700 ">ثبت‌ نام</button>
 
         <div class="mx-auto flex ">
-            <a href="/account/static" class="underline text-blue-400 cursor-pointer">وارد شوید</a>
+            <a href="/" class="underline text-blue-400 cursor-pointer">وارد شوید</a>
             <h4 class="text-white">حساب کاربری دارید؟</h4>
 
         </div>
@@ -92,12 +99,12 @@
 
             if (password.type === 'password') {
                 password.type = 'text'
-                passwordLabel.innerHTML = " <img src=\'../src/HiddenEyes.svg' width=\'20px\' height=\'20px\'>"
+                passwordLabel.innerHTML = " <img src=\'{% static 'src/HiddenEyes.svg' %}' width=\'20px\' height=\'20px\'>"
 
             } else {
                 password.type = 'password'
                 passwordLabel.innerHTML = 'show'
-                passwordLabel.innerHTML = " <img src=\'../src/ShowEyes.svg' width=\'20px\' height=\'40px\'>"
+                passwordLabel.innerHTML = " <img src=\'{% static 'src/ShowEyes.svg' %}' width=\'20px\' height=\'40px\'>"
             }
 
             password.focus()

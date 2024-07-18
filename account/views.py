@@ -8,14 +8,19 @@ def signin(request):
     if request.method == 'POST':
         NationCode = request.POST['NationCode']
         password = request.POST['password']
-        user2 = User.objects.create_user(username=NationCode, password=password)
-        user2.save()
-        user1=models.user()
-        user1.user=user2
-        user1.save()
-        login(request,user2)
-        messages.success(request,'با موفقیت ثبت نام شدید')
-        return redirect('adminCustome')
+        user=User.objects.filter(username=NationCode).all()
+        if len(user) ==0:
+            user2 = User.objects.create_user(username=NationCode, password=password)
+            user2.save()
+            user1=models.user()
+            user1.user=user2
+            user1.save()
+            login(request,user2)
+            messages.success(request,'با موفقیت ثبت نام شدید')
+            return redirect('adminAPP')
+        else:
+            messages.success(request,'این کد ملی قبلا ثبت شده')
+            return redirect('signin')
     else:
         return render(request, template_name='SignUp.html')
 def Logout(request):

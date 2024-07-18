@@ -12,13 +12,10 @@
 <body class=" flex bg-blue-950 justify-center items-center">
       {% if messages %}
           {% for message in messages %}
-              
         <div class="absolute top-0 bg-lime-500 px-4 py-2 text-white rounded-3xl ">
         {{ message }}
         </div>
         {% endfor %}
-   
-
  {% endif %}
     <form id="loginForm" action="/" method="post">
         {% csrf_token %}
@@ -101,12 +98,12 @@
 
             if (password.type === 'password') {
                 password.type = 'text'
-                passwordLabel.innerHTML = " <img src='../../static/src/HiddenEyes.svg' width=\'20px\' height=\'20px\'>"
+                passwordLabel.innerHTML = " <img src='{% static 'src/HiddenEyes.svg' %}' width=\'20px\' height=\'20px\'>"
 
             } else {
                 password.type = 'password'
                 passwordLabel.innerHTML = 'show'
-                passwordLabel.innerHTML = " <img src='../../static/src/ShowEyes.svg' width=\'20px\' height=\'40px\'>"
+                passwordLabel.innerHTML = " <img src='{% static 'src/ShowEyes.svg' %}' width=\'20px\' height=\'40px\'>"
             }
 
             password.focus()
