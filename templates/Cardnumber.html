@@ -3,7 +3,13 @@
 {% block title %}تعیین شماره کارت{% endblock %}
 
          {% block content %} 
-
+              {% if messages %}
+          {% for message in messages %}
+        <div id="message" class="absolute top-0 bg-lime-500 px-4 py-2 text-white rounded-3xl ">
+        {{ message }}
+        </div>
+        {% endfor %}
+ {% endif %}
 
 
             <!--start table-->
@@ -65,16 +71,20 @@
                 'csrfmiddlewaretoken':CSRFTOKEN
                 },
                 dataType:'json',
-                success:function (){
+                success:function (response){
                     document.getElementById("CardNumber").innerHTML = valuecart;
                     document.getElementById("Name").innerHTML = valuename;
-                    document.getElementById("CardNumberInput").value=valuecart
-                    document.getElementById("NameInput").value=valuename
+                    document.getElementById("CardNumberInput").innerHTML = '';
+                    document.getElementById("NameInput").innerHTML = '';
+                    $('#message').append('<div id="message" class="absolute top-0 bg-lime-500 px-4 py-2 text-white rounded-3xl ">'+response.message+'</div>)'
+                    
+                    )
+
                 }
             }
         )
         }
-        
+
 
     </script>
 

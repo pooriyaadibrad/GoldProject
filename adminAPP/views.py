@@ -55,6 +55,8 @@ def admin(request):
                 lastInvoices.extend(lastInvoices3)
 
             lastInvoices=sorted(lastInvoices , key=lambda obj:obj.date)
+            if len(lastInvoices)>6:
+                lastInvoices=lastInvoices[0:6]
             for item in lastInvoices:
                 user1=person.objects.filter(user=item.user).first()
                 lastInvoices[lastInvoices.index(item)] = [item,user1.Mobile]
@@ -98,7 +100,20 @@ def requestCustomer(request):
 
 def settlement(request):
     if request.user.is_authenticated:
-        return render(request=request, template_name='settlement-AdminPanel.html')
+        sell=sellRequst.objects.all().order_by('-id')
+        sell1=[]
+        sell1.extend(sell)
+        i=0
+        for b in sell1:
+            user1=person.objects.filter(user=b.user).first()
+            payment=paymentAccount.objects.filter(user=b.user).first()
+            sell1[i] = [b,user1,payment]
+            i+=1
+        if len(sell)>10:
+            sell1=sell1[0:10]
+
+
+        return render(request=request, template_name='settlement-AdminPanel.html',context={'sell':sell1})
     else:
         messages.success(request, 'لطفا اول وارد شوید')
         return redirect('login')

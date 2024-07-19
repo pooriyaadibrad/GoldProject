@@ -18,7 +18,7 @@ class Invoice(models.Model):
     date=jalali_models.jDateField()
     price = models.DecimalField(max_digits=12, decimal_places=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.BooleanField(default=False)
+    status = models.BooleanField(default=None)
 
 class sellRequst(Invoice):
     image=models.ImageField(upload_to="media/sell/")

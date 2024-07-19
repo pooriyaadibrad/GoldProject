@@ -49,30 +49,43 @@
                         <!--body of table-->
                         <tbody>
                             <!--nth row table-->
+                            {% for b in sell %}
+
                             <tr class="bg-white border-b   hover:bg-gray-50 ">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    جعفر
+                                   <span>{{ b.0.user.first_name }} {{ b.0.user.last_name }}</span>
                                 </th>
                                 <td class="px-6 py-4">
-                                    127549808
+                                    {{ b.0.user.username }}
                                 </td>
                                 <td class="px-6 py-4 ">
-                                    09133256564646
+                                    {{ b.1.Mobile }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    200.000.999.000$
+                                    {{ b.2.moneyInventory }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    28888888888888$
+                                    {{ b.0.price }}
                                 </td>
+                                 {% if b.0.status %}
                                 <td class="px-6 py-4">
                                     <span class="text-lime-500 font-bold">تایید شد</span>
                                 </td>
-                                
+                               {% else %}
+                                       <td class="px-6 py-4">
+
+                                     <span class="text-red-600 mx-auto font-bold">رد شد</span>
+                                <b>یا</b>
+                                       <span class="text-gray-600 mx-auto font-bold">درحال برسی</span>
+
+                                      </td>
+
+
+                                 {% endif %}
                                 <td class="px-6 py-4 flex items-center justify-around gap-4 child:text-nowrap">
                                     <button
                                         class=""
-                                        onclick="showImage('../img/3d-illustration-person-with-sunglasses_23-2149436188.avif')">
+                                        onclick="showImage('{{ b.0.image.url }}')">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                                             <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
                                             <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
@@ -82,223 +95,22 @@
                                 </td>
                             </tr>
 
-                            
-                            <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    جعفر
-                                </th>
-                                <td class="px-6 py-4">
-                                    127549808
-                                </td>
-                                <td class="px-6 py-4 ">
-                                    09133256564646
-                                </td>
-                                <td class="px-6 py-4">
-                                    200.000.999.000$
-                                </td>
-                                <td class="px-6 py-4">
-                                    28888888888888$
-                                </td>
-                                <td class="px-7 py-4 ">
-                                    <span class="text-red-600 mx-auto font-bold">رد شد</span>
-                                </td>
-                                
-                                <td class="px-6 py-4 flex items-center justify-around gap-4 child:text-nowrap">
-                                    <button
-                                        class=""
-                                        onclick="showImage('../img/3d-illustration-person-with-sunglasses_23-2149436188.avif')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                            <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
-                                          </svg>
-                                          
-                                    </button>
-                                </td>
-                            </tr>
 
-                            
-                            <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    جعفر
-                                </th>
-                                <td class="px-6 py-4">
-                                    127549808
-                                </td>
-                                <td class="px-6 py-4 ">
-                                    09133256564646
-                                </td>
-                                <td class="px-6 py-4">
-                                    200.000.999.000$
-                                </td>
-                                <td class="px-6 py-4">
-                                    28888888888888$
-                                </td>
-                                
-                                <td class="px-7 py-4 ">
-                                    <span class="text-red-600 mx-auto font-bold">رد شد</span>
-                                </td>
-                                
-                                <td class="px-6 py-4 flex items-center justify-around gap-4 child:text-nowrap">
-                                    <button
-                                        class=""
-                                        onclick="showImage('../img/3d-illustration-person-with-sunglasses_23-2149436188.avif')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                            <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
-                                          </svg>
-                                          
-                                    </button>
-                                </td>
-                            </tr>
 
-                            
-                            <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    جعفر
-                                </th>
-                                <td class="px-6 py-4">
-                                    127549808
-                                </td>
-                                <td class="px-6 py-4 ">
-                                    09133256564646
-                                </td>
-                                <td class="px-6 py-4">
-                                    200.000.999.000$
-                                </td>
-                                <td class="px-6 py-4">
-                                    28888888888888$
-                                </td>
-                                
-                                <td class="px-4 py-4 ">
-                                    <span class="text-gray-600 mx-auto font-bold">درحال برسی</span>
-                                </td>
-                                
-                                <td class="px-6 py-4 flex items-center justify-around gap-4 child:text-nowrap">
-                                    <button
-                                        class=""
-                                        onclick="showImage('../img/3d-illustration-person-with-sunglasses_23-2149436188.avif')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                            <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
-                                          </svg>
-                                          
-                                    </button>
-                                </td>
-                            </tr>
+                            {% endfor %}
 
-                            
-                            <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    جعفر
-                                </th>
-                                <td class="px-6 py-4">
-                                    127549808
-                                </td>
-                                <td class="px-6 py-4 ">
-                                    09133256564646
-                                </td>
-                                <td class="px-6 py-4">
-                                    200.000.999.000$
-                                </td>
-                                <td class="px-6 py-4">
-                                    28888888888888$
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="text-lime-500 font-bold">تایید شد</span>
-                                </td>
-                                
-                                <td class="px-6 py-4 flex items-center justify-around gap-4 child:text-nowrap">
-                                    <button
-                                        class=""
-                                        onclick="showImage('../img/3d-illustration-person-with-sunglasses_23-2149436188.avif')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                            <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
-                                          </svg>
-                                          
-                                    </button>
-                                </td>
-                            </tr>
-
-                            
-                            <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    جعفر
-                                </th>
-                                <td class="px-6 py-4">
-                                    127549808
-                                </td>
-                                <td class="px-6 py-4 ">
-                                    09133256564646
-                                </td>
-                                <td class="px-6 py-4">
-                                    200.000.999.000$
-                                </td>
-                                <td class="px-6 py-4">
-                                    28888888888888$
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="text-lime-500 font-bold">تایید شد</span>
-                                </td>
-                                
-                                <td class="px-6 py-4 flex items-center justify-around gap-4 child:text-nowrap">
-                                    <button
-                                        class=""
-                                        onclick="showImage('../img/3d-illustration-person-with-sunglasses_23-2149436188.avif')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                            <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
-                                          </svg>
-                                          
-                                    </button>
-                                </td>
-                            </tr>
-
-                            
-                            <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    جعفر
-                                </th>
-                                <td class="px-6 py-4">
-                                    127549808
-                                </td>
-                                <td class="px-6 py-4 ">
-                                    09133256564646
-                                </td>
-                                <td class="px-6 py-4">
-                                    200.000.999.000$
-                                </td>
-                                <td class="px-6 py-4">
-                                    28888888888888$
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="text-lime-500 font-bold">تایید شد</span>
-                                </td>
-                                
-                                <td class="px-6 py-4 flex items-center justify-around gap-4 child:text-nowrap">
-                                    <button
-                                        class=""
-                                        onclick="showImage('../img/3d-illustration-person-with-sunglasses_23-2149436188.avif')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                            <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
-                                          </svg>
-                                          
-                                    </button>
-                                </td>
-                            </tr>
 
                         </tbody>
                     </table>
                 </div>
 
             </article>
+{% endblock %}
 
 
-    <script src="../adminAPP/static/src/js/showHidde.js"></script>
-
+{% block script %}
     <script>
-        function showImage(e) {
+       function showImage(e) {
             var imageContainer =
                 document.createElement("div");
             imageContainer.className =
