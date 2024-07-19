@@ -27,39 +27,40 @@ def Logout(request):
     logout(request)
     messages.success(request, 'خروج شما موفق بود!')
     return redirect('login')
-def Login(request):
-        return render(request, template_name='Login.html')
+
 
 
 def LoginRequest(request):
-    if request.method == 'POST':
-        NationCode = request.POST['NationCode']
-        password = request.POST['password']
-        user=authenticate(request,username=NationCode,password=password)
-        user1=User.objects.get(username=NationCode)
-        if user1.is_superuser:
-            login(request, user)
-            messages.success(request, 'ادمین با موفقیت وارد شدید!')
-            return redirect('adminAPP')
-        else:
-            person=models.person.objects.get(user=user)
-            if user is not None:
-                if not person.blockStatus:
-                    login(request,user)
-                    messages.success(request,'با موفقیت وارد شدید!')
-                    return redirect('adminAPP')
-                else:
-                    messages.success(request, 'شما بلاک شدید لطفا با مدیریت تماس بگیرید')
-                    return redirect('login')
-            else:
-                messages.success(request,'نام کاربری یا رمز عبور درست نمی باشد!')
-                return render(request, template_name='Login.html')
+    if request.user.is_authenticated:
+        return redirect('adminAPP')
     else:
-        return render(request, template_name='Login.html')
+        if request.method == 'POST':
+            NationCode = request.POST['NationCode']
+            password = request.POST['password']
+            user=authenticate(request,username=NationCode,password=password)
+            user1=User.objects.get(username=NationCode)
+            if user1.is_superuser:
+                login(request, user)
+                messages.success(request, 'ادمین با موفقیت وارد شدید!')
+                return redirect('adminAPP')
+            else:
+                person=models.person.objects.get(user=user)
+                if user is not None:
+                    if not person.blockStatus:
+                        login(request,user)
+                        messages.success(request,'با موفقیت وارد شدید!')
+                        return redirect('adminAPP')
+                    else:
+                        messages.success(request, 'شما بلاک شدید لطفا با مدیریت تماس بگیرید')
+                        return redirect('login')
+                else:
+                    messages.success(request,'نام کاربری یا رمز عبور درست نمی باشد!')
+                    return render(request, template_name='Login.html')
+        else:
+            return render(request, template_name='Login.html')
 
 
-def admin(request):
-    return render(request,template_name='Admin.html')
+
 def DeleteCustomer(request,id):
     user = User.objects.get(id=id)
     person=models.person.objects.get(id=id)
