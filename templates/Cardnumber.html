@@ -21,9 +21,9 @@
                             class="bg-gradient-to-b from-blue-900 to-blue-500 items-center justify-center w-full max-w-72 h-36 rounded-xl relative ">
                             <div class="w-full h-6 bg-gray-800 mt-4 absolute items-center justify-center">
                                 <p class=" pt-14 text-base text-center justify-center items-center" id="CardNumber">
-                                    6037661296571245</p>
-                                <p class=" pt-4 text-sm text-center justify-center items-center" id="Name">کاظم
-                                    کاظمی</p>
+                                    {{ payment.number }}</p>
+                                <p class=" pt-4 text-sm text-center justify-center items-center" id="Name">
+                                    {{ payment.nameCart }}</p>
                             </div>
                         </div>
                         <input type="text" id="CardNumberInput" class="bg-gray-200 h-8 p-2 border border-1 border-blue-500 "
@@ -50,25 +50,31 @@
             let inputField = document.getElementById("CardNumberInput");
             let inputField2 = document.getElementById("NameInput");
 
-            let value = inputField.value;
-            let value2 = inputField2.value;
-
-            document.getElementById("CardNumber").innerHTML = value;
-            document.getElementById("Name").innerHTML = value2;
-        }
-        $.ajax(
+            let valuecart = inputField.value;
+            let valuename= inputField2.value;
+            var CSRFTOKEN='{{ csrf_token }}';
+            document.getElementById("CardNumber").innerHTML = valuecart;
+            document.getElementById("Name").innerHTML = valuename;
+            $.ajax(
             {
-                uri:'',
+                url:'{% url 'changeCartNumber' %}',
+                method:'POST',
                 data:{
-
-
+                'cardNumber':valuecart,
+                'name':valuename,
+                'csrfmiddlewaretoken':CSRFTOKEN
                 },
                 dataType:'json',
-                success:function (data){
-                    
+                success:function (){
+                    document.getElementById("CardNumber").innerHTML = valuecart;
+                    document.getElementById("Name").innerHTML = valuename;
+                    document.getElementById("CardNumberInput").value=valuecart
+                    document.getElementById("NameInput").value=valuename
                 }
             }
         )
+        }
+        
 
     </script>
 

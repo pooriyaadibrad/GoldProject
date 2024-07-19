@@ -4,13 +4,13 @@ from django_jalali.db import models as jalali_models
 
 # Create your models here.
 class paymentAccount(models.Model):
-    number = models.CharField(max_length=16, unique=True)
+    number = models.CharField(max_length=16,null=True)
+    nameCart=models.CharField(max_length=100,null=True,blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     moneyInventory=models.DecimalField(max_digits=12, decimal_places=0,default=0)
     goldInventory=models.DecimalField(max_digits=12, decimal_places=6,default=0)
     #endurance=models.DecimalField(max_digits=12, decimal_places=0,default=0)
-    def __str__(self):
-        return f'{str(self.number) + self.user.last_name}'
+
 
 class paymentDate(models.Model):
     pass

@@ -69,7 +69,8 @@ def admin(request):
         return redirect('login')
 def cartNumber(request):
     if request.user.is_authenticated:
-        return render(request=request,template_name='Cardnumber.html')
+        payment=paymentAccount.objects.filter(user=request.user).first()
+        return render(request=request,template_name='Cardnumber.html',context={'payment':payment})
     else:
         messages.success(request, 'لطفا اول وارد شوید')
         return redirect('login')
