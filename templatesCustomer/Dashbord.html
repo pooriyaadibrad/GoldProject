@@ -19,20 +19,20 @@
                     <div
                         class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400  px-10 py-10">
                         <img src="{% static 'src/img/Gold Bars.png' %}" class="w-20 absolute -top-8" alt="">
-                        <span>موجودی طلا من</span>
-                        <span>43</span>
+                        <span>موجودی طلا من (g)</span>
+                        <span>{{ payment1.goldInventory }}</span>
                     </div>
                     <div
                         class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
                         <img src="{% static 'src/img/Split Money.png' %}" class="w-20 absolute -top-10" alt="">
-                        <span>موجودی پول من</span>
-                        <span>43</span>
+                        <span>موجودی پول من (تومان)</span>
+                        <span>{{ payment1.moneyInventory }}</span>
                     </div>
                     <div
                         class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
                         <img src="{% static 'src/img/Cash.png' %}" class="w-20 absolute -top-8" alt="">
-                        <span>مجموع تراکنش های امروز من </span>
-                        <span>43</span>
+                        <span>مجموع تراکنش های امروز من (تومان) </span>
+                        <span>{{ numberTransations }}</span>
                     </div>
                 </div>
             </div>
@@ -72,140 +72,37 @@
                             <!--body of table-->
                             <tbody>
                                 <!--nth row table-->
+                                {% for invoice in lastInvoices %}
                                 <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                    {% if invoice.status == 2 %}
                                     <th scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
                                         <span class="text-green-400 font-bold">موفق</span>
                                     </th>
-                                    <td class="px-6 py-4">
-                                        4000$
-                                    </td>
-                                    <td class="px-6 py-4 ">
-                                        برداشت
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        1403/02/6
-                                    </td>
-
-                                </tr>
-
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                    <th scope="row"
+                                    {% elif invoice.status == 1 %}
+                                        <th scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
                                         <span class="text-red-400 font-bold ">ناموفق </span>
                                     </th>
-                                    <td class="px-6 py-4">
-                                        1600$
-                                    </td>
-                                    <td class="px-6 py-4 ">
-                                        واریز
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        1403/02/6
-                                    </td>
 
-                                </tr>
-
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                    <th scope="row"
+                                    {% else %}
+                                           <th scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
                                         <span class="text-gray-400 font-bold">درحال برسی</span>
                                     </th>
+                                    {% endif %}
                                     <td class="px-6 py-4">
-                                        200$
+                                        {{ invoice.price }}
                                     </td>
                                     <td class="px-6 py-4 ">
-                                        برداشت
+                                        {{ invoice }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        1403/02/6
+                                        {{ invoice.date }}
                                     </td>
 
                                 </tr>
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <span class="text-gray-400 font-bold">درحال برسی</span>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        200$
-                                    </td>
-                                    <td class="px-6 py-4 ">
-                                        برداشت
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        1403/02/6
-                                    </td>
-
-                                </tr>
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <span class="text-gray-400 font-bold">درحال برسی</span>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        200$
-                                    </td>
-                                    <td class="px-6 py-4 ">
-                                        برداشت
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        1403/02/6
-                                    </td>
-
-                                </tr>
-
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <span class="text-gray-400 font-bold">درحال برسی</span>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        200$
-                                    </td>
-                                    <td class="px-6 py-4 ">
-                                        برداشت
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        1403/02/6
-                                    </td>
-
-                                </tr>
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <span class="text-gray-400 font-bold">درحال برسی</span>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        200$
-                                    </td>
-                                    <td class="px-6 py-4 ">
-                                        برداشت
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        1403/02/6
-                                    </td>
-
-                                </tr>
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <span class="text-gray-400 font-bold">درحال برسی</span>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        200$
-                                    </td>
-                                    <td class="px-6 py-4 ">
-                                        برداشت
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        1403/02/6
-                                    </td>
-
-                                </tr>
-
-
-
+                                {% endfor %}
 
                             </tbody>
                         </table>
