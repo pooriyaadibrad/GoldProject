@@ -61,3 +61,22 @@ def checkOrder(request):
                 return JsonResponse({'status': True})
     else:
         return JsonResponse({'status': False})
+def getReport(request):
+    if request.method == 'POST':
+        start=str(request.POST.get('start'))
+        end=str(request.POST.get('end'))
+        requestType=request.POST.get('requestType')
+        start=start.replace('/','-')
+        end=end.replace('/','-')
+        if requestType=='واریز وجه':
+            sell=sellRequst.objects.filter(date__range=(start,end))
+            return JsonResponse({'status': True,'Gold':sell})
+
+        elif requestType=='برداشت وجه':
+            Buy = BuyRequst.objects.filter(date__range=(start, end))
+            return JsonResponse({'status': True,'Gold':Buy})
+        else:
+            Gold = convertGoldRequst.objects.filter(date__range=(start, end))
+            return JsonResponse({'status': True,'Gold':Gold})
+    else:
+        return JsonResponse({'status': False})
