@@ -32,14 +32,16 @@
                                     شماره تماس
                                 </th>
                                 <th scope="col" class="px-4 py-3 ">
-                                    مبلغ واریزی
+                                    مبلغ
                                 </th>
                                 <th scope="col" class=" px-6 my-4">
                                     موجودی کیف پول
                                 </th>
+
                                 <th scope="col" class=" flex justify-center px-7 py-3">
                                     فیش واریز
                                 </th>
+
                                 <th scope="col" class="px-6 py-3">
 
                                 </th>
@@ -50,27 +52,29 @@
                         <!--body of table-->
                         <tbody>
                             <!--nth row table-->
+                            {% for req in requestCustomer %}
                             <tr class="bg-white border-b   hover:bg-gray-50 ">
                                 <th scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    جعفر
+                                    <span>{{ req.1.user.first_name }} {{ req.1.user.last_name }}</span>
                                 </th>
                                 <td class="px-6 py-4">
-                                    127549808
+                                      {{ req.1.user.username }}
                                 </td>
                                 <td class="px-6 py-4 ">
-                                    09133256564646
+                                    {{ req.1.Mobile }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    200.000.999.000$
+                                      <span>{{ req.0.price }} {{ req.0 }}</span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    28888888888888$
+                                   {{ req.2.moneyInventory }}
                                 </td>
                                 <!--see img btn-->
+                                
                                 <td class="px-6 py-4  ">
                                     <button class=""
-                                        onclick="showImage('media/media/sell/photo_2024-05-21_17-19-02.jpg')">
+                                        onclick="showImage('{{ req.0.image.url }}')">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                             class="size-6">
                                             <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
@@ -81,18 +85,19 @@
 
                                     </button>
                                 </td>
+                              
                                 <!--accept or reject btn-->
                                 <td class="px-6 py-3 flex justify-around    flex-nowrap">
-                                    <button
+                                    <button onclick="confirm('{{ req.0.id }}','{{ req.0 }}')"
                                         class="px-6 py-3 rounded-xl text-white bg-lime-500 hover:bg-lime-400">تایید</button>
-                                    <button
+                                    <button onclick="reject('{{ req.0.id  }}','{{ req.0 }}')"
                                         class="px-6 py-3 rounded-xl text-white bg-red-600 hover:bg-red-400">رد</button>
 
                                 </td>
 
 
                             </tr>
-
+                            {% endfor %}
 
 
 
@@ -103,7 +108,9 @@
             </article>
 
 {% endblock %}
+
 {% block script %}
+    <script src="{% static 'jquery-3.7.1.min.js.js' %}"></script>
     <script>
         function showImage(e) {
             var imageContainer =
@@ -138,6 +145,43 @@
             document.body.appendChild(
                 imageContainer
             );
+        }   
+         function confirm (requestID,requestName){
+            console.log('what conditions')
+              var CSRFTOKEN='{{ csrf_token }}';
+            $.ajax(
+            {
+                url:'{% url 'checkOrder' %}',
+                method:'POST',
+                data:{
+                    'choice':1,
+                    'request':requestID,
+                    'requestName':requestName,
+                    'csrfmiddlewaretoken':CSRFTOKEN,
+                },
+                dataType:'json',
+                success:function (){
+                    location.reload()
+                }
+            })
+        }
+      
+         function reject (requestID,requestName){
+              var CSRFTOKEN='{{ csrf_token }}';
+            $.ajax({
+                url:'{% url 'checkOrder' %}',
+                method:'POST',
+                data:{
+                    'choice':0,
+                   'request':requestID,
+                    'requestName':requestName,
+                    'csrfmiddlewaretoken':CSRFTOKEN,
+                },
+                dataType:'json',
+                success:function (){
+                    location.reload()
+                }
+            })
         }
 
 

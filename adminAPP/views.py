@@ -7,7 +7,7 @@ from django.contrib import messages
 # Create your views here.
 def admin(request):
     if request.user.is_authenticated:
-        invoicesNumber=Invoice.objects.filter(status=False).all()
+        invoicesNumber=Invoice.objects.filter(status=0).all()
 
         invoicesNumber=len(invoicesNumber)
         user=User.objects.filter(is_superuser=True).all()
@@ -22,9 +22,9 @@ def admin(request):
             messages.success(request,'شما حساب کاربری ندارید یکی باید حتما بسازید / با تیم فنی تماس بگیرید در اسرع وقت بابت این موضوع')
             return render(request, template_name='Admin.html', context={'invoicesNumber': invoicesNumber, 'payment': payment})
         else:
-            lastInvoices1 = BuyRequst.objects.filter(status=True).all().order_by('-id')
-            lastInvoices2= sellRequst.objects.filter(status=True).all().order_by('-id')
-            lastInvoices3 = convertGoldRequst.objects.filter(status=True).all().order_by('-id')
+            lastInvoices1 = BuyRequst.objects.filter(status=2).all().order_by('-id')
+            lastInvoices2= sellRequst.objects.filter(status=2).all().order_by('-id')
+            lastInvoices3 = convertGoldRequst.objects.filter(status=2).all().order_by('-id')
             last4daysTransaction=[]
             for p in range(4):
                 daysTransactio=[]
@@ -79,7 +79,21 @@ def cartNumber(request):
 
 def changeToGold(request):
     if request.user.is_authenticated:
-        return render(request=request, template_name='ChengeToGold.html')
+        Gold = convertGoldRequst.objects.all().order_by('-id')
+        Gold1 = []
+        Gold1.extend(Gold)
+        i = 0
+        for b in Gold1:
+            user1 = person.objects.filter(user=b.user).first()
+            payment = paymentAccount.objects.filter(user=b.user).first()
+            Gold1[i] = [b, user1, payment]
+            i += 1
+        if len(Gold1) > 10:
+            Gold1 = Gold1[0:10]
+
+
+        return render(request=request, template_name='ChengeToGold.html', context={'Gold': Gold1})
+
     else:
         messages.success(request, 'لطفا اول وارد شوید')
         return redirect('login')
@@ -93,7 +107,20 @@ def report(request):
 
 def requestCustomer(request):
     if request.user.is_authenticated:
-        return render(request=request, template_name='request.html')
+        Buy=BuyRequst.objects.filter(status=0).all().order_by('-id')
+        sell=sellRequst.objects.filter(status=0).all().order_by('-id')
+        gold=convertGoldRequst.objects.filter(status=0).all().order_by('-id')
+        requestCustomer1=[]
+        requestCustomer1.extend(Buy)
+        requestCustomer1.extend(sell)
+        requestCustomer1.extend(gold)
+        i = 0
+        for req in requestCustomer1:
+            user1 = person.objects.filter(user=req.user).first()
+            payment = paymentAccount.objects.filter(user=req.user).first()
+            requestCustomer1[i] = [req, user1, payment]
+            i += 1
+        return render(request=request,template_name='request.html',context={'requestCustomer':requestCustomer1})
     else:
         messages.success(request, 'لطفا اول وارد شوید')
         return redirect('login')
@@ -161,7 +188,20 @@ def userInfo(request):
 
 def withdrawal(request):
     if request.user.is_authenticated:
-        return render(request=request, template_name='withdrawal-AdminPanel.html')
+        Buy=BuyRequst.objects.all().order_by('-id')
+        Buy1=[]
+        Buy1.extend(Buy)
+        i=0
+        for b in Buy1:
+            user1=person.objects.filter(user=b.user).first()
+            payment=paymentAccount.objects.filter(user=b.user).first()
+            Buy1[i] = [b,user1,payment]
+            i+=1
+        if len(Buy1)>10:
+            Buy1=Buy1[0:10]
+
+        return render(request=request, template_name='withdrawal-AdminPanel.html',context={'Buy':Buy1})
+
     else:
         messages.success(request, 'لطفا اول وارد شوید')
         return redirect('login')

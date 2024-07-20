@@ -45,81 +45,45 @@
                         <!--body of table-->
                         <tbody>
                             <!--nth row table-->
+                            {% for b in Buy %}
                             <tr class="bg-white border-b   hover:bg-gray-50 ">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    جعفر
+                                    <span>{{ b.1.user.first_name }} {{ b.1.user.last_name }}</span>
                                 </th>
                                 <td class="px-6 py-4">
-                                    127549808
+                                    {{ b.1.user.username }}
                                 </td>
                                 <td class="px-6 py-4 ">
-                                    09133256564646
+                                    {{ b.1.Mobile }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    10000000000$
+                                    {{ b.0.price }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    999999999$
+                                     {{ b.2.moneyInventory }}
                                 </td>
-                                <td class="px-6 py-4">
-                                    <span class="text-gray-600 mx-auto font-bold">درحال برسی</span>
-                                </td>
-                                
-                                <td class="px-6 py-4  gap-4 child:text-nowrap">
-                                    6219861906852420
-                                </td>
-                            </tr>
-
-                            <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    جعفر
-                                </th>
-                                <td class="px-6 py-4">
-                                    127549808
-                                </td>
-                                <td class="px-6 py-4 ">
-                                    09133256564646
-                                </td>
-                                <td class="px-6 py-4">
-                                    10000000000$
-                                </td>
-                                <td class="px-6 py-4">
-                                    999999999$
-                                </td>
+                                {% if b.0.status == 2 %}
                                 <td class="px-6 py-4">
                                     <span class="text-lime-500 font-bold">تایید شد</span>
                                 </td>
-                                
-                                <td class="px-6 py-4  gap-4 child:text-nowrap">
-                                    6219861906852420
-                                </td>
-                            </tr>
-
-                            <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    جعفر
-                                </th>
-                                <td class="px-6 py-4">
-                                    127549808
-                                </td>
-                                <td class="px-6 py-4 ">
-                                    09133256564646
-                                </td>
-                                <td class="px-6 py-4">
-                                    10000000000$
-                                </td>
-                                <td class="px-6 py-4">
-                                    999999999$
-                                </td>
-                                <td class="px-6 py-4">
+                                {% elif b.0.status == 1 %}  
+                                        <td class="px-6 py-4">
                                     <span class="text-red-600 mx-auto font-bold">رد شد</span>
                                 </td>
-                                
+                                    
+                                {% else %}
+                                     <td class="px-6 py-4">
+                                    <span class="text-gray-600 mx-auto font-bold">درحال برسی</span>
+                                    </td>
+                                {% endif %}
                                 <td class="px-6 py-4  gap-4 child:text-nowrap">
-                                    6219861906852420
+                                    <span>{{ b.2.number }} {{ b.2.nameCart }}</span>
                                 </td>
                             </tr>
-
+                            {% endfor %}
+                
+                    
+                          
                            
                         </tbody>
                     </table>
