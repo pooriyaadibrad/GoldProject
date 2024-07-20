@@ -59,10 +59,7 @@ ROOT_URLCONF = 'GoldenProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR /
-                 'templatesAdmin',
-                 'templatesCustomer'
-                 ]
+        'DIRS': [os.path.join(BASE_DIR / 'templatesAdmin'),os.path.join(BASE_DIR / 'templatesCustomer')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -128,7 +125,8 @@ STATIC_URL = 'static/'
 STATIC_ROOT=os.path.join(BASE_DIR / 'staticfiles')
 STATICFILES_DIRS = [BASE_DIR /
                     'adminAPP/static',
-                    'account/static'
+                    'account/static',
+                    'CustomerApp/static',
                     ]
 MEDIA_URL='media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')

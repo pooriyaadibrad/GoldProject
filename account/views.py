@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
 from . import models
+from payment.models import paymentAccount
 from django.contrib import messages
 # Create your views here.
 def signin(request):
@@ -15,9 +16,11 @@ def signin(request):
             user1=models.person()
             user1.user=user2
             user1.save()
+            pamyment=paymentAccount(user=user2)
+            pamyment.save()
             login(request,user2)
             messages.success(request,'با موفقیت ثبت نام شدید')
-            return redirect('adminAPP')
+            return redirect('customerAPP')
         else:
             messages.success(request,'این کد ملی قبلا ثبت شده')
             return redirect('signin')
@@ -32,7 +35,10 @@ def Logout(request):
 
 def LoginRequest(request):
     if request.user.is_authenticated:
-        return redirect('adminAPP')
+        if request.user.is_superuser:
+            return redirect('adminAPP')
+        else:
+            return redirect('customerAPP')
     else:
         if request.method == 'POST':
             NationCode = request.POST['NationCode']
@@ -49,7 +55,7 @@ def LoginRequest(request):
                     if not person.blockStatus:
                         login(request,user)
                         messages.success(request,'با موفقیت وارد شدید!')
-                        return redirect('adminAPP')
+                        return redirect('customerAPP')
                     else:
                         messages.success(request, 'شما بلاک شدید لطفا با مدیریت تماس بگیرید')
                         return redirect('login')

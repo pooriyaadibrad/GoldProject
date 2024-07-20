@@ -1,0 +1,164 @@
+{% extends 'mainCustomer.html' %}
+{% load static %}
+{% block title %}گزارشات{% endblock %}
+{% block link %}{% include 'linkJalali.html' %}{% endblock %}
+
+
+
+    {% block content %}
+
+            <div class="mt-5 md:mt-20">
+                <span class="mx-20 font-bold font-sans text-xl">گزارشات</span>
+            </div>
+
+            <!--start filter-->
+            <div class="container flex flex-col md:flex-row items-center justify-between gap-5 mt-5 md:mt-20 px-20 ">
+                <div class="grid max-w-40">
+                    <select class="appearance-none row-start-1 col-start-1 bg-slate-50 border border-blue-600 rounded-md px-4 py-1">
+                        <option>واریز وجه</option>
+                        <option>برداشت وجه</option>
+                        <option>تبدیل به طلا</option>
+                    </select>
+                </div>
+                <div class="grid gap-4 grid-cols-1 lg:grid-cols-2">
+                    <input class="bg-slate-50 px-2 py-2 rounded-md border border-blue-600" type="text" data-jdp placeholder="تاریخ شروع" />
+                    <input class="bg-slate-50 px-3 py-2 rounded-md border border-blue-600" type="text" data-jdp placeholder="تاریخ پایان" />
+                </div>
+            </div>
+            <!--end of filter-->
+            <!--start table-->
+            <article class="mt-5 mx-10 ">
+
+
+                <div class=" overflow-auto max-h-[58vh] shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                        <!--header of table-->
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 child:text-nowrap">
+                            <tr class>
+                                <th scope="col" class="flex items-center justify-center my-4">
+                                    نام مشتری
+                                </th>
+                                <th scope="col" class="px-6 py-3flex items-center justify-center my-4">
+                                    کد ملی
+                                </th>
+                                <th scope="col" class="flex items-center px-6 my-4">
+                                    شماره تماس
+                                </th>
+                                <th scope="col" class="px-8 py-3 lowercase">
+                                    گرم(g)
+                                </th>
+                                <th scope="col" class="px-6 my-4">
+                                    مبلغ
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    وضعیت
+
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    موجودی کیف پول
+                                </th>
+
+
+
+                            </tr>
+                        </thead>
+                        <!--body of table-->
+                        <tbody>
+                            <!--nth row table-->
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    جعفر
+                                </th>
+                                <td class="px-6 py-4">
+                                    127549808
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    09133256564646
+                                </td>
+                                <td class="px-6 py-4">
+                                    25
+                                </td>
+                                <td class="px-6 py-4">
+                                    999999999$
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="text-gray-600 mx-auto font-bold">درحال برسی</span>
+                                </td>
+
+                                <td class="px-6 py-4  gap-4 child:text-nowrap">
+                                    987466000$
+                                </td>
+                            </tr>
+
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    جعفر
+                                </th>
+                                <td class="px-6 py-4">
+                                    127549808
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    09133256564646
+                                </td>
+                                <td class="px-6 py-4">
+                                    2
+                                </td>
+                                <td class="px-6 py-4">
+                                    125$
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="text-lime-500 font-bold">تایید شد</span>
+                                </td>
+
+                                <td class="px-6 py-4  gap-4 child:text-nowrap">
+                                    10000000$
+                                </td>
+                            </tr>
+
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    جعفر
+                                </th>
+                                <td class="px-6 py-4">
+                                    127549808
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    09133256564646
+                                </td>
+                                <td class="px-6 py-4">
+                                    1000
+                                </td>
+                                <td class="px-6 py-4">
+                                    1999999999$
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="text-red-600 mx-auto font-bold">رد شد</span>
+                                </td>
+
+                                <td class="px-6 py-4  gap-4 child:text-nowrap">
+                                    2500$
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </article>
+
+      {% endblock %}
+    {% block script %}
+    <script>
+
+        jalaliDatepicker.startWatch({
+            minDate: "attr",
+            maxDate: "attr"
+        });
+
+
+    </script>
+{% endblock %}
