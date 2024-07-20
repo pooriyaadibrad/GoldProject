@@ -4,7 +4,13 @@
 
 
     {% block content %}
-
+            {% if messages %}
+          {% for message in messages %}
+        <div class="absolute top-0 bg-lime-500 px-4 py-2 text-white rounded-3xl ">
+        {{ message }}
+        </div>
+        {% endfor %}
+ {% endif %}
 
 
             <div class=" mt-5 flex flex-col items-center  justify-center ">
@@ -12,8 +18,8 @@
 
                 <!--form-->
 
-                <form class="w-[50vh] md:w-[60vh] mx-auto grid grid-cols-1">
-
+                <form class="w-[50vh] md:w-[60vh] mx-auto grid grid-cols-1" method="post" action="/changeBio/">
+                    {% csrf_token %}
                     <!--start Number inupt-->
                     <label class=" block mb-3 mt-6 font-bold text-gray-500" for="password">
                         شماره ثابت
@@ -35,7 +41,7 @@
 
                             </label>
                         </div>
-                        <input
+                        <input name="lineNumber" value="{{ person1.LandlineNumber }}"
                             class=" appearance-none border-2 rounded-xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
                             autocomplete="off" placeholder="شماره تلفن را وارد کنید" />
 
@@ -47,7 +53,7 @@
 
                     <label class=" block mb-3 mt-6 font-bold text-gray-500" for="password">
 
-                        تغییر نام کاربری
+                        کد ملی
 
                     </label>
 
@@ -67,10 +73,10 @@
 
                             </label>
                         </div>
-                        <input
+                        <input name="NationCode" value="{{ username }}"
                             class="appearance-none border-2 rounded-xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
                              autocomplete="off"
-                            placeholder="نام کاربری خود را وارد کنید" />
+                            placeholder=" کد ملی خود را وارد کنید" />
 
 
                     </div>
@@ -99,7 +105,36 @@
 
                             </label>
                         </div>
-                        <input
+                        <input name ='password'
+                            class="appearance-none border-2 rounded-xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
+                            id="password" type="password" autocomplete="off" placeholder="رمز عبور خود را وارد کنید" />
+
+
+                    </div>
+                     <label class=" block mb-3 mt-6 font-bold text-gray-500" for="password">
+
+                         تکرار تغییر رمز عبور
+
+                    </label>
+
+                    <div class="relative mx-4">
+                        <div class="absolute inset-y-0 right-0 flex items-center px-2">
+                            <input class="hidden js-password-toggle" id="toggle" type="checkbox" />
+                            <label
+                                class=" px-2 py-1 rounded-2xl text-sm text-gray-600 font-bold cursor-pointer js-password-label"
+                                for="toggle">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    class="size-6">
+                                    <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                    <path fill-rule="evenodd"
+                                        d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
+                                        clip-rule="evenodd" />
+                                </svg>
+
+
+                            </label>
+                        </div>
+                        <input name="repassword"
                             class="appearance-none border-2 rounded-xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
                             id="password" type="password" autocomplete="off" placeholder="رمز عبور خود را وارد کنید" />
 
@@ -128,7 +163,7 @@
 
                         <textarea
                             class="appearance-none border-2 rounded-xl w-full py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold "
-                            id="password" type="text" autocomplete="off" placeholder="آدرس  را وارد کنید"></textarea>
+                            name="address" id="password" type="text" autocomplete="off" placeholder="آدرس  را وارد کنید"></textarea>
                     </div>
                     <!--end Addres inupt-->
 

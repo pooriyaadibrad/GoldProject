@@ -7,4 +7,5 @@ urlpatterns = [
     path('activeCustomer/<int:id>', views.activeCustomer, name='activeCustomer'),
     path('DeleteCustomer/<int:id>', views.DeleteCustomer, name='DeleteCustomer'),
     path('BlockCustomer/<int:id>', views.BlockCustomer, name='BlockCustomer'),
+    path('changeBio/', views.changeBio, name='changeBio'),
 ]

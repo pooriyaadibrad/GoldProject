@@ -4,6 +4,10 @@ from django.contrib.auth.models import User
 from . import models
 from payment.models import paymentAccount
 from django.contrib import messages
+
+from .models import person
+
+
 # Create your views here.
 def signin(request):
     if request.method == 'POST':
@@ -44,24 +48,28 @@ def LoginRequest(request):
             NationCode = request.POST['NationCode']
             password = request.POST['password']
             user=authenticate(request,username=NationCode,password=password)
-            user1=User.objects.get(username=NationCode)
-            if user1.is_superuser:
-                login(request, user)
-                messages.success(request, 'ادمین با موفقیت وارد شدید!')
-                return redirect('adminAPP')
-            else:
-                person=models.person.objects.get(user=user)
-                if user is not None:
-                    if not person.blockStatus:
-                        login(request,user)
-                        messages.success(request,'با موفقیت وارد شدید!')
-                        return redirect('customerAPP')
-                    else:
-                        messages.success(request, 'شما بلاک شدید لطفا با مدیریت تماس بگیرید')
-                        return redirect('login')
+            user1=User.objects.filter(username=NationCode).first()
+            if user1 is not None:
+                if user1.is_superuser:
+                    login(request, user)
+                    messages.success(request, 'ادمین با موفقیت وارد شدید!')
+                    return redirect('adminAPP')
                 else:
-                    messages.success(request,'نام کاربری یا رمز عبور درست نمی باشد!')
-                    return render(request, template_name='Login.html')
+                    person=models.person.objects.get(user=user)
+                    if user is not None:
+                        if not person.blockStatus:
+                            login(request,user)
+                            messages.success(request,'با موفقیت وارد شدید!')
+                            return redirect('customerAPP')
+                        else:
+                            messages.success(request, 'شما بلاک شدید لطفا با مدیریت تماس بگیرید')
+                            return redirect('login')
+                    else:
+                        messages.success(request,'نام کاربری یا رمز عبور درست نمی باشد!')
+                        return render(request, template_name='Login.html')
+            else:
+                messages.success(request,'اکانتی با                                                                                                                                                                                                                                                                                                                                          این مشخصات یافت نشد اگر اکانتی ندارید بسازید')
+                return redirect('signin')
         else:
             return render(request, template_name='Login.html')
 
@@ -86,3 +94,27 @@ def activeCustomer(request,id):
     person.save()
     messages.success(request,'با موفقیت کاربر فعال شد')
     return redirect('userInfo')
+def changeBio(request):
+    if request.method == 'POST':
+        id=request.user.id
+        user=User.objects.get(id=id)
+        user1=person.objects.get(user=user)
+        lineNumber = request.POST['lineNumber']
+        NationCode = request.POST['NationCode']
+        password = request.POST['password']
+        repassword = request.POST['repassword']
+        address=request.POST['address']
+
+        user1.address=address
+        user1.LandlineNumber=lineNumber
+        user.username=NationCode
+        if password == repassword and password!='' and repassword!='':
+            user.set_password(password)
+        user.save()
+        user1.save()
+        login(request,user)
+        messages.success(request,'تغغیرات با موفقیت اعمال شد')
+        return redirect('changeBio')
+    else:
+        messages.success(request,'مشکلی ذر ثبت تغییرات پیش آمده است')
+        return redirect('changeBio')

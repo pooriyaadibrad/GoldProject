@@ -2,6 +2,7 @@ import jdatetime
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from payment.models import paymentAccount,BuyRequst,sellRequst,convertGoldRequst
+from account.models import person
 # Create your views here.
 def customer(request):
     if request.user.is_authenticated:
@@ -60,7 +61,9 @@ def profile(request):
         if request.user.is_superuser:
             return redirect('adminAPP')
         else:
-            return render(request=request, template_name='Profile.html')
+            person1=person.objects.get(user=request.user)
+
+            return render(request=request, template_name='Profile.html',context={'person1':person1,'username':request.user.username})
     else:
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')
