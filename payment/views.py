@@ -35,8 +35,13 @@ def checkOrder(request):
                 buy = BuyRequst.objects.get(id=requestid)
                 account = paymentAccount.objects.get(user=buy.user)
                 if account.moneyInventory >= int(price):
+                    user = User.objects.get(is_superuser=True)
+                    account1 = paymentAccount.objects.filter(user=user).first()
                     account.moneyInventory -= int(price)
+                    account1.moneyInventory -= int(price)
+
                     account.save()
+                    account1.save()
                     buy.status = 2
                     buy.save()
                     messages = 'برداشت انجام شد'
@@ -49,9 +54,13 @@ def checkOrder(request):
                 sell = sellRequst.objects.get(id=requestid)
                 sell.status = 2
                 account = paymentAccount.objects.get(user=sell.user)
-
+                user=User.objects.get(is_superuser=True)
+                account1=paymentAccount.objects.filter(user=user).first()
                 account.moneyInventory += int(price)
+                account1.moneyInventory += int(price)
+
                 account.save()
+                account1.save()
                 sell.save()
                 messages = 'واریز انجام شد'
                 return JsonResponse({'status': True, 'messages': messages})
@@ -62,8 +71,13 @@ def checkOrder(request):
                 Gold.status = 2
                 account = paymentAccount.objects.get(user=Gold.user)
                 if account.moneyInventory >= int(price):
+                    user = User.objects.get(is_superuser=True)
+                    account1 = paymentAccount.objects.filter(user=user).first()
                     account.moneyInventory -= int(price)
+                    account1.moneyInventory -= int(price)
                     account.goldInventory += gold
+                    account1.goldInventory += gold
+                    account1.save()
                     account.save()
                     Gold.save()
                     messages = 'تبدیل انجام شد'
