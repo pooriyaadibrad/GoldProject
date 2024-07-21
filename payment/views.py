@@ -29,22 +29,49 @@ def checkOrder(request):
         choice=request.POST.get('choice')
         requestid=request.POST.get('request')
         requestName=request.POST.get('requestName')
+        price=request.POST.get('price')
         if choice=='1':
-          if requestName=='برداشت':
-              buy=BuyRequst.objects.get(id=requestid)
-              buy.status=2
-              buy.save()
-              return JsonResponse({'status': True})
-          elif requestName=='واریز':
-              sell = sellRequst.objects.get(id=requestid)
-              sell.status = 2
-              sell.save()
-              return JsonResponse({'status': True})
-          else:
-              Gold = convertGoldRequst.objects.get(id=requestid)
-              Gold.status = 2
-              Gold.save()
-              return JsonResponse({'status': True})
+            if requestName == 'برداشت':
+                buy = BuyRequst.objects.get(id=requestid)
+                account = paymentAccount.objects.get(user=buy.user)
+                if account.moneyInventory >= int(price):
+                    account.moneyInventory -= int(price)
+                    account.save()
+                    buy.status = 2
+                    buy.save()
+                    messages = 'برداشت انجام شد'
+                    return JsonResponse({'status': True, 'messages': messages})
+                else:
+                    messages = 'این درخواست امکان پذیر نیست'
+
+                    return JsonResponse({'status': False, 'messages': messages})
+            elif requestName == 'واریز':
+                sell = sellRequst.objects.get(id=requestid)
+                sell.status = 2
+                account = paymentAccount.objects.get(user=sell.user)
+
+                account.moneyInventory += int(price)
+                account.save()
+                sell.save()
+                messages = 'واریز انجام شد'
+                return JsonResponse({'status': True, 'messages': messages})
+
+            else:
+                gold = request.POST.get('gold')
+                Gold = convertGoldRequst.objects.get(id=requestid)
+                Gold.status = 2
+                account = paymentAccount.objects.get(user=Gold.user)
+                if account.moneyInventory >= int(price):
+                    account.moneyInventory -= int(price)
+                    account.goldInventory += gold
+                    account.save()
+                    Gold.save()
+                    messages = 'تبدیل انجام شد'
+                    return JsonResponse({'status': True,'messages': messages})
+                else:
+                    messages = 'این درخواست امکان پذیر نیست'
+
+                    return JsonResponse({'status': False, 'messages': messages})
         else:
             if requestName == 'برداشت':
                 buy = BuyRequst.objects.get(id=requestid)
