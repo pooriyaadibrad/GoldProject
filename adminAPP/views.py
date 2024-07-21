@@ -100,7 +100,7 @@ def changeToGold(request):
 
 def report(request):
     if request.user.is_authenticated:
-        return render(request=request,template_name='Report.html')
+        return render(request=request,template_name='Report.html',context={'data':[]})
     else:
         messages.success(request, 'لطفا اول وارد شوید')
         return redirect('login')

@@ -7,24 +7,36 @@
 
 
 {% block content %}
+      {% if messages %}
+          {% for message in messages %}
+        <div class="absolute top-0 bg-lime-500 px-4 py-2 text-white rounded-3xl ">
+        {{ message }}
+        </div>
+        {% endfor %}
+ {% endif %}
             <div class="mt-20">
                 <span class="mx-20 font-bold font-sans text-xl">گزارشات</span>
             </div>
 
             <!--start filter-->
-            <div class="container flex items-center justify-between gap-5 mt-20 px-20 ">
+            <form method="post" action="/payment/getReport" class="container flex items-center justify-between gap-5 mt-20 px-20 ">
+            {% csrf_token %}
                 <div class="grid max-w-40">
-                    <select id="comboBox" onchange="search()" class="appearance-none row-start-1 col-start-1 bg-slate-50 border border-blue-600 rounded-md px-4 py-1">
+                    <select name="comboBox" id="comboBox" onchange="search()" class="appearance-none row-start-1 col-start-1 bg-slate-50 border border-blue-600 rounded-md px-4 py-1">
                         <option>واریز وجه</option>
                         <option>برداشت وجه</option>
                         <option>تبدیل به طلا</option>
                     </select>
                 </div>
                 <div class="grid gap-4 grid-cols-1 lg:grid-cols-2">
-                    <input onchange="search()" id="startDate" class="bg-slate-50 px-2 py-2 rounded-md border border-blue-600" type="text" data-jdp placeholder="تاریخ شروع" />
-                    <input onchange="search()" id="EndDate" class="bg-slate-50 px-3 py-2 rounded-md border border-blue-600" type="text" data-jdp placeholder="تاریخ پایان" />
+                    <input name="start" onchange="search()" id="startDate" class="bg-slate-50 px-2 py-2 rounded-md border border-blue-600" type="text" data-jdp placeholder="تاریخ شروع" />
+                    <input name="end" onchange="search()" id="EndDate" class="bg-slate-50 px-3 py-2 rounded-md border border-blue-600" type="text" data-jdp placeholder="تاریخ پایان" />
                 </div>
-            </div>
+              <button style="color: white;background:#1d4ed8 "
+                        class="w-1/2 mx-auto my-5 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-700 to-blue-400 text-white font-bold hover:bg-gradient-to-l transition-all delay-200"
+                        type="submit">تایید نهایی</button>
+
+            </form>
             <!--end of filter-->
             <!--start table-->
             <article class="mt-5 mx-10 ">
@@ -65,83 +77,51 @@
                         <!--body of table-->
                         <tbody class="tableBody">
                             <!--nth row table-->
+                            {% for d in data %}
                             <tr class="bg-white border-b   hover:bg-gray-50 ">
                                 <th scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    جعفر
+                                    <span>{{ d.0.user.first_name }} {{ d.0.user.last_name }}</span>
                                 </th>
                                 <td class="px-6 py-4">
-                                    127549808
+                                   {{ d.0.user.username }}
                                 </td>
                                 <td class="px-6 py-4 ">
-                                    09133256564646
+                                     {{ d.1.Mobile }}
                                 </td>
+                                {% if d.0 == 'تبدیل' %}
                                 <td class="px-6 py-4">
-                                    25
+                                    {{ d.0.gold }}
                                 </td>
+                                    {% else %}
+                                     <td class="px-6 py-4">
+                                    -
+                                </td>
+                                {% endif %}
                                 <td class="px-6 py-4">
-                                    999999999$
+                                    {{ d.0.price }}
                                 </td>
-                                <td class="px-6 py-4">
-                                    <span class="text-gray-600 mx-auto font-bold">درحال برسی</span>
-                                </td>
-
-                                <td class="px-6 py-4  gap-4 child:text-nowrap">
-                                    987466000$
-                                </td>
-                            </tr>
-
-                            <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    جعفر
-                                </th>
-                                <td class="px-6 py-4">
-                                    127549808
-                                </td>
-                                <td class="px-6 py-4 ">
-                                    09133256564646
-                                </td>
-                                <td class="px-6 py-4">
-                                    2
-                                </td>
-                                <td class="px-6 py-4">
-                                    125$
-                                </td>
-                                <td class="px-6 py-4">
+                                {% if d.0.status == 2 %}
+                                  <td class="px-6 py-4">
                                     <span class="text-lime-500 font-bold">تایید شد</span>
                                 </td>
-
-                                <td class="px-6 py-4  gap-4 child:text-nowrap">
-                                    10000000$
-                                </td>
-                            </tr>
-
-                            <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    جعفر
-                                </th>
-                                <td class="px-6 py-4">
-                                    127549808
-                                </td>
-                                <td class="px-6 py-4 ">
-                                    09133256564646
-                                </td>
-                                <td class="px-6 py-4">
-                                    1000
-                                </td>
-                                <td class="px-6 py-4">
-                                    1999999999$
-                                </td>
-                                <td class="px-6 py-4">
+                                   {% elif d.0.status == 1 %}
+                                     <td class="px-6 py-4">
                                     <span class="text-red-600 mx-auto font-bold">رد شد</span>
                                 </td>
-
+                                    {% else %}
+                                    <td class="px-6 py-4">
+                                    <span class="text-gray-600 mx-auto font-bold">درحال برسی</span>
+                                </td>
+                                {% endif %}
                                 <td class="px-6 py-4  gap-4 child:text-nowrap">
-                                    2500$
+                                   {{ d.2.moneyInventory }}
                                 </td>
                             </tr>
+                            {% endfor%}
+
+
+
 
 
                         </tbody>
@@ -158,62 +138,7 @@
             minDate: "attr",
             maxDate: "attr"
         });
-                value3=document.getElementById('comboBox').value
-        
-    function search(){
-        value1=document.getElementById('startDate').value
-        value2=document.getElementById('EndDate').value
-        value3=document.getElementById('comboBox').value
-        
-        var CSRFROKEN='{{ csrf_token }}';
-        if (value1!='' && value2!=''){
-            $.ajax({
-                url:'{% url 'getReport' %}',
-                method:'POST',
-                data:{
-                    'start':value1,
-                    'end':value2,
-                    'requestType':value3,
-                    'csrfmiddlewaretoken':CSRFROKEN
-                },
-                dataType:'json',
-                success:function (response){
-                    response.forEach(function (response){
-                            $('#tableBody').append(
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    جعفر
-                                </th>
-                                <td class="px-6 py-4">
-                                    127549808
-                                </td>
-                                <td class="px-6 py-4 ">
-                                    09133256564646
-                                </td>
-                                <td class="px-6 py-4">
-                                    25
-                                </td>
-                                <td class="px-6 py-4">
-                                    999999999$
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="text-gray-600 mx-auto font-bold">درحال برسی</span>
-                                </td>
 
-                                <td class="px-6 py-4  gap-4 child:text-nowrap">
-                                    987466000$
-                                </td>
-                            </tr>
-                                
-                                
-                            )
-                    })
-                    
-                }
-            })
-        }
-    }
 
     </script>
 
