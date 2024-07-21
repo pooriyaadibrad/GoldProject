@@ -1,3 +1,4 @@
+import jdatetime
 from django.shortcuts import render,redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
@@ -67,52 +68,145 @@ def getReport(request):
         requestType=request.POST['comboBox']
         startDate=request.POST['start']
         endDate=request.POST['end']
-        if startDate!='' and endDate!='':
-            start = startDate.replace('/', '-')
-            end = endDate.replace('/', '-')
-            if requestType == 'واریز وجه':
-                sell = sellRequst.objects.filter(date__range=(start, end))
-                sell1 = []
-                sell1.extend(sell)
-                for b in sell1:
-                    user1 = person.objects.filter(user=b.user).first()
-                    payment1 = paymentAccount.objects.filter(user=b.user).first()
-                    sell1[sell1.index(b)] = [b, user1,payment1]
-                return render(request,template_name='Report.html',context={'data':sell1})
+        if request.user.is_superuser:
+            if startDate!='' and endDate!='':
+                start = startDate.replace('/', '-')
+                end = endDate.replace('/', '-')
 
-            elif requestType == 'برداشت وجه':
-                Buy = BuyRequst.objects.filter(date__range=(start, end))
-                Buy1=[]
-                Buy1.extend(Buy)
-                for b in Buy1:
-                    user1=person.objects.filter(user=b.user).first()
-                    payment1 = paymentAccount.objects.filter(user=b.user).first()
-                    if payment1 is not None:
-                        Buy1[Buy1.index(b)] = [b,user1,payment1]
-                    else:
-                        Buy1[Buy1.index(b)] = [b, user1, payment1]
 
-                return render(request, template_name='Report.html', context={'data': Buy1})
+                if requestType == 'واریز وجه':
+                    sell = sellRequst.objects.filter(date__range=(start, end)).all()
+                    sell1 = []
+                    sell1.extend(sell)
+                    for b in sell1:
+                        user1 = person.objects.filter(user=b.user).first()
+                        payment1 = paymentAccount.objects.filter(user=b.user).first()
+                        sell1[sell1.index(b)] = [b, user1,payment1,None]
+                    return render(request,template_name='Report.html',context={'data':sell1})
 
+                elif requestType == 'برداشت وجه':
+                    Buy = BuyRequst.objects.filter(date__range=(start, end)).all()
+                    Buy1=[]
+                    Buy1.extend(Buy)
+                    for b in Buy1:
+                        user1=person.objects.filter(user=b.user).first()
+                        payment1 = paymentAccount.objects.filter(user=b.user).first().all()
+
+                        Buy1[Buy1.index(b)] = [b,user1,payment1,None]
+
+
+                    return render(request, template_name='Report.html', context={'data': Buy1})
+
+                else:
+                    Gold = convertGoldRequst.objects.filter(date__range=(start, end))
+                    Gold1 = []
+                    Gold1.extend(Gold)
+                    for b in Gold1:
+                        user1 = person.objects.filter(user=b.user).first()
+                        payment1 = paymentAccount.objects.filter(user=b.user).first()
+                        Gold1[Gold1.index(b)] = [b, user1,payment1,'gold']
+                    return render(request,template_name='Report.html',context={'data':Gold1})
             else:
-                Gold = convertGoldRequst.objects.filter(date__range=(start, end))
-                Gold1 = []
-                Gold1.extend(Gold)
-                for b in Gold1:
-                    user1 = person.objects.filter(user=b.user).first()
-                    payment1 = paymentAccount.objects.filter(user=b.user).first()
-                    Gold1[Gold1.index(b)] = [b, user1,payment1]
-                return render(request,template_name='Report.html',context={'data':Gold1})
+                messages.success(request,'لطفا فیلد ها زمانی را پر کنید')
+                return redirect('report')
         else:
-            messages.success(request,'لطفا فیلد ها زمانی را پر کنید')
-            return redirect('report')
+            if startDate != '' and endDate != '':
+                start = startDate.replace('/', '-')
+                end = endDate.replace('/', '-')
+
+                if requestType == 'واریز وجه':
+                    sell = sellRequst.objects.filter(date__range=(start, end)).filter(user=request.user).all()
+                    sell1 = []
+                    sell1.extend(sell)
+                    for b in sell1:
+                        user1 = person.objects.filter(user=request.user).first()
+                        payment1 = paymentAccount.objects.filter(user=request.user).first()
+                        sell1[sell1.index(b)] = [b, user1, payment1,None]
+                    return render(request, template_name='ReportCustomer.html', context={'data': sell1})
+
+                elif requestType == 'برداشت وجه':
+                    Buy = BuyRequst.objects.filter(date__range=(start, end)).filter(user=request.user).all()
+                    Buy1 = []
+                    Buy1.extend(Buy)
+                    for b in Buy1:
+                        user1 = person.objects.filter(user=request.user).first()
+                        payment1 = paymentAccount.objects.filter(user=request.user).first()
+
+                        Buy1[Buy1.index(b)] = [b, user1, payment1,None]
+
+
+                    return render(request, template_name='ReportCustomer.html', context={'data': Buy1})
+
+                else:
+                    Gold = convertGoldRequst.objects.filter(date__range=(start, end)).filter(user=request.user).all()
+                    Gold1 = []
+                    Gold1.extend(Gold)
+                    for g in Gold1:
+                        user1 = person.objects.filter(user=request.user)
+                        payment1 = paymentAccount.objects.filter(user=request.user).first()
+                        Gold1[Gold1.index(g)] = [g, user1, payment1,'gold']
+                    return render(request, template_name='ReportCustomer.html', context={'data': Gold1})
+            else:
+                messages.success(request, 'لطفا فیلد ها زمانی را پر کنید')
+                return redirect('reportCustomer')
     else:
         messages.success(request,'درخواست به درستی انجام نشد')
         redirect('report')
-
-
-
-
+def RegisterBuyRequest(request):
+    if request.method == 'POST':
+        invoice=request.POST['invoice']
+        price=request.POST['price']
+        SellRequest=sellRequst(user=request.user,price=price,image=invoice,date=jdatetime.date.today())
+        SellRequest.save()
+        messages.success(request,'با موفقیت درخواست شما ثبت شد ')
+        messages.success(request,'بعد از بررسی مدیر نتیجه در همینجا ذخیره میشود')
+        return redirect('settelmentCustomer')
+    else:
+        messages.success(request,'در ثبت درخواست مشکلی پیش آمده است')
+        return redirect('settelmentCustomer')
+def DeleteTransaction(request,id,type):
+    if type == 'واریز':
+        sell = sellRequst.objects.get(id=id)
+        sell.delete()
+        messages.success(request,'جذف موفقیت آمیز بود')
+        return redirect('settelmentCustomer')
+    elif type == 'برداشت':
+        Buy = BuyRequst.objects.get(id=id)
+        Buy.delete()
+        messages.success(request, 'جذف موفقیت آمیز بود')
+        return redirect('withdrawalCustomer')
+    else:
+        Gold = convertGoldRequst.objects.get(id=id)
+        Gold.delete()
+        messages.success(request, 'جذف موفقیت آمیز بود')
+        return redirect('ChangeGoldCustomer')
+def withdrawalCustomer(request):
+    if request.method == 'POST':
+        cartNumber=request.POST['cartNumber']
+        NameCart=request.POST['NameCart']
+        price=request.POST['price']
+        payment1=paymentAccount.objects.filter(user=request.user).first()
+        payment1.number=cartNumber
+        payment1.nameCart=NameCart
+        payment1.save()
+        Buy=BuyRequst(price=price,number=cartNumber,nameCart=NameCart,date=jdatetime.date.today(),user=request.user)
+        Buy.save()
+        messages.success(request, 'درخواست شما با موفقیت انجام شد')
+        return redirect('withdrawalCustomer')
+    else:
+        messages.success(request,'در درخواست شما مشکلی پیش آمده است ')
+        return redirect('withdrawalCustomer')
+def changeGoldRequest(request):
+    if request.method == 'POST':
+        price=request.POST['price']
+        gold=request.POST['gold']
+        gold=convertGoldRequst(price=price,gold=gold,date=jdatetime.date.today(),user=request.user)
+        gold.save()
+        messages.success(request,'با موفقیت درخواست شما ثبت شد')
+        return redirect('ChangeGoldCustomer')
+    else:
+        messages.success(request, 'در ثبت درخواست شما مشکلی پیش آمده است')
+        return redirect('ChangeGoldCustomer')
 """
 def getReport(request):
     if request.method == 'POST':

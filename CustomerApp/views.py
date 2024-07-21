@@ -1,5 +1,6 @@
 import jdatetime
 from django.shortcuts import render,redirect
+from django.contrib.auth.models import User
 from django.contrib import messages
 from payment.models import paymentAccount,BuyRequst,sellRequst,convertGoldRequst
 from account.models import person
@@ -34,8 +35,8 @@ def customer(request):
             lastInvoices.extend(lastInvoices1)
             lastInvoices.extend(lastInvoices2)
             lastInvoices.extend(lastInvoices3)
-            for item in lastInvoices:
-                print(item.status)
+            lastInvoices=sorted(lastInvoices, key=lambda x:x.date)
+            lastInvoices.reverse()
             for i in lastInvoices1:
                 if i.date == jdatetime.date.today() :
                     daysTransactio.append(i)
@@ -72,7 +73,8 @@ def withdrawalCustomer(request):
         if request.user.is_superuser:
             return redirect('adminAPP')
         else:
-            return render(request=request, template_name='withdrawal.html')
+            buy=BuyRequst.objects.filter(user=request.user).all().order_by('-date')
+            return render(request=request, template_name='withdrawal.html',context={'buy':buy})
     else:
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')
@@ -81,7 +83,12 @@ def settelmentCustomer(request):
         if request.user.is_superuser:
             return redirect('adminAPP')
         else:
-            return render(request=request, template_name='Settlement.html')
+            user1=User.objects.filter(is_superuser=True).first()
+            payment1=paymentAccount.objects.filter(user=user1).first()
+            #payment2=paymentAccount.objects.filter(user=request.user).first()
+            payment1=[payment1.number,payment1.nameCart]
+            sellrequst=sellRequst.objects.filter(user=request.user).all().order_by('-date')
+            return render(request=request, template_name='Settlement.html',context={'sellrequst':sellrequst,'payment1':payment1})
     else:
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')
@@ -90,7 +97,8 @@ def ChangeGoldCustomer(request):
         if request.user.is_superuser:
             return redirect('adminAPP')
         else:
-            return render(request=request, template_name='ChengeToGoldCustomer.html')
+            gold=convertGoldRequst.objects.filter(user=request.user).all().order_by('-date')
+            return render(request=request, template_name='ChengeToGoldCustomer.html',context={'gold':gold})
     else:
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')

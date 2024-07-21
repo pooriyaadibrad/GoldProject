@@ -1,7 +1,7 @@
 {% extends 'mainCustomer.html' %}
 {% load static %}
 {% block title %}واریز وجه{% endblock %}
-
+{% block link %} <link rel="stylesheet" href="{% static 'src/Style/settlement.css' %}">{% endblock %}
 {% block content %}
             <div class=" mt-5 flex flex-col items-center  justify-center ">
                 <span class="text-2xl font-bold text-gray-700">درخواست واریز وجه</span>
@@ -10,17 +10,18 @@
                     <img src="{% static 'src/img/Magnetic Card.png' %}" class="mx-auto" alt="card">
                     <p>
                         <span class="font-bold text-xl text-gray-600">شماره کارت:</span>
-                        <span class="font-bold">6219 8619 0685 2420</span>
+                        <span class="font-bold">{{ payment1.0 }}</span>
                     </p>
                     <span class="font-bold text-xl text-gray-600">صاحب کارت:</span>
-                    <span class="font-bold">مبین کاظمی</span>
+                    <span class="font-bold">{{ payment1.1 }}</span>
                 </div>
 
                 <!--input price-->
 
                 <div class="flex flex-col gap-3 items-center justify-between">
-                    <form class="flex flex-col gap-4 items-center justify-between">
-                        <input
+                    <form method="post" action="/payment/RegisterBuyRequest" class="flex flex-col gap-4 items-center justify-between">
+                        {% csrf_token %}
+                        <input name="price"
                             class=" appearance-none border-2 rounded-xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
                             autocomplete="off" placeholder="مبلغ  را وارد کنید" />
 
@@ -29,7 +30,7 @@
                             <label for="files" style="color: #2563eb"
                                 class="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg mx-auto">
                                 آپلود فیش واریزی</label>
-                            <input id="files" style="visibility:hidden;" type="file">
+                            <input name="invoice" id="files" style="visibility:hidden;" type="file">
 
                             <button class="px-5 py-2 text-white rounded-xl bg-green-600 hover:bg-green-500">تایید</button>
                         </div>
@@ -61,145 +62,67 @@
                                     <th scope="col" class="px-6 py-3">
                                         تاریخ
                                     </th>
-
-
+                                    <th scope="col" class="px-6 py-3">
+                                        فیش واریزی
+                                    </th>
+                                     <th scope="col" class="px-6 py-3">
+                                        حذف تراکنش
+                                    </th>
 
                                 </tr>
                             </thead>
                             <!--body of table-->
                             <tbody>
                                 <!--nth row table-->
+                                {% for item in sellrequst %}
                                 <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                {% if item.status == 2%}
                                     <th scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
                                         <span class="text-green-400 font-bold">موفق</span>
                                     </th>
-                                    <td class="px-6 py-4">
-                                        4000$
-                                    </td>
-                                    <td class="px-6 py-4 ">
-                                        برداشت
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        1403/02/6
-                                    </td>
-
-                                </tr>
-
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                    <th scope="row"
+                                    {% elif item.status == 1%}
+                                    .    <th scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
                                         <span class="text-red-400 font-bold ">ناموفق </span>
                                     </th>
-                                    <td class="px-6 py-4">
-                                        1600$
-                                    </td>
-                                    <td class="px-6 py-4 ">
-                                        واریز
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        1403/02/6
-                                    </td>
-
-                                </tr>
-
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                    {% else %}
                                     <th scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
                                         <span class="text-gray-400 font-bold">درحال برسی</span>
                                     </th>
+                                    {% endif %}
                                     <td class="px-6 py-4">
-                                        200$
+                                        {{ item.price }}
                                     </td>
                                     <td class="px-6 py-4 ">
-                                        برداشت
+                                        {{ item }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        1403/02/6
+                                       {{ item.date }}
                                     </td>
+                                          <td class="px-6 py-4  ">
+                                    <button class=""
+                                        onclick="showImage('{{ item.image.url }}')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="size-6">
+                                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                            <path fill-rule="evenodd"
+                                                d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
 
-                                </tr>
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <span class="text-gray-400 font-bold">درحال برسی</span>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        200$
-                                    </td>
-                                    <td class="px-6 py-4 ">
-                                        برداشت
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        1403/02/6
-                                    </td>
+                                    </button>
+                                </td>
+                                <td class="px-6 py-3 flex justify-around    flex-nowrap">
+                                    <a href="/payment/DeleteTransaction/{{ item.id }}/{{ item }}"
+                                        class="px-6 py-3 rounded-xl text-white bg-red-600 hover:bg-red-400">حذف</a>
 
-                                </tr>
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <span class="text-gray-400 font-bold">درحال برسی</span>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        200$
-                                    </td>
-                                    <td class="px-6 py-4 ">
-                                        برداشت
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        1403/02/6
-                                    </td>
-
+                                </td>
                                 </tr>
 
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <span class="text-gray-400 font-bold">درحال برسی</span>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        200$
-                                    </td>
-                                    <td class="px-6 py-4 ">
-                                        برداشت
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        1403/02/6
-                                    </td>
+                                {% endfor %}
 
-                                </tr>
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <span class="text-gray-400 font-bold">درحال برسی</span>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        200$
-                                    </td>
-                                    <td class="px-6 py-4 ">
-                                        برداشت
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        1403/02/6
-                                    </td>
-
-                                </tr>
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <span class="text-gray-400 font-bold">درحال برسی</span>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        200$
-                                    </td>
-                                    <td class="px-6 py-4 ">
-                                        برداشت
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        1403/02/6
-                                    </td>
-
-                                </tr>
 
 
 
@@ -212,4 +135,43 @@
             </div>
 
 {% endblock %}
+{% block script %}
+    <script src="{% static 'jquery-3.7.1.min.js.js' %}"></script>
+    <script>
+        function showImage(e) {
+            var imageContainer =
+                document.createElement("div");
+            imageContainer.className =
+                "image-container";
 
+            var image =
+                document.createElement("img");
+            image.src =
+                e;
+            console.log(e)
+            var closeButton =
+                document.createElement(
+                    "button"
+                );
+            closeButton.textContent = 'بستن';
+            closeButton.className =
+                "close-btn";
+            closeButton.onclick =
+                function () {
+                    document.body.removeChild(
+                        imageContainer
+                    );
+                };
+
+            imageContainer.appendChild(
+                closeButton
+            );
+            imageContainer.appendChild(image);
+
+            document.body.appendChild(
+                imageContainer
+            );
+        }
+
+    </script>
+{% endblock %}

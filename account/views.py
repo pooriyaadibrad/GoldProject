@@ -55,7 +55,7 @@ def LoginRequest(request):
                     messages.success(request, 'ادمین با موفقیت وارد شدید!')
                     return redirect('adminAPP')
                 else:
-                    person=models.person.objects.get(user=user)
+                    person=models.person.objects.filter(user=user).first()
                     if user is not None:
                         if not person.blockStatus:
                             login(request,user)
@@ -104,7 +104,6 @@ def changeBio(request):
         password = request.POST['password']
         repassword = request.POST['repassword']
         address=request.POST['address']
-
         user1.address=address
         user1.LandlineNumber=lineNumber
         user.username=NationCode
@@ -114,7 +113,7 @@ def changeBio(request):
         user1.save()
         login(request,user)
         messages.success(request,'تغغیرات با موفقیت اعمال شد')
-        return redirect('changeBio')
+        return redirect('profile')
     else:
         messages.success(request,'مشکلی ذر ثبت تغییرات پیش آمده است')
-        return redirect('changeBio')
+        return redirect('profile')

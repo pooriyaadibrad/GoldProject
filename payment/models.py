@@ -24,6 +24,7 @@ class sellRequst(Invoice):
         return 'واریز'
 class BuyRequst(Invoice):
     number = models.CharField(max_length=16)
+    nameCart = models.CharField(max_length=100, null=True, blank=True)
     def __str__(self):
         return 'برداشت'
 class convertGoldRequst(Invoice):
