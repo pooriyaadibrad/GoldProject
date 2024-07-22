@@ -121,6 +121,7 @@
                         <a href="/adminPanel/report/">گزارشات</a>
                     </div>
                 </li>
+               
             </ul>
         </div>
         <!--end nav desktop-->
@@ -141,14 +142,16 @@
 
         </div>
         <!--menu side mobile-->
-        <div class="w-60 min-h-[160vh] h-[100%] bg-gradient-to-b from-blue-950 to-blue-400  absolute z-20 hidden transition-all delay-300" id="nav-mobile">
+        <div class="w-60 min-h-[160vh] h-[100%] bg-gradient-to-b from-blue-950 to-blue-400  absolute z-20 hidden transition-all delay-300"
+            id="nav-mobile">
             <!--header menu nav-->
             <div class="flex items-center justify-around my-8" onclick="hiddeNav()">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 text-amber-300 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-8 text-amber-300 cursor-pointer">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                  </svg>
+                </svg>
 
-                  <img src="{% static 'src/img/Mask group.png' %}" class="max-w-24 mb-4" alt="">
+                <img src="{% static 'src/img/Mask group.png' %}" class="max-w-24 mb-4" alt="">
 
             </div>
             <!--list of menu-->
@@ -164,7 +167,7 @@
 
                     </div>
                     <div class="flex items-center justify-start  w-24  ">
-                         <a href='/adminPanel/' >داشبورد</a >
+                        <a href='/adminPanel/'>داشبورد</a>
                     </div>
                 </li>
                 <li>
@@ -177,7 +180,7 @@
 
                     </div>
                     <div class="flex items-center justify-start  w-24  ">
-                         <a href='/adminPanel/userInfo/' >مشتریان</a >
+                        <a href='/adminPanel/userInfo/'>مشتریان</a>
                     </div>
                 </li>
                 <li>
@@ -190,7 +193,7 @@
 
                     </div>
                     <div class="flex items-center justify-start  w-24  ">
-                         <a href='/adminPanel/cartNumber/' >شماره کارت</a >
+                        <a href='/adminPanel/cartNumber/'>شماره کارت</a>
                     </div>
                 </li>
                 <li>
@@ -203,7 +206,7 @@
 
                     </div>
                     <div class="flex items-center justify-start  w-24 ">
-                         <a href='/adminPanel/settlement/' >واریز</a >
+                        <a href='/adminPanel/settlement/'>واریز</a>
                     </div>
                 </li>
                 <li>
@@ -216,7 +219,7 @@
 
                     </div>
                     <div class="flex items-center justify-start  w-24  ">
-                         <a href='/adminPanel/withdrawal/' >برداشت</a >
+                        <a href='/adminPanel/withdrawal/'>برداشت</a>
                     </div>
                 </li>
                 <li>
@@ -229,7 +232,7 @@
 
                     </div>
                     <div class="flex items-center justify-start  w-24  ">
-                         <a href='/adminPanel/changeToGold/' >تبدیل به طلا</a >
+                        <a href='/adminPanel/changeToGold/'>تبدیل به طلا</a>
                     </div>
                 </li>
                 <li>
@@ -242,7 +245,7 @@
 
                     </div>
                     <div class="flex items-center justify-start  w-24  ">
-                         <a href='/adminPanel/requestCustomer/' >درخواست ها</a >
+                        <a href='/adminPanel/requestCustomer/'>درخواست ها</a>
                     </div>
                 </li>
                 <li>
@@ -255,7 +258,18 @@
 
                     </div>
                     <div class="flex items-center justify-start  w-24  ">
-                         <a href='/adminPanel/report/' >گزارشات</a >
+                        <a href='/adminPanel/report/'>گزارشات</a>
+                    </div>
+                </li>
+                <li>
+                    <div
+                        class=" flex justify-around items-center gap-5 hover:text-red-600 child:transition-colors child:delay-150 child-hover:cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 hover:w-7 hover:text-red-400 ">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+                        </svg>
+                        <a href="/logout/" class="font-semibold">خروج</a>
                     </div>
                 </li>
             </ul>
@@ -285,7 +299,8 @@
                 <div class=" hidden md:flex items-center justify-between gap-5 px-3">
 
                     <img class="w-10 h-10 rounded-full shadow-2xl"
-                         src="{% static 'src/img/3d-illustration-person-with-sunglasses_23-2149436188.avif' %}" alt="Rounded avatar">
+                        src="{% static 'src/img/3d-illustration-person-with-sunglasses_23-2149436188.avif' %}"
+                        alt="Rounded avatar">
 
                     <div
                         class=" hidden lg:flex items-center hover:text-red-600 child:transition-colors child:delay-150 child-hover:cursor-pointer">
@@ -308,7 +323,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{% static 'src/js/showHidde.js' %}"></script>
 
-{% block script %}{% endblock %}
+    {% block script %}{% endblock %}
 
 </body>
 
