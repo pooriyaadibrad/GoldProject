@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-je*-$78wu%_qrgsxn0&oc4$(m&mvzmr#_)nf&@!kl21@_0v2cl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost" , "127.0.0.1" , "157.90.21.37 " , "49.12.224.148"]
 
 
 # Application definition
@@ -82,11 +82,14 @@ WSGI_APPLICATION = 'GoldenProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mersede-obk_db',
+        'USER': 'postgres',
+        'PASSWORD': 'uQWNbmFf3zotK3xV2nKz',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
