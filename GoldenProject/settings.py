@@ -83,10 +83,10 @@ WSGI_APPLICATION = 'GoldenProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mersede-obk_db',
+        'NAME': 'gold-datbdg_db',
         'USER': 'postgres',
-        'PASSWORD': 'uQWNbmFf3zotK3xV2nKz',
-        'HOST': 'mersede-database-ufg-service',
+        'PASSWORD': 'wFNxhKmJ4lnuuD1GgF8a',
+        'HOST': 'gold-database-qfm-service',
         'PORT': '5432',
     }
 }
@@ -126,7 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT=os.path.join(BASE_DIR / 'staticfiles')
+STATIC_ROOT=os.path.join(BASE_DIR , 'staticfiles')
 STATICFILES_DIRS = [BASE_DIR /
                     'adminAPP/static',
                     'account/static',
