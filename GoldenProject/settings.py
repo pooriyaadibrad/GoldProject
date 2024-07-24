@@ -83,10 +83,10 @@ WSGI_APPLICATION = 'GoldenProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gold-datbdg_db',
+        'NAME': 'mersede-tmi_db',
         'USER': 'postgres',
-        'PASSWORD': 'wFNxhKmJ4lnuuD1GgF8a',
-        'HOST': 'gold-database-qfm-service',
+        'PASSWORD': 'lGkhAhD1Y2nrCrm3NvYy',
+        'HOST': 'mersede-gold-database-qti-service',
         'PORT': '5432',
     }
 }
@@ -138,7 +138,6 @@ MEDIA_ROOT=os.path.join(BASE_DIR, "public","media")
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-AUTH_USER_MODEL = 'account.User'
 
 CSRF_TRUSTED_ORIGINS = [
     'https://goldmersede.org',
