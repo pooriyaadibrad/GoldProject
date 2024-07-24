@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-je*-$78wu%_qrgsxn0&oc4$(m&mvzmr#_)nf&@!kl21@_0v2cl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["goldmersede.org" , "goldmersede.org" , "localhost" , "127.0.0.1"]
+ALLOWED_HOSTS = ["goldmersede.org" , "wwww.goldmersede.org" , "localhost" , "127.0.0.1"]
 
 
 # Application definition
@@ -138,3 +138,8 @@ MEDIA_ROOT=os.path.join(BASE_DIR, "public","media")
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://goldmersede.org',
+]
+
