@@ -86,7 +86,7 @@ DATABASES = {
         'NAME': 'mersede-obk_db',
         'USER': 'postgres',
         'PASSWORD': 'uQWNbmFf3zotK3xV2nKz',
-        'HOST': 'localhost',
+        'HOST': 'mersede-database-ufg-service',
         'PORT': '5432',
     }
 }
