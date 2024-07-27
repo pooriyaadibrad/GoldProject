@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .models import paymentAccount,BuyRequst,sellRequst,convertGoldRequst
 from django.contrib import messages
 from account.models import person
+from decimal import Decimal
 # Create your views here.
 def changeCartNumber(request):
     if request.method == 'POST':
@@ -75,8 +76,8 @@ def checkOrder(request):
                     account1 = paymentAccount.objects.filter(user=user).first()
                     account.moneyInventory -= int(price)
                     account1.moneyInventory -= int(price)
-                    account.goldInventory += gold
-                    account1.goldInventory += gold
+                    account.goldInventory += Decimal(gold)
+                    account1.goldInventory += Decimal(gold)
                     account1.save()
                     account.save()
                     Gold.save()
@@ -241,10 +242,18 @@ def changeGoldRequest(request):
     if request.method == 'POST':
         price=request.POST['price']
         gold=request.POST['gold']
-        gold=convertGoldRequst(price=price,gold=gold,date=jdatetime.date.today(),user=request.user)
-        gold.save()
-        messages.success(request,'با موفقیت درخواست شما ثبت شد')
-        return redirect('ChangeGoldCustomer')
+        if gold=='':
+            gold=0
+        elif price=='':
+            price=0
+        if (float(gold)==0 and int(price)!=0) or (int(price)==0 and float(gold)!=0):
+            gold=convertGoldRequst(price=price,gold=gold,date=jdatetime.date.today(),user=request.user)
+            gold.save()
+            messages.success(request,'با موفقیت درخواست شما ثبت شد')
+            return redirect('ChangeGoldCustomer')
+        else:
+            messages.success(request,'یا باید مقدار ظلا رو بدید یا مقدار مبلغ هر ۲ همزمان انجام شدنی نیست')
+            return redirect('ChangeGoldCustomer')
     else:
         messages.success(request, 'در ثبت درخواست شما مشکلی پیش آمده است')
         return redirect('ChangeGoldCustomer')

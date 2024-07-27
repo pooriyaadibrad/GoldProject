@@ -11,11 +11,12 @@ from .models import person
 # Create your views here.
 def signin(request):
     if request.method == 'POST':
+        name = request.POST['name']
         NationCode = request.POST['NationCode']
         password = request.POST['password']
         user=User.objects.filter(username=NationCode).all()
         if len(user) ==0:
-            user2 = User.objects.create_user(username=NationCode, password=password)
+            user2 = User.objects.create_user(username=NationCode, password=password,first_name=name)
             user2.save()
             user1=models.person()
             user1.user=user2

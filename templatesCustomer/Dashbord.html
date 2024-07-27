@@ -1,7 +1,7 @@
 {% extends 'mainCustomer.html' %}
 {% load static %}
  {% block title %}داشبورد{% endblock %}
-
+{% load humanize %}
 
 
             {% block content %}
@@ -82,12 +82,12 @@
                                 {% for invoice in lastInvoices %}
                                 <tr class="bg-white border-b   hover:bg-gray-50 ">
                                     {% if invoice.status == 2 %}
-                                    <th scope="row"
+                                    <th scope="row" style="color: #0ec50e"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
                                         <span class="text-green-400 font-bold">موفق</span>
                                     </th>
                                     {% elif invoice.status == 1 %}
-                                        <th scope="row"
+                                        <th scope="row" style="color: red"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
                                         <span class="text-red-400 font-bold ">ناموفق </span>
                                     </th>
@@ -95,11 +95,11 @@
                                     {% else %}
                                            <th scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <span class="text-gray-400 font-bold">درحال برسی</span>
+                                        <span class="text-gray-400 font-bold">درحال بررسی</span>
                                     </th>
                                     {% endif %}
                                     <td class="px-6 py-4">
-                                        {{ invoice.price }}
+                                        {{ invoice.price|intcomma }}
                                     </td>
                                     <td class="px-6 py-4 ">
                                         {{ invoice }}

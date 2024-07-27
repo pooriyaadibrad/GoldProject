@@ -3,7 +3,7 @@
 {% block title %}واریز وجه{% endblock %}
 {% block link %} <link rel="stylesheet" href="{% static 'src/Style/settlement.css' %}">{% endblock %}
 {% block content %}
-
+{% load humanize %}
       {% if messages %}
           {% for message in messages %}
         <div class="absolute top-0 bg-lime-500 px-4 py-2 text-white rounded-3xl ">
@@ -85,23 +85,23 @@
                                 {% for item in sellrequst %}
                                 <tr class="bg-white border-b   hover:bg-gray-50 ">
                                 {% if item.status == 2%}
-                                    <th scope="row"
+                                    <th scope="row" style="color: #0ec50e"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
                                         <span class="text-green-400 font-bold">موفق</span>
                                     </th>
                                     {% elif item.status == 1%}
-                                    .    <th scope="row"
+                                    .    <th scope="row" style="color: red"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
                                         <span class="text-red-400 font-bold ">ناموفق </span>
                                     </th>
                                     {% else %}
                                     <th scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <span class="text-gray-400 font-bold">درحال برسی</span>
+                                        <span class="text-gray-400 font-bold">درحال بررسی</span>
                                     </th>
                                     {% endif %}
                                     <td class="px-6 py-4">
-                                        {{ item.price }}
+                                        {{ item.price|intcomma }}
                                     </td>
                                     <td class="px-6 py-4 ">
                                         {{ item }}

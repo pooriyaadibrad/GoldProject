@@ -2,7 +2,7 @@
  {% block link %}{% include 'linkJdata.html' %}{% endblock %}
 {% load static %}
 {% block title %}گزارشات{% endblock %}
-
+{% load humanize %}
 
 
 
@@ -95,15 +95,15 @@
 
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ d.0.price }}
+                                    {{ d.0.price|intcomma }}
                                 </td>
                                 {% if d.0.status == 2 %}
                                   <td class="px-6 py-4">
-                                    <span class="text-lime-500 font-bold">تایید شد</span>
+                                    <span style="color: #0ec50e" class="text-lime-500 font-bold">تایید شد</span>
                                 </td>
                                    {% elif d.0.status == 1 %}
                                      <td class="px-6 py-4">
-                                    <span class="text-red-600 mx-auto font-bold">رد شد</span>
+                                    <span style="color: red" class="text-red-600 mx-auto font-bold">رد شد</span>
                                 </td>
                                     {% else %}
                                     <td class="px-6 py-4">
@@ -111,7 +111,7 @@
                                 </td>
                                 {% endif %}
                                 <td class="px-6 py-4  gap-4 child:text-nowrap">
-                                   {{ d.2.moneyInventory }}
+                                   {{ d.2.moneyInventory|intcomma }}
                                 </td>
                             </tr>
                             {% endfor%}
