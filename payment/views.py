@@ -48,7 +48,7 @@ def checkOrder(request):
                     messages = 'برداشت انجام شد'
                     return JsonResponse({'status': True, 'messages': messages})
                 else:
-                    messages = 'این درخواست امکان پذیر نیست'
+                    messages = 'موجودی کاربر برای این درخواست کافی نیست'
 
                     return JsonResponse({'status': False, 'messages': messages})
             elif requestName == 'واریز':
@@ -68,25 +68,28 @@ def checkOrder(request):
 
             else:
                 gold = request.POST.get('gold')
+
                 Gold = convertGoldRequst.objects.get(id=requestid)
                 Gold.status = 2
                 account = paymentAccount.objects.get(user=Gold.user)
-                if account.moneyInventory >= int(price):
-                    user = User.objects.get(is_superuser=True)
-                    account1 = paymentAccount.objects.filter(user=user).first()
-                    account.moneyInventory -= int(price)
-                    account1.moneyInventory -= int(price)
-                    account.goldInventory += Decimal(gold)
-                    account1.goldInventory += Decimal(gold)
-                    account1.save()
-                    account.save()
-                    Gold.save()
-                    messages = 'تبدیل انجام شد'
-                    return JsonResponse({'status': True,'messages': messages})
-                else:
-                    messages = 'این درخواست امکان پذیر نیست'
+                if gold =='':
+                    if account.moneyInventory >= int(price):
 
-                    return JsonResponse({'status': False, 'messages': messages})
+                        user = User.objects.get(is_superuser=True)
+                        account1 = paymentAccount.objects.filter(user=user).first()
+                        account.moneyInventory -= int(price)
+                        account1.save()
+                        account.save()
+                        Gold.save()
+                        messages = 'تبدیل انجام شد'
+                        return JsonResponse({'status': True,'messages': messages})
+                    else:
+                        messages = 'موجودی کاربر برای این درخواست کافی نیست'
+
+                        return JsonResponse({'status': False, 'messages': messages})
+                else:
+                    messages = 'درخواست باید توسط ادمین پنل انجام بشه بعد از محاسبات'
+                    return JsonResponse({'status': True, 'messages': messages})
         else:
             if requestName == 'برداشت':
                 buy = BuyRequst.objects.get(id=requestid)
@@ -210,17 +213,17 @@ def DeleteTransaction(request,id,type):
     if type == 'واریز':
         sell = sellRequst.objects.get(id=id)
         sell.delete()
-        messages.success(request,'جذف موفقیت آمیز بود')
+        messages.success(request,'حذف موفقیت آمیز بود')
         return redirect('settelmentCustomer')
     elif type == 'برداشت':
         Buy = BuyRequst.objects.get(id=id)
         Buy.delete()
-        messages.success(request, 'جذف موفقیت آمیز بود')
+        messages.success(request, 'حذف موفقیت آمیز بود')
         return redirect('withdrawalCustomer')
     else:
         Gold = convertGoldRequst.objects.get(id=id)
         Gold.delete()
-        messages.success(request, 'جذف موفقیت آمیز بود')
+        messages.success(request, 'حذف موفقیت آمیز بود')
         return redirect('ChangeGoldCustomer')
 def withdrawalCustomer(request):
     if request.method == 'POST':

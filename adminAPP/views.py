@@ -45,7 +45,9 @@ def admin(request):
                     for i in daysTransactio:
                         NumberdaysTransaction+=i.price
                     last4daysTransaction.append(NumberdaysTransaction)
-
+                lastInvoices1 = BuyRequst.objects.filter(status=0).all().order_by('-id')
+                lastInvoices2 = sellRequst.objects.filter(status=0).all().order_by('-id')
+                lastInvoices3 = convertGoldRequst.objects.filter(status=0).all().order_by('-id')
                 lastInvoices = []
                 try:
                     lastInvoices.extend(lastInvoices1[0:3])

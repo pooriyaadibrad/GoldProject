@@ -1,7 +1,7 @@
 {% extends 'mainAdmin.html' %}
 {% load static %}
 {% block title %}پنل ادمین{% endblock %}
-
+{% load humanize %}
             <!--Baners-->
             {% block content %}
                       {% if messages %}
@@ -63,7 +63,7 @@
                         class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
                         <img src="{% static 'src/img/Split Money.png' %}" class="w-20 absolute -top-10" alt="">
                         <span>موجودی اسکناس</span>
-                        <span>{{ payment.moneyInventory }}</span>
+                        <span>{{ payment.moneyInventory|intcomma }}</span>
                     </div>
                     <div
                         class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
@@ -101,7 +101,10 @@
                                     <th scope="col" class="px-6 py-3">
                                         شماره تلفن
                                     </th>
-    
+                                    <th scope="col" class="px-6 py-3">
+
+                                    </th>
+
     
     
                                 </tr>
@@ -116,7 +119,7 @@
                                         <span>{{ invoice.0.user.first_name }} {{ invoice.user.last_name }}</span>
                                     </th>
                                     <td class="px-6 py-4">
-                                        {{ invoice.0.price}}
+                                        {{ invoice.0.price|intcomma}}
                                     </td>
                                     <td class="px-6 py-4 ">
                                          {{ invoice.0}}
@@ -124,9 +127,13 @@
                                     <td class="px-6 py-4">
                                         {{ invoice.1 }}
                                     </td>
-                                  
+                                    <td class="px-6 py-3 flex justify-around    flex-nowrap">
+                                    <a href="/adminPanel/requestCustomer/"
+                                        class="px-6 py-3 rounded-xl text-white bg-lime-500 hover:bg-lime-400">بررسی درخواست</a>
+
+                                </td>
+
                                 </tr>
-    
 
     
                                 {% endfor %}
@@ -178,6 +185,7 @@
                 }
             }
         });
+
 
     /*    fetch('https://fakestoreapi.com/products/1')
             .then(res => res.json())
