@@ -100,18 +100,26 @@ def changeBio(request):
         id=request.user.id
         user=User.objects.get(id=id)
         user1=person.objects.get(user=user)
+        payment1=paymentAccount.objects.get(user=user)
         lineNumber = request.POST['lineNumber']
+        name=request.POST['name']
+        cartNumber=request.POST['cartNumber']
+        cartName=request.POST['cartName']
         NationCode = request.POST['NationCode']
         password = request.POST['password']
         repassword = request.POST['repassword']
         address=request.POST['address']
+        user.first_name=name
         user1.address=address
         user1.LandlineNumber=lineNumber
         user.username=NationCode
+        payment1.nameCart=cartName
+        payment1.number=cartNumber
         if password == repassword and password!='' and repassword!='':
             user.set_password(password)
         user.save()
         user1.save()
+        payment1.save()
         login(request,user)
         messages.success(request,'تغغیرات با موفقیت اعمال شد')
         return redirect('profile')

@@ -3,7 +3,7 @@
 {% load static %}
 {% block title %}گزارشات{% endblock %}
 
-
+{% load humanize %}
 
 
 {% block content %}
@@ -18,10 +18,10 @@
     <span class="mx-20 font-bold font-sans text-xl text-gray-600">گزارشات</span>
     <div
         class="flex  flex-col itmem-center  gap-1 md:gap-5 mt-5  mx-auto child:font-bold child:font-sans child:text-sm child:text-gray-600 ">
-        <div> <span> مجموع واریزی ها :  </span><span> 63000000$</span> </div>
+        <div> <span> مجموع واریزی ها :  </span><span> {{ resultSell|intcomma }}</span> </div>
         
-        <div><span> مجموع برداشتی ها :  </span><span>63000000$</span></div>
-        <div> <span> مجموع طلا های خریداری شده : </span><span>63000000$</span></div>
+        <div><span> مجموع برداشتی ها :  </span><span>{{ resultBuy|intcomma }}</span></div>
+        <div> <span> مجموع طلا های خریداری شده : </span><span>{{ resultGold|intcomma }}</span></div>
 
     </div>
 </div>

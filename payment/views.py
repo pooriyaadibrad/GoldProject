@@ -117,8 +117,16 @@ def getReport(request):
             if startDate!='' and endDate!='':
                 start = startDate.replace('/', '-')
                 end = endDate.replace('/', '-')
-
-
+                sell2=sellRequst.objects.filter(date__range=(start,end)).all()
+                buy2=BuyRequst.objects.filter(date__range=(start,end)).all()
+                gold2=convertGoldRequst.objects.filter(date__range=(start,end)).all()
+                resultSell=0
+                resultBuy=0
+                resultGold=0
+                for i,j,k in zip(sell2,buy2,gold2):
+                    resultSell+=i.price
+                    resultBuy+=j.price
+                    resultGold+=k.price
                 if requestType == 'واریز وجه':
                     sell = sellRequst.objects.filter(date__range=(start, end)).all()
                     sell1 = []
@@ -127,7 +135,7 @@ def getReport(request):
                         user1 = person.objects.filter(user=b.user).first()
                         payment1 = paymentAccount.objects.filter(user=b.user).first()
                         sell1[sell1.index(b)] = [b, user1,payment1,None]
-                    return render(request,template_name='Report.html',context={'data':sell1})
+                    return render(request,template_name='Report.html',context={'data':sell1,'resultSell':resultSell,'resultBuy':resultBuy,'resultGold':resultGold})
 
                 elif requestType == 'برداشت وجه':
                     Buy = BuyRequst.objects.filter(date__range=(start, end)).all()
@@ -140,7 +148,7 @@ def getReport(request):
                         Buy1[Buy1.index(b)] = [b,user1,payment1,None]
 
 
-                    return render(request, template_name='Report.html', context={'data': Buy1})
+                    return render(request, template_name='Report.html', context={'data': Buy1,'resultSell':resultSell,'resultBuy':resultBuy,'resultGold':resultGold})
 
                 else:
                     Gold = convertGoldRequst.objects.filter(date__range=(start, end))
@@ -150,7 +158,7 @@ def getReport(request):
                         user1 = person.objects.filter(user=b.user).first()
                         payment1 = paymentAccount.objects.filter(user=b.user).first()
                         Gold1[Gold1.index(b)] = [b, user1,payment1,'gold']
-                    return render(request,template_name='Report.html',context={'data':Gold1})
+                    return render(request,template_name='Report.html',context={'data':Gold1,'resultSell':resultSell,'resultBuy':resultBuy,'resultGold':resultGold})
             else:
                 messages.success(request,'لطفا فیلد ها زمانی را پر کنید')
                 return redirect('report')
@@ -158,7 +166,16 @@ def getReport(request):
             if startDate != '' and endDate != '':
                 start = startDate.replace('/', '-')
                 end = endDate.replace('/', '-')
-
+                sell2 = sellRequst.objects.filter(date__range=(start, end)).all()
+                buy2 = BuyRequst.objects.filter(date__range=(start, end)).all()
+                gold2 = convertGoldRequst.objects.filter(date__range=(start, end)).all()
+                resultSell = 0
+                resultBuy = 0
+                resultGold = 0
+                for i, j, k in zip(sell2, buy2, gold2):
+                    resultSell += i.price
+                    resultBuy += j.price
+                    resultGold += k.price
                 if requestType == 'واریز وجه':
                     sell = sellRequst.objects.filter(date__range=(start, end)).filter(user=request.user).all()
                     sell1 = []
@@ -167,7 +184,7 @@ def getReport(request):
                         user1 = person.objects.filter(user=request.user).first()
                         payment1 = paymentAccount.objects.filter(user=request.user).first()
                         sell1[sell1.index(b)] = [b, user1, payment1,None]
-                    return render(request, template_name='ReportCustomer.html', context={'data': sell1})
+                    return render(request, template_name='ReportCustomer.html', context={'data': sell1,'resultSell':resultSell,'resultBuy':resultBuy,'resultGold':resultGold})
 
                 elif requestType == 'برداشت وجه':
                     Buy = BuyRequst.objects.filter(date__range=(start, end)).filter(user=request.user).all()
@@ -180,7 +197,7 @@ def getReport(request):
                         Buy1[Buy1.index(b)] = [b, user1, payment1,None]
 
 
-                    return render(request, template_name='ReportCustomer.html', context={'data': Buy1})
+                    return render(request, template_name='ReportCustomer.html', context={'data': Buy1,'resultSell':resultSell,'resultBuy':resultBuy,'resultGold':resultGold})
 
                 else:
                     Gold = convertGoldRequst.objects.filter(date__range=(start, end)).filter(user=request.user).all()
@@ -190,7 +207,7 @@ def getReport(request):
                         user1 = person.objects.filter(user=request.user)
                         payment1 = paymentAccount.objects.filter(user=request.user).first()
                         Gold1[Gold1.index(g)] = [g, user1, payment1,'gold']
-                    return render(request, template_name='ReportCustomer.html', context={'data': Gold1})
+                    return render(request, template_name='ReportCustomer.html', context={'data': Gold1,'resultSell':resultSell,'resultBuy':resultBuy,'resultGold':resultGold})
             else:
                 messages.success(request, 'لطفا فیلد ها زمانی را پر کنید')
                 return redirect('reportCustomer')
