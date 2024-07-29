@@ -69,7 +69,7 @@
                         class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
                         <img src="{% static 'src/img/Cash.png' %}" class="w-20 absolute -top-8" alt="">
                         <span>مجموع تراکنش های روز</span>
-                        <span>{{ last4daysTransaction.0 }}</span>
+                        <span>{{ last4daysTransaction.0|intcomma }}</span>
                     </div>
                 </div>
             </div>
