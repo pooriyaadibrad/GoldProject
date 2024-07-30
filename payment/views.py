@@ -143,7 +143,7 @@ def getReport(request):
                     Buy1.extend(Buy)
                     for b in Buy1:
                         user1=person.objects.filter(user=b.user).first()
-                        payment1 = paymentAccount.objects.filter(user=b.user).first().all()
+                        payment1 = paymentAccount.objects.filter(user=b.user).first()
 
                         Buy1[Buy1.index(b)] = [b,user1,payment1,None]
 
