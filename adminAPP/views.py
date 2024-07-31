@@ -178,14 +178,15 @@ def settlement(request):
 def userInfo(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            users = person.objects.all()
+            users = User.objects.filter(is_superuser=False).all()
             ResultUsers = []
             for user1 in users:
                 helpVaribaleForBuildUserInformation = [user1]
-                payment = paymentAccount.objects.filter(user=user1.user).all()
-                lastBuy = BuyRequst.objects.filter(user=user1.user).all().order_by('-id')
-                lastSell = sellRequst.objects.filter(user=user1.user).all().order_by('-id')
-                lastConvert = convertGoldRequst.objects.filter(user=user1.user).all().order_by('-id')
+                payment = paymentAccount.objects.filter(user=user1).all()
+                lastBuy = BuyRequst.objects.filter(user=user1).all().order_by('-id')
+                lastSell = sellRequst.objects.filter(user=user1).all().order_by('-id')
+                lastConvert = convertGoldRequst.objects.filter(user=user1).all().order_by('-id')
+                person1=person.objects.filter(user=user1).first()
                 if len(payment) > 0:
                     payment = payment[0]
                     helpVaribaleForBuildUserInformation.append(payment.moneyInventory)
@@ -208,6 +209,8 @@ def userInfo(request):
                     helpVaribaleForBuildUserInformation.append(lastConvert.date)
                 else:
                     helpVaribaleForBuildUserInformation.append('خرید ظلا نداشت')
+                helpVaribaleForBuildUserInformation.append(person1.Mobile)
+                helpVaribaleForBuildUserInformation.append(person1.blockStatus)
                 ResultUsers.append(helpVaribaleForBuildUserInformation)
             return render(request=request, template_name='UserInfo-AdminPanel.html', context={'users': ResultUsers})
         else:

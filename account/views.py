@@ -77,20 +77,22 @@ def LoginRequest(request):
 
 
 def DeleteCustomer(request,id):
-    user = User.objects.get(id=id)
-    person=models.person.objects.get(id=id)
-    user.delete()
+    user1 = User.objects.get(id=id)
+    person=models.person.objects.get(user=user1)
+    user1.delete()
     person.delete()
     messages.success(request,'با موفقیت حذف شد')
     return redirect('userInfo')
 def BlockCustomer(request,id):
-    person=models.person.objects.get(id=id)
+    user1 = User.objects.get(id=id)
+    person=models.person.objects.get(user=user1)
     person.blockStatus=True
     person.save()
     messages.success(request, 'با موفقیت مسدود شد')
     return redirect('userInfo')
 def activeCustomer(request,id):
-    person=models.person.objects.get(id=id)
+    user1 = User.objects.get(id=id)
+    person = models.person.objects.get(user=user1)
     person.blockStatus=False
     person.save()
     messages.success(request,'با موفقیت کاربر فعال شد')

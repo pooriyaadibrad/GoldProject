@@ -62,13 +62,13 @@
 
                             <tr class="bg-white border-b   hover:bg-gray-50 ">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                    <span>{{ user.0.user.first_name }} {{ user.0.user.last_name }}</span>
+                                    <span>{{ user.0.first_name }} {{ user.0.last_name }}</span>
                                 </th>
                                 <td class="px-6 py-4">
-                                  {{ user.0.user.username }}
+                                  {{ user.0.username }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ user.0.Mobile }}
+                                    {{ user.6 }}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ user.1|intcomma }}
@@ -86,7 +86,7 @@
                                    {{ user.5}}
                                 </td>
                                 <td class="px-6 py-4 flex items-center justify-around gap-4 child:text-nowrap">
-                                    {% if user.0.blockStatus %}
+                                    {% if user.7 %}
                                           <a href="/activeCustomer/{{ user.0.id }}"
                                         class="px-4 py-2 rounded-xl text-white font-bold bg-green-500 hover:bg-green-300">
                                         فعالسازی</a>
