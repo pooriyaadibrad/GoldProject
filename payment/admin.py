@@ -1,5 +1,6 @@
 from django.contrib import admin
 from . import models
+
 # Register your models here.
 """
 class sell(admin.TabularInline):
@@ -26,8 +27,10 @@ class InvoiceAdmin(admin.ModelAdmin):
 class InvoiceAdmin(admin.ModelAdmin):
     inlines = [sell, Gold]
 """
+class BuyRequstAdmin(admin.ModelAdmin):
+    list_display = ['price','date','user']
 
-admin.site.register(models.BuyRequst)
+admin.site.register(models.BuyRequst, BuyRequstAdmin)
 admin.site.register(models.convertGoldRequst)
 admin.site.register(models.sellRequst)
 admin.site.register(models.paymentAccount)

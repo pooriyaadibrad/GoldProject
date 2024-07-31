@@ -52,22 +52,28 @@ def LoginRequest(request):
             user1=User.objects.filter(username=NationCode).first()
             if user1 is not None:
                 if user1.is_superuser:
-                    login(request, user)
-                    messages.success(request, 'ادمین با موفقیت وارد شدید!')
-                    return redirect('adminAPP')
+                    if user1.check_password(password):
+                        login(request, user)
+                        messages.success(request, 'ادمین با موفقیت وارد شدید!')
+                        return redirect('adminAPP')
+                    else:
+                        messages.success(request, 'رمز عبور درست نمی باشد')
+                        return redirect('login')
                 else:
-                    person=models.person.objects.filter(user=user).first()
-                    if user is not None:
-                        if not person.blockStatus:
+                    person=models.person.objects.filter(user=user1).first()
+
+                    if not person.blockStatus:
+                        if user1.check_password(password):
                             login(request,user)
                             messages.success(request,'با موفقیت وارد شدید!')
                             return redirect('customerAPP')
                         else:
-                            messages.success(request, 'شما بلاک شدید لطفا با مدیریت تماس بگیرید')
+                            messages.success(request, 'رمز عبور صحیح نمی‌ باشد')
                             return redirect('login')
                     else:
-                        messages.success(request,'نام کاربری یا رمز عبور درست نمی باشد!')
-                        return render(request, template_name='Login.html')
+                            messages.success(request, 'شما بلاک شدید لطفا با مدیریت تماس بگیرید')
+                            return redirect('login')
+
             else:
                 messages.success(request,'اکانتی با                                                                                                                                                                                                                                                                                                                                          این مشخصات یافت نشد اگر اکانتی ندارید بسازید')
                 return redirect('signin')

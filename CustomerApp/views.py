@@ -20,9 +20,9 @@ def customer(request):
             request1.extend(Gold)
             numberRequests=len(request1)
             daysTransactio = []
-            lastInvoices1 = BuyRequst.objects.all().order_by('-id')
-            lastInvoices2 = sellRequst.objects.all().order_by('-id')
-            lastInvoices3 = convertGoldRequst.objects.all().order_by('-id')
+            lastInvoices1 = BuyRequst.objects.filter(user=request.user).all().order_by('-id')
+            lastInvoices2 = sellRequst.objects.filter(user=request.user).all().order_by('-id')
+            lastInvoices3 = convertGoldRequst.objects.filter(user=request.user).all().order_by('-id')
             lastInvoices=[]
             try:
                 lastInvoices1=lastInvoices1[0:3]
