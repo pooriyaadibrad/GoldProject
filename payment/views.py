@@ -72,24 +72,56 @@ def checkOrder(request):
                 Gold = convertGoldRequst.objects.get(id=requestid)
                 Gold.status = 2
                 account = paymentAccount.objects.get(user=Gold.user)
-                if gold =='':
+                if gold == '0.000000':
                     if account.moneyInventory >= int(price):
-
-                        user = User.objects.get(is_superuser=True)
-                        account1 = paymentAccount.objects.filter(user=user).first()
-                        account.moneyInventory -= int(price)
-                        account1.save()
-                        account.save()
-                        Gold.save()
-                        messages = 'تبدیل انجام شد'
-                        return JsonResponse({'status': True,'messages': messages})
+                        goldPrice=request.POST.get('goldPrice')
+                        if goldPrice != None:
+                            goldPrice = goldPrice.replace(',', '')
+                            goldPrice = int(goldPrice)
+                            user = User.objects.get(is_superuser=True)
+                            account1 = paymentAccount.objects.filter(user=user).first()
+                            account.moneyInventory -= int(price)
+                            goldPrice/=1000
+                            account.goldInventory +=Decimal(goldPrice)
+                            account1.save()
+                            account.save()
+                            Gold.gold=goldPrice
+                            Gold.save()
+                            messages = 'تبدیل انجام شد'
+                            return JsonResponse({'status': True,'messages': messages})
+                        else:
+                            messages = 'فیلد مربوط به مقدار طلا یا مبلغ نباید خالی باشد'
+                            return JsonResponse({'status': True, 'messages': messages})
                     else:
+
                         messages = 'موجودی کاربر برای این درخواست کافی نیست'
 
                         return JsonResponse({'status': False, 'messages': messages})
                 else:
-                    messages = 'درخواست باید توسط ادمین پنل انجام بشه بعد از محاسبات'
-                    return JsonResponse({'status': True, 'messages': messages})
+                    goldPrice = request.POST.get('goldPrice')
+
+                    if goldPrice != None:
+                        goldPrice=goldPrice.replace(',','')
+
+                        if account.moneyInventory >= int(goldPrice):
+                            account.moneyInventory -= int(goldPrice)
+
+                            account.goldInventory += Decimal(gold)
+                            account.save()
+                            Gold.price = goldPrice
+                            Gold.save()
+                            messages = 'تبدیل انجام شد'
+                            return JsonResponse({'status': True, 'messages': messages})
+                        else:
+
+                            messages = 'موجودی کاربر برای این درخواست کافی نیست'
+
+                            return JsonResponse({'status': False, 'messages': messages})
+                    else:
+                            messages = 'فیلد مربوط به مقدار طلا یا مبلغ نباید خالی باشد'
+                            return JsonResponse({'status': True, 'messages': messages})
+
+
         else:
             if requestName == 'برداشت':
                 buy = BuyRequst.objects.get(id=requestid)
@@ -267,10 +299,14 @@ def changeGoldRequest(request):
         elif price=='':
             price=0
         if (float(gold)==0 and int(price)!=0) or (int(price)==0 and float(gold)!=0):
-            gold=convertGoldRequst(price=price,gold=gold,date=jdatetime.date.today(),user=request.user)
-            gold.save()
-            messages.success(request,'با موفقیت درخواست شما ثبت شد')
-            return redirect('ChangeGoldCustomer')
+            if float(gold)>99:
+                messages.success(request, 'مقدار ظلا نمی تواند بیشتر از ۹۹ کیلو باشد')
+                return redirect('ChangeGoldCustomer')
+            else:
+                Gold=convertGoldRequst(price=price,gold=gold,date=jdatetime.date.today(),user=request.user)
+                Gold.save()
+                messages.success(request,'با موفقیت درخواست شما ثبت شد')
+                return redirect('ChangeGoldCustomer')
         else:
             messages.success(request,'یا باید مقدار ظلا رو بدید یا مقدار مبلغ هر ۲ همزمان انجام شدنی نیست')
             return redirect('ChangeGoldCustomer')

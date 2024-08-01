@@ -97,7 +97,7 @@ def ChangeGoldCustomer(request):
         if request.user.is_superuser:
             return redirect('adminAPP')
         else:
-            gold=convertGoldRequst.objects.filter(user=request.user).all().order_by('-date')
+            gold=convertGoldRequst.objects.filter(user=request.user).all().order_by('-date').order_by('-id')
             return render(request=request, template_name='ChengeToGoldCustomer.html',context={'gold':gold})
     else:
         messages.success(request, 'لظفا اول وارد شوید')

@@ -31,6 +31,6 @@ class BuyRequst(Invoice):
     def __str__(self):
         return 'برداشت'
 class convertGoldRequst(Invoice):
-    gold=models.DecimalField(max_digits=6, decimal_places=6)
+    gold=models.DecimalField(max_digits=8, decimal_places=6)
     def __str__(self):
         return 'تبدیل'
