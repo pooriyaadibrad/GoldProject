@@ -247,8 +247,8 @@ def getReport(request):
         messages.success(request,'درخواست به درستی انجام نشد')
         redirect('report')
 def RegisterBuyRequest(request):
-    if request.method == 'POST':
-        invoice=request.POST['invoice']
+    if request.method == 'POST' :
+        invoice=request.FILES['files']
         price=request.POST['price']
         SellRequest=sellRequst(user=request.user,price=price,image=invoice,date=jdatetime.date.today())
         SellRequest.save()

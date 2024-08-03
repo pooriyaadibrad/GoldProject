@@ -27,7 +27,7 @@
                 <!--input price-->
 
                 <div class="flex flex-col gap-3 items-center justify-between">
-                    <form method="post" action="/payment/RegisterBuyRequest" class="flex flex-col gap-4 items-center justify-between">
+                    <form method="POST" action="{% url 'RegisterBuyRequest' %}" enctype="multipart/form-data" class="flex flex-col gap-4 items-center justify-between">
                         {% csrf_token %}
                         <input name="price"
                             class=" appearance-none border-2 rounded-xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
@@ -38,7 +38,7 @@
                             <label for="files" style="color: #2563eb"
                                 class="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg mx-auto">
                                 آپلود فیش واریزی</label>
-                            <input name="invoice" id="files" style="visibility:hidden;" type="file">
+                            <input required name="files" id="files" style="visibility:hidden;" type="file">
 
                             <button class="px-5 py-2 text-white rounded-xl bg-green-600 hover:bg-green-500">تایید</button>
                         </div>
