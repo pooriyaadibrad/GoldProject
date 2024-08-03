@@ -22,7 +22,7 @@ class Invoice(models.Model):
     status = models.IntegerField(default=0,validators=[MinValueValidator(0),MaxValueValidator(2)])
 
 class sellRequst(Invoice):
-    image=models.ImageField(upload_to="public/media/sell/")
+    image=models.ImageField(upload_to="public/media/")
     def __str__(self):
         return 'واریز'
 class BuyRequst(Invoice):
