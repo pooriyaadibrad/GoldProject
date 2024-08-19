@@ -111,7 +111,7 @@ def checkOrder(request):
                     goldPrice = request.POST.get('goldPrice')
                     print(goldPrice, 'this for test')
                     print(type(goldPrice))
-                    if  goldPrice != '' :
+                    if goldPrice != '':
                         goldPrice = goldPrice.replace(',', '')
 
                         if account.moneyInventory >= int(goldPrice):
@@ -277,9 +277,10 @@ def RegisterBuyRequest(request):
         price = request.POST['price']
         SellRequest = sellRequst(user=request.user, price=price, image=invoice, date=jdatetime.date.today())
         SellRequest.save()
-        messages.success(request, 'با موفقیت درخواست شما ثبت شد ')
+
         messages.success(request, 'بعد از بررسی مدیر نتیجه در همینجا ذخیره میشود')
         return redirect('settelmentCustomer')
+
     else:
         messages.success(request, 'در ثبت درخواست مشکلی پیش آمده است')
         return redirect('settelmentCustomer')
@@ -306,10 +307,15 @@ def DeleteTransaction(request, id, type):
 def withdrawalCustomer(request):
     if request.method == 'POST':
         price = request.POST['price']
-        Buy = BuyRequst(price=price, date=jdatetime.date.today(), user=request.user)
-        Buy.save()
-        messages.success(request, 'درخواست شما با موفقیت انجام شد')
-        return redirect('withdrawalCustomer')
+        paymentAccount1 = paymentAccount.objects.filter(user=request.user).first()
+        if paymentAccount1.nameCart == request.user.first_name:
+            Buy = BuyRequst(price=price, date=jdatetime.date.today(), user=request.user)
+            Buy.save()
+            messages.success(request, 'درخواست شما با موفقیت انجام شد')
+            return redirect('withdrawalCustomer')
+        else:
+            messages.success(request, 'اسم شماره کارت با صاحب اکانت مطابقت ندارد')
+            return redirect('settelmentCustomer')
     else:
         messages.success(request, 'در درخواست شما مشکلی پیش آمده است ')
         return redirect('withdrawalCustomer')
