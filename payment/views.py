@@ -109,8 +109,9 @@ def checkOrder(request):
                         return JsonResponse({'status': False, 'messages': messages})
                 else:
                     goldPrice = request.POST.get('goldPrice')
-
-                    if goldPrice != None:
+                    print(goldPrice, 'this for test')
+                    print(type(goldPrice))
+                    if  goldPrice != '' :
                         goldPrice = goldPrice.replace(',', '')
 
                         if account.moneyInventory >= int(goldPrice):
