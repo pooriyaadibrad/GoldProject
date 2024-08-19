@@ -11,6 +11,7 @@
         </div>
         {% endfor %}
  {% endif %}
+                {{ paymentDate }}
                 {% if payment == None %}
             <div>
 
@@ -147,7 +148,10 @@
                     <canvas id="myChart"></canvas>
 
                 </div>
-
+           <form method="post" action="">
+               <input name="price_day" type="text" placeholder="قیمت طلای روز " style="border:2px solid #1d4ed8">
+               <button style="color: white; background: #1d4ed8">ثبت قیمت </button>
+           </form>
             </div>
 
                 <input id="days1" type="text" hidden="hidden" value="{{dayesX.0}}">
