@@ -13,11 +13,13 @@ def changeCartNumber(request):
     if request.method == 'POST':
         cartNumber = request.POST.get('cardNumber')
         name = request.POST.get('name')
+        sheba = request.POST.get('sheba')
         user = User.objects.get(is_superuser=True)
 
         payment = paymentAccount.objects.get(user=user)
         payment.number = cartNumber
         payment.nameCart = name
+        payment.sheba = sheba
         payment.save()
         messages.success(request, 'تغییر شماره کارت با موفقیت انجام شد')
         response = {
@@ -40,17 +42,21 @@ def checkOrder(request):
                 buy = BuyRequst.objects.get(id=requestid)
                 account = paymentAccount.objects.get(user=buy.user)
                 if account.moneyInventory >= int(price):
-                    user = User.objects.get(is_superuser=True)
-                    account1 = paymentAccount.objects.filter(user=user).first()
-                    account.moneyInventory -= int(price)
-                    account1.moneyInventory -= int(price)
+                    if account.nameCart == buy.user.first_name:
+                        user = User.objects.get(is_superuser=True)
+                        account1 = paymentAccount.objects.filter(user=user).first()
+                        account.moneyInventory -= int(price)
+                        account1.moneyInventory -= int(price)
 
-                    account.save()
-                    account1.save()
-                    buy.status = 2
-                    buy.save()
-                    messages = 'برداشت انجام شد'
-                    return JsonResponse({'status': True, 'messages': messages})
+                        account.save()
+                        account1.save()
+                        buy.status = 2
+                        buy.save()
+                        messages = 'برداشت انجام شد'
+                        return JsonResponse({'status': True, 'messages': messages})
+                    else:
+                        messages = 'اسم دارنده کارت و اسم صاحب اکانت مطابق نیست'
+                        return JsonResponse({'status': True, 'messages': messages})
                 else:
                     messages = 'موجودی کاربر برای این درخواست کافی نیست'
 

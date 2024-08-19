@@ -30,10 +30,14 @@
                                     {{ payment.number }}</p>
                                 <p class=" pt-4 text-sm text-center justify-center items-center" id="Name">
                                     {{ payment.nameCart }}</p>
+                                  <p class=" pt-4 text-sm text-center justify-center items-center" id="Name">
+                                    {{ payment.sheba }}</p>
                             </div>
                         </div>
                         <input type="text" id="CardNumberInput" class="bg-gray-200 h-8 p-2 border border-1 border-blue-500 "
                             placeholder="شماره کارت خود را وارد کنید ...">
+                        <input type="text" id="shebaInput" class="bg-gray-200 h-8 p-2 border border-1 border-blue-500"
+                            placeholder="شبا کارت را وارد کنید ...">
                         <input type="text" id="NameInput" class="bg-gray-200 h-8 p-2 border border-1 border-blue-500"
                             placeholder="نام و نام خانوادگی صاحب کارت را وارد کنید ...">
                         <button onclick="getValue()"
@@ -55,12 +59,15 @@
         function getValue() {
             let inputField = document.getElementById("CardNumberInput");
             let inputField2 = document.getElementById("NameInput");
+            let inputField3 = document.getElementById("shebaInput");
 
             let valuecart = inputField.value;
             let valuename= inputField2.value;
+            let valueSheba = inputField3.value;
             var CSRFTOKEN='{{ csrf_token }}';
             document.getElementById("CardNumber").innerHTML = valuecart;
             document.getElementById("Name").innerHTML = valuename;
+            document.getElementById("shebaInput").innerHTML = valueSheba;
             $.ajax(
             {
                 url:'{% url 'changeCartNumber' %}',
@@ -68,14 +75,18 @@
                 data:{
                 'cardNumber':valuecart,
                 'name':valuename,
+                'sheba':valueSheba,
                 'csrfmiddlewaretoken':CSRFTOKEN
                 },
                 dataType:'json',
                 success:function (response){
-                    document.getElementById("CardNumber").innerHTML = valuecart;
-                    document.getElementById("Name").innerHTML = valuename;
+
                     document.getElementById("CardNumberInput").innerHTML = '';
                     document.getElementById("NameInput").innerHTML = '';
+                    document.getElementById("shebaInput").innerHTML = '';
+                    document.getElementById("CardNumber").innerHTML = valuecart;
+                    document.getElementById("Name").innerHTML = valuename;
+                    document.getElementById("shebaInput").innerHTML = valueSheba;
                     $('#message').append('<div id="message" class="absolute top-0 bg-lime-500 px-4 py-2 text-white rounded-3xl ">'+response.message+'</div>)'
                     
                     )
