@@ -63,8 +63,8 @@ def profile(request):
             return redirect('adminAPP')
         else:
             person1=person.objects.get(user=request.user)
-
-            return render(request=request, template_name='Profile.html',context={'person1':person1,'username':request.user.username})
+            account1=paymentAccount.objects.get(user=request.user)
+            return render(request=request, template_name='Profile.html',context={'person1':person1,'username':request.user.username, 'account':account1})
     else:
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')
