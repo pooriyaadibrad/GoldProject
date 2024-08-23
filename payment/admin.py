@@ -34,6 +34,8 @@ admin.site.register(models.BuyRequst, BuyRequstAdmin)
 admin.site.register(models.convertGoldRequst)
 admin.site.register(models.sellRequst)
 admin.site.register(models.paymentAccount)
+admin.site.register(models.GetGoldRequst)
+admin.site.register(models.ConvertMoneyRequst)
 class paymentDateAdmin(admin.ModelAdmin):
     list_display = [ 'price','datetime']
 admin.site.register(models.paymentDate, paymentDateAdmin)

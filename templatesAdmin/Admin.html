@@ -2,183 +2,178 @@
 {% load static %}
 {% block title %}پنل ادمین{% endblock %}
 {% load humanize %}
-            <!--Baners-->
-            {% block content %}
-                      {% if messages %}
-          {% for message in messages %}
-        <div class="absolute top-0 bg-lime-500 px-4 py-2 text-white rounded-3xl ">
-        {{ message }}
-        </div>
+<!--Baners-->
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="absolute top-0 bg-lime-500 px-4 py-2 text-white rounded-3xl ">
+                {{ message }}
+            </div>
         {% endfor %}
- {% endif %}
-                <span>قیمت روز طلا</span>
-                {{ paymentDate }}
-                {% if payment == None %}
-            <div>
+    {% endif %}
 
-                <div
+    {% if payment == None %}
+        <div>
+
+            <div
                     class="grid grid-cols-2 gap-12  md:gap-3 md:grid-cols-4 mt-24 child:rounded-xl child:font-bold mx-5 text-slate-200 text-xs md:text-sm lg:text-lg text-nowrap font-bold">
-                    <div
-                        class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
-                        <img src="{% static 'src/img/ID not Verified.png' %}" class="w-20 absolute -top-8" alt="">
-                        <span>درخواست های تایید نشده</span>
-                        <span>0</span>
-                    </div>
-                    <div
-                        class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400  px-10 py-10">
-                        <img src="{% static 'src/img/Gold Bars.png' %}" class="w-20 absolute -top-8" alt="">
-                        <span>موجودی طلا</span>
-                        <span>0</span>
-                    </div>
-                    <div
-                        class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
-                        <img src="{% static 'src/img/Split Money.png' %}" class="w-20 absolute -top-10" alt="">
-                        <span>موجودی اسکناس</span>
-                        <span>0</span>
-                    </div>
-                    <div
-                        class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
-                        <img src="{% static 'src/img/Cash.png' %}" class="w-20 absolute -top-8" alt="">
-                        <span>مجموع مبالغ برداشتی</span>
-                        <span>0</span>
-                    </div>
-                </div>
-            </div>
-                    {% else %}
-                    <div>
-
                 <div
-                    class="grid grid-cols-2 gap-12  md:gap-3 md:grid-cols-4 mt-24 child:rounded-xl child:font-bold mx-5 text-slate-200 text-xs md:text-sm lg:text-lg text-nowrap font-bold">
-                    <div
                         class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
-                        <img src="{% static 'src/img/ID not Verified.png' %}" class="w-20 absolute -top-8" alt="">
-                        <span>درخواست های تایید نشده</span>
-                        <span>{{ invoicesNumber }}</span>
-                    </div>
-                    <div
+                    <img src="{% static 'src/img/ID not Verified.png' %}" class="w-20 absolute -top-8" alt="">
+                    <span>درخواست های تایید نشده</span>
+                    <span>0</span>
+                </div>
+                <div
                         class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400  px-10 py-10">
-                        <img src="{% static 'src/img/Gold Bars.png' %}" class="w-20 absolute -top-8" alt="">
-                        <span>موجودی طلا</span>
-                        <span>{{ payment.goldInventory }}</span>
-                    </div>
-                    <div
+                    <img src="{% static 'src/img/Gold Bars.png' %}" class="w-20 absolute -top-8" alt="">
+                    <span>موجودی طلا</span>
+                    <span>0</span>
+                </div>
+                <div
                         class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
-                        <img src="{% static 'src/img/Split Money.png' %}" class="w-20 absolute -top-10" alt="">
-                        <span>موجودی اسکناس</span>
-                        <span>{{ payment.moneyInventory|intcomma }}</span>
-                    </div>
-                    <div
+                    <img src="{% static 'src/img/Split Money.png' %}" class="w-20 absolute -top-10" alt="">
+                    <span>موجودی اسکناس</span>
+                    <span>0</span>
+                </div>
+                <div
                         class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
-                        <img src="{% static 'src/img/Cash.png' %}" class="w-20 absolute -top-8" alt="">
-                        <span>مجموع تراکنش های روز</span>
-                        <span>{{ last4daysTransaction.0|intcomma }}</span>
-                    </div>
+                    <img src="{% static 'src/img/Cash.png' %}" class="w-20 absolute -top-8" alt="">
+                    <span>مجموع مبالغ برداشتی</span>
+                    <span>0</span>
                 </div>
             </div>
-                {% endif %}
-            <!--chart & table-->
-            <div class=" mt-5  justify-around grid grid-cols-1 lg:grid-cols-2">
-                <!--table-->
-                <article class="mt-5 mx-10 ">
+        </div>
+    {% else %}
+        <div>
 
-
-                    <div class=" overflow-auto max-h-[58vh] shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
-                            <!--header of table-->
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 child:text-nowrap">
-                                <tr class>
-                                    <th scope="col" class="flex items-center justify-center my-4 text-nowrap">
-                                        نام مشتری
-                                    </th>
-                                
-                                   
-                                 
-                                    <th scope="col" class="px-6 my-4">
-                                        مبلغ
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        نوع
-    
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        شماره تلفن
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-
-                                    </th>
-
-    
-    
-                                </tr>
-                            </thead>
-                            <!--body of table-->
-                            <tbody>
-                                <!--nth row table-->
-                                {% for invoice in lastInvoices %}
-                                <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <span>{{ invoice.0.user.first_name }} {{ invoice.user.last_name }}</span>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        {{ invoice.0.price|intcomma}}
-                                    </td>
-                                    <td class="px-6 py-4 ">
-                                         {{ invoice.0}}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{ invoice.1 }}
-                                    </td>
-                                    <td class="px-6 py-3 flex justify-around    flex-nowrap">
-                                    <a href="/adminPanel/requestCustomer/"
-                                        class="px-6 py-3 rounded-xl text-white bg-lime-500 hover:bg-lime-400">بررسی درخواست</a>
-
-                                </td>
-
-                                </tr>
-
-    
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-    
-                </article>
-                    <!--chart-->
-                <div class="min-w-[300px] w-full max-w-[700px] mx-auto mt-5    ">
-                    <canvas id="myChart"></canvas>
-
+            <div
+                    class="grid grid-cols-2 gap-12  md:gap-3 md:grid-cols-4 mt-24 child:rounded-xl child:font-bold mx-5 text-slate-200 text-xs md:text-sm lg:text-lg text-nowrap font-bold">
+                <div
+                        class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
+                    <img src="{% static 'src/img/ID not Verified.png' %}" class="w-20 absolute -top-8" alt="">
+                    <span>درخواست های تایید نشده</span>
+                    <span>{{ invoicesNumber }}</span>
                 </div>
-           <form method="post" action="">
-               <input name="price_day" type="text" placeholder="قیمت طلای روز " style="border:2px solid #1d4ed8">
-               <button style="color: white; background: #1d4ed8">ثبت قیمت </button>
-           </form>
+                <div
+                        class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400  px-10 py-10">
+                    <img src="{% static 'src/img/Gold Bars.png' %}" class="w-20 absolute -top-8" alt="">
+                    <span>موجودی طلا</span>
+                    <span>{{ payment.goldInventory }}</span>
+                </div>
+                <div
+                        class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
+                    <img src="{% static 'src/img/Split Money.png' %}" class="w-20 absolute -top-10" alt="">
+                    <span>موجودی اسکناس</span>
+                    <span>{{ payment.moneyInventory|intcomma }}</span>
+                </div>
+                <div
+                        class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400 px-10 py-10">
+                    <img src="{% static 'src/img/Cash.png' %}" class="w-20 absolute -top-8" alt="">
+                    <span>مجموع تراکنش های روز</span>
+                    <span>{{ last4daysTransaction.0|intcomma }}</span>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <!--chart & table-->
+    <div class=" mt-5  justify-around grid grid-cols-1 lg:grid-cols-2">
+        <!--table-->
+        <article class="mt-5 mx-10 ">
+
+
+            <div class=" overflow-auto max-h-[58vh] shadow-md sm:rounded-lg">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                    <!--header of table-->
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 child:text-nowrap">
+                    <tr class>
+                        <th scope="col" class="flex items-center justify-center my-4 text-nowrap">
+                            نام مشتری
+                        </th>
+
+
+                        <th scope="col" class="px-6 my-4">
+                            مبلغ
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            نوع
+
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            شماره تلفن
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+
+                        </th>
+
+
+                    </tr>
+                    </thead>
+                    <!--body of table-->
+                    <tbody>
+                    <!--nth row table-->
+                    {% for invoice in lastInvoices %}
+                        <tr class="bg-white border-b   hover:bg-gray-50 ">
+                            <th scope="row"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                <span>{{ invoice.0.user.first_name }} {{ invoice.user.last_name }}</span>
+                            </th>
+                            <td class="px-6 py-4">
+                                {{ invoice.0.price|intcomma }}
+                            </td>
+                            <td class="px-6 py-4 ">
+                                {{ invoice.0 }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ invoice.1 }}
+                            </td>
+                            <td class="px-6 py-3 flex justify-around    flex-nowrap">
+                                <a href="/adminPanel/requestCustomer/"
+                                   class="px-6 py-3 rounded-xl text-white bg-lime-500 hover:bg-lime-400">بررسی
+                                    درخواست</a>
+
+                            </td>
+
+                        </tr>
+
+
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
 
-                <input id="days1" type="text" hidden="hidden" value="{{dayesX.0}}">
-                <input id="days2" type="text" hidden="hidden" value="{{dayesX.1}}">
-                <input id="days3" type="text" hidden="hidden" value="{{dayesX.2}}">
-                <input id="days4" type="text" hidden="hidden" value="{{dayesX.3}}">
+        </article>
+        <!--chart-->
+        <div class="min-w-[300px] w-full max-w-[700px] mx-auto mt-5    ">
+            <canvas id="myChart"></canvas>
+
+        </div>
+
+    </div>
+
+    <input id="days1" type="text" hidden="hidden" value="{{ dayesX.0 }}">
+    <input id="days2" type="text" hidden="hidden" value="{{ dayesX.1 }}">
+    <input id="days3" type="text" hidden="hidden" value="{{ dayesX.2 }}">
+    <input id="days4" type="text" hidden="hidden" value="{{ dayesX.3 }}">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{% static 'src/js/showHidde.js' %}"></script>
 
     <script>
-        const days1=document.getElementById('days1').value
-        const days2=document.getElementById('days2').value
-        const days3=document.getElementById('days3').value
-        const days4=document.getElementById('days4').value
+        const days1 = document.getElementById('days1').value
+        const days2 = document.getElementById('days2').value
+        const days3 = document.getElementById('days3').value
+        const days4 = document.getElementById('days4').value
 
         const ctx = document.getElementById('myChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: [days4,days3,days2,days1],
+                labels: [days4, days3, days2, days1],
                 datasets: [{
                     label: 'نمودار مقایسه',
                     backgroundColor: '#172554',
                     borderColor: '#172554',
-                    data: [{{ last4daysTransaction.3 }},{{ last4daysTransaction.2 }},{{ last4daysTransaction.1 }},{{ last4daysTransaction.0 }}],
+                    data: [{{ last4daysTransaction.3 }}, {{ last4daysTransaction.2 }}, {{ last4daysTransaction.1 }}, {{ last4daysTransaction.0 }}],
                     borderWidth: 3
                 }]
             },
@@ -192,12 +187,12 @@
         });
 
 
-    /*    fetch('https://fakestoreapi.com/products/1')
-            .then(res => res.json())
-            .then(json => console.log(json))
-        */
+        /*    fetch('https://fakestoreapi.com/products/1')
+                .then(res => res.json())
+                .then(json => console.log(json))
+            */
 
     </script>
 
 
-  {% endblock %}
+{% endblock %}

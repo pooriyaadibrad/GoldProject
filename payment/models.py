@@ -21,8 +21,10 @@ class paymentAccount(models.Model):
 class paymentDate(models.Model):
     price = models.CharField(max_length=50, null=True)
     datetime = jalali_models.jDateTimeField(auto_now_add=True)
+
     def __str__(self):
         return f'{self.datetime} {self.price}'
+
 
 class Invoice(models.Model):
     date = jalali_models.jDateField(auto_now_add=True)
@@ -48,3 +50,20 @@ class convertGoldRequst(Invoice):
 
     def __str__(self):
         return 'تبدیل'
+
+
+class ConvertMoneyRequst(Invoice):
+    gold = models.DecimalField(max_digits=8, decimal_places=6)
+
+    def __str__(self):
+        return 'تبدیل به پول'
+
+
+class GetGoldRequst(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2)])
+    date = jalali_models.jDateField(auto_now_add=True)
+    gold = models.DecimalField(max_digits=8, decimal_places=6)
+
+    def __str__(self):
+        return 'دریافت طلا'

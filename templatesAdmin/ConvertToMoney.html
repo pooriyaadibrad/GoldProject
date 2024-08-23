@@ -1,0 +1,104 @@
+{% extends 'mainAdmin.html' %}
+{% load static %}
+{% load humanize %}
+{% block link %}<link rel="stylesheet" href="{% static 'src/Style/settlement.css' %}">{% endblock %}
+
+
+
+
+            {% block content %}
+
+            <div class="mt-20">
+                <span class="mx-20 font-bold font-sans text-xl"> تبدیل طلا به وجه نقد</span>
+            </div>
+
+            <article class="mt-10 mx-10 ">
+
+
+
+
+                <div class=" overflow-auto max-h-[58vh] shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                        <!--header of table-->
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 child:text-nowrap">
+                            <tr class>
+                                <th scope="col" class="flex items-center justify-center my-4">
+                                    نام مشتری
+                                </th>
+                                <th scope="col" class="px-6 py-3flex items-center justify-center my-4">
+                                    کد ملی
+                                </th>
+                                <th scope="col" class="flex items-center px-6 my-4">
+                                    شماره تماس
+                                </th>
+                                <th scope="col" class="px-4 py-3 ">
+                                    مبلغ دریافتی
+                                </th>
+                                <th scope="col" class=" px-6 my-4">
+                                   مقدار طلا فروخته شده
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    وضعیت
+                                </th>
+                                <th scope="col" class=" flex px-7 py-3">
+                                     موجودی کیف پول
+                                </th>
+                                  <th scope="col" class="px-7 py-3">
+                                     موجودی کیف ظلا
+                                </th>
+
+
+                            </tr>
+                        </thead>
+                        <!--body of table-->
+                        <tbody>
+                            <!--nth row table-->
+                            {% for m in money %}
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ m.0.user.first_name }}
+                                </th>
+                                <td class="px-6 py-4">
+                                    {{ m.0.user.username }}
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    {{ m.1.Mobile }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ m.0.price|intcomma }}ریال
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span> {{ m.0.gold }}گرم </span>
+                                </td>
+                                {% if m.0.status == 0 %}
+                                <td class="px-6 py-4">
+                                    <span class="text-gray-600 mx-auto font-bold">درحال بررسی</span>
+                                </td>
+                                    {% elif m.0.status == 1 %}
+                                    <td class="px-6 py-4">
+                                      <span class="text-red-600 mx-auto font-bold">رد شد</span>
+                                </td>
+                                    {% else %}
+                                     <td class="px-6 py-4">
+                                     <span class="text-lime-500 font-bold">تایید شد</span>
+                                </td>
+                                {% endif %}
+                                <td class="px-6 py-4">
+                                    {{ m.2.moneyInventory|intcomma }}
+                                </td>
+                                 <td class="px-6 py-4">
+                                     {{ m.2.goldInventory }}گرم
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </article>
+{% endblock %}
+
+

@@ -1,0 +1,30 @@
+{% extends 'mainAdmin.html' %}
+{% load static %}
+<!DOCTYPE html>
+
+
+    {% block content %}
+        <!--main content-->
+        <div class="w-full">
+
+
+            <div class=" mt-5 flex flex-col items-center  justify-center ">
+                <span class="text-2xl font-bold text-gray-700">تعیین نرخ طلا</span>
+                <!--card info-->
+            </div>
+            <form method="post" action="/adminPanel/DeterminingGoldPrice/" class="flex flex-col gap-4 items-center justify-between">
+               {% csrf_token %}
+                <img src="{% static 'src/img/goldpng.jpg' %}" style="mix-blend-mode: multiply;" alt="">
+                <input name = 'DayPrice'
+                    class=" appearance-none border-2 w-1/2 rounded-xl  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
+                    autocomplete="off" placeholder="نرخ طلا  را وارد کنید" />
+
+                <div class="flex flex-col items-center justify-around ">
+                    
+                    
+
+                    <button class="px-5 py-2 text-white rounded-xl bg-green-600 hover:bg-green-500">تایید</button>
+                </div>
+            </form>
+        </div>
+{% endblock %}

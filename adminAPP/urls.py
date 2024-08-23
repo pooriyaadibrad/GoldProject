@@ -9,4 +9,7 @@ urlpatterns = [
     path('settlement/', views.settlement, name='settlement'),
     path('userInfo/', views.userInfo, name='userInfo'),
     path('withdrawal/', views.withdrawal, name='withdrawal'),
+    path('DeterminingGoldPrice/', views.DeterminingGoldPrice, name='DeterminingGoldPrice'),
+    path('ConvertMoneyRequest/', views.ConvertMoneyRequest, name='ConvertMoneyRequest'),
+    path('GetGoldRequest/', views.GetGoldRequest, name='GetGoldRequest'),
 ]

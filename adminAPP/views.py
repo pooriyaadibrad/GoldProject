@@ -2,7 +2,8 @@ import jdatetime
 from jdatetime import timedelta
 from django.shortcuts import render, redirect
 from account.models import User, person
-from payment.models import paymentAccount, BuyRequst, sellRequst, convertGoldRequst, Invoice, paymentDate
+from payment.models import paymentAccount, BuyRequst, sellRequst, convertGoldRequst, ConvertMoneyRequst, GetGoldRequst, \
+    Invoice, paymentDate
 from django.contrib import messages
 
 
@@ -13,7 +14,7 @@ def admin(request):
 
             invoicesNumber = Invoice.objects.filter(status=0).all()
             try:
-                paymentDate1=paymentDate.objects.all().order_by('-id')[0]
+                paymentDate1 = paymentDate.objects.all().order_by('-id')[0]
             except IndexError:
                 paymentDate1 = paymentDate.objects.all().order_by('-id')
             invoicesNumber = len(invoicesNumber)
@@ -78,7 +79,7 @@ def admin(request):
                 return render(request, template_name='Admin.html',
                               context={'invoicesNumber': invoicesNumber, 'payment': payment,
                                        'lastInvoices': lastInvoices, 'last4daysTransaction': last4daysTransaction,
-                                       'dayesX': dayesX,'paymentDate': paymentDate1})
+                                       'dayesX': dayesX, 'paymentDate': paymentDate1})
         else:
 
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
@@ -144,10 +145,14 @@ def requestCustomer(request):
             Buy = BuyRequst.objects.filter(status=0).all().order_by('-id')
             sell = sellRequst.objects.filter(status=0).all().order_by('-id')
             gold = convertGoldRequst.objects.filter(status=0).all().order_by('-id')
+            money = ConvertMoneyRequst.objects.filter(status=0).all().order_by('-id')
+            get_gold = GetGoldRequst.objects.filter(status=0).all().order_by('-id')
             requestCustomer1 = []
             requestCustomer1.extend(Buy)
             requestCustomer1.extend(sell)
             requestCustomer1.extend(gold)
+            requestCustomer1.extend(money)
+            requestCustomer1.extend(get_gold)
             i = 0
             for req in requestCustomer1:
                 user1 = person.objects.filter(user=req.user).first()
@@ -258,13 +263,67 @@ def withdrawal(request):
         return redirect('login')
 
 
-def chenge_day_gold_price(request):
-    if request.method == 'POST':
-        price_day = request.POST.get('price_day')
-        paymentDate1 = paymentDate.objects.create(price=price_day)
-        paymentDate1.save()
-        messages.success(request, 'با موفقیت انجام شد')
-        return redirect('adminAPP')
+def ConvertMoneyRequest(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            moneyRequst = ConvertMoneyRequst.objects.all().order_by('-id')
+            Buy1 = []
+            Buy1.extend(moneyRequst)
+            i = 0
+            for b in Buy1:
+                user1 = person.objects.filter(user=b.user).first()
+                payment = paymentAccount.objects.filter(user=b.user).first()
+                Buy1[i] = [b, user1, payment]
+                i += 1
+            if len(Buy1) > 10:
+                Buy1 = Buy1[0:10]
+
+            return render(request=request, template_name='ConvertToMoney.html', context={'money': Buy1})
+        else:
+            messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
+            return redirect('login')
     else:
-        messages.success(request, 'با موفقیت انجام شد')
-        return redirect('adminAPP')
+        messages.success(request, 'لطفا اول وارد شوید')
+        return redirect('login')
+
+
+def GetGoldRequest(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            GetGoldRequst1 = GetGoldRequst.objects.all().order_by('-id')
+            Buy1 = []
+            Buy1.extend(GetGoldRequst1)
+            i = 0
+            for b in Buy1:
+                user1 = person.objects.filter(user=b.user).first()
+                payment = paymentAccount.objects.filter(user=b.user).first()
+                Buy1[i] = [b, user1, payment]
+                i += 1
+            if len(Buy1) > 10:
+                Buy1 = Buy1[0:10]
+
+            return render(request=request, template_name='getGold.html', context={'getGold': Buy1})
+        else:
+            messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
+            return redirect('login')
+    else:
+        messages.success(request, 'لطفا اول وارد شوید')
+        return redirect('login')
+
+
+def DeterminingGoldPrice(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            if request.method == 'POST':
+                DayPrice = request.POST.get('DayPrice')
+                paymentDate1 = paymentDate.objects.create(price=DayPrice)
+                paymentDate1.save()
+                return redirect('DeterminingGoldPrice')
+            else:
+                return render(request=request, template_name='NerkhTala.html')
+        else:
+            messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
+            return redirect('login')
+    else:
+        messages.success(request, 'لطفا اول وارد شوید')
+        return redirect('login')

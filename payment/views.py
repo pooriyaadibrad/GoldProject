@@ -2,7 +2,7 @@ import jdatetime
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
-from .models import paymentAccount, BuyRequst, sellRequst, convertGoldRequst
+from .models import paymentAccount, BuyRequst, sellRequst, convertGoldRequst, ConvertMoneyRequst, GetGoldRequst
 from django.contrib import messages
 from account.models import person
 from decimal import Decimal
@@ -75,64 +75,51 @@ def checkOrder(request):
                 sell.save()
                 messages = 'واریز انجام شد'
                 return JsonResponse({'status': True, 'messages': messages})
+            elif requestName == 'تبدیل به پول':
+                gold = request.POST.get('gold')
+                Gold = ConvertMoneyRequst.objects.get(id=requestid)
+                Gold.status = 2
+                account = paymentAccount.objects.get(user=Gold.user)
+                if account.goldInventory >= Decimal(gold):
+                    account.moneyInventory += int(price)
+                    account.goldInventory -= Decimal(gold)
+                    account.save()
+                    Gold.save()
+                    messages = 'تبدیل انجام شد'
+                    return JsonResponse({'status': True, 'messages': messages})
+                else:
+                    messages = 'موجودی طلا کافی نیست'
+                    return JsonResponse({'status': True, 'messages': messages})
 
+            elif requestName == 'دریافت طلا':
+                gold = request.POST.get('gold')
+                Gold = GetGoldRequst.objects.get(id=requestid)
+                Gold.status = 2
+                account = paymentAccount.objects.get(user=Gold.user)
+                if account.goldInventory >= Decimal(gold):
+                    account.goldInventory -= Decimal(gold)
+                    account.save()
+                    Gold.save()
+                    messages = 'تبدیل انجام شد'
+                    return JsonResponse({'status': True, 'messages': messages})
+                else:
+                    messages = 'موجودی طلا برای برداشت طلا کافی نیست'
+                    return JsonResponse({'status': True, 'messages': messages})
             else:
                 gold = request.POST.get('gold')
-
                 Gold = convertGoldRequst.objects.get(id=requestid)
                 Gold.status = 2
                 account = paymentAccount.objects.get(user=Gold.user)
-                if gold == '0.000000':
-                    if account.moneyInventory >= int(price):
-                        goldPrice = request.POST.get('goldPrice')
-                        if goldPrice != None:
-                            goldPrice = goldPrice.replace(',', '')
-                            goldPrice = int(goldPrice)
-                            user = User.objects.get(is_superuser=True)
-                            account1 = paymentAccount.objects.filter(user=user).first()
-                            account.moneyInventory -= int(price)
-                            goldPrice /= 1000
-                            account.goldInventory += Decimal(goldPrice)
-                            account1.save()
-                            account.save()
-                            Gold.gold = goldPrice
-                            Gold.save()
-                            messages = 'تبدیل انجام شد'
-                            return JsonResponse({'status': True, 'messages': messages})
-                        else:
-                            messages = 'فیلد مربوط به مقدار طلا یا مبلغ نباید خالی باشد'
-                            return JsonResponse({'status': True, 'messages': messages})
-                    else:
-
-                        messages = 'موجودی کاربر برای این درخواست کافی نیست'
-
-                        return JsonResponse({'status': False, 'messages': messages})
+                if account.moneyInventory >= int(price):
+                    account.moneyInventory -= int(price)
+                    account.goldInventory += Decimal(gold)
+                    account.save()
+                    Gold.save()
+                    messages = 'تبدیل انجام شد'
+                    return JsonResponse({'status': True, 'messages': messages})
                 else:
-                    goldPrice = request.POST.get('goldPrice')
-                    print(goldPrice, 'this for test')
-                    print(type(goldPrice))
-                    if goldPrice != '':
-                        goldPrice = goldPrice.replace(',', '')
-
-                        if account.moneyInventory >= int(goldPrice):
-                            account.moneyInventory -= int(goldPrice)
-
-                            account.goldInventory += Decimal(gold)
-                            account.save()
-                            Gold.price = goldPrice
-                            Gold.save()
-                            messages = 'تبدیل انجام شد'
-                            return JsonResponse({'status': True, 'messages': messages})
-                        else:
-
-                            messages = 'موجودی کاربر برای این درخواست کافی نیست'
-
-                            return JsonResponse({'status': False, 'messages': messages})
-                    else:
-                        messages = 'فیلد مربوط به مقدار طلا یا مبلغ نباید خالی باشد'
-                        return JsonResponse({'status': True, 'messages': messages})
-
-
+                    messages = 'موجودی کاربر برای این درخواست کافی نیست'
+                    return JsonResponse({'status': False, 'messages': messages})
         else:
             if requestName == 'برداشت':
                 buy = BuyRequst.objects.get(id=requestid)
@@ -143,6 +130,16 @@ def checkOrder(request):
                 sell = sellRequst.objects.get(id=requestid)
                 sell.status = 1
                 sell.save()
+                return JsonResponse({'status': True})
+            elif requestName == 'تبدیل به پول':
+                Gold = ConvertMoneyRequst.objects.get(id=requestid)
+                Gold.status = 1
+                Gold.save()
+                return JsonResponse({'status': True})
+            elif requestName == 'دریافت طلا':
+                Gold = GetGoldRequst.objects.get(id=requestid)
+                Gold.status = 1
+                Gold.save()
                 return JsonResponse({'status': True})
             else:
                 Gold = convertGoldRequst.objects.get(id=requestid)
@@ -165,13 +162,25 @@ def getReport(request):
                 sell2 = sellRequst.objects.filter(date__range=(start, end)).all()
                 buy2 = BuyRequst.objects.filter(date__range=(start, end)).all()
                 gold2 = convertGoldRequst.objects.filter(date__range=(start, end)).all()
+                money2 = ConvertMoneyRequst.objects.filter(date__range=(start, end)).all()
+                get_gold = GetGoldRequst.objects.filter(date__range=(start, end)).all()
                 resultSell = 0
                 resultBuy = 0
                 resultGold = 0
-                for i, j, k in zip(sell2, buy2, gold2):
+                resultMoney = 0
+                resultGet_gold = 0
+                for i in sell2:
                     resultSell += i.price
+                for j in buy2:
                     resultBuy += j.price
+                for k in gold2:
                     resultGold += k.price
+                for u in money2:
+                    resultMoney += u.gold
+                for o in get_gold:
+                    resultGet_gold += o.gold
+
+                print(resultMoney, resultGet_gold)
                 if requestType == 'واریز وجه':
                     sell = sellRequst.objects.filter(date__range=(start, end)).all()
                     sell1 = []
@@ -182,7 +191,8 @@ def getReport(request):
                         sell1[sell1.index(b)] = [b, user1, payment1, None]
                     return render(request, template_name='Report.html',
                                   context={'data': sell1, 'resultSell': resultSell, 'resultBuy': resultBuy,
-                                           'resultGold': resultGold})
+                                           'resultGold': resultGold, 'resultMoney': resultMoney,
+                                           'resultGet_gold': resultGet_gold})
 
                 elif requestType == 'برداشت وجه':
                     Buy = BuyRequst.objects.filter(date__range=(start, end)).all()
@@ -196,8 +206,36 @@ def getReport(request):
 
                     return render(request, template_name='Report.html',
                                   context={'data': Buy1, 'resultSell': resultSell, 'resultBuy': resultBuy,
-                                           'resultGold': resultGold})
+                                           'resultGold': resultGold, 'resultMoney': resultMoney,
+                                           'resultGet_gold': resultGet_gold})
+                elif requestType == 'تبدیل طلا به پول':
+                    Buy = ConvertMoneyRequst.objects.filter(date__range=(start, end)).all()
+                    Buy1 = []
+                    Buy1.extend(Buy)
+                    for b in Buy1:
+                        user1 = person.objects.filter(user=b.user).first()
+                        payment1 = paymentAccount.objects.filter(user=b.user).first()
 
+                        Buy1[Buy1.index(b)] = [b, user1, payment1, None]
+
+                    return render(request, template_name='Report.html',
+                                  context={'data': Buy1, 'resultSell': resultSell, 'resultBuy': resultBuy,
+                                           'resultGold': resultGold, 'resultMoney': resultMoney,
+                                           'resultGet_gold': resultGet_gold})
+                elif requestType == 'دریافت طلا':
+                    Buy = GetGoldRequst.objects.filter(date__range=(start, end)).all()
+                    Buy1 = []
+                    Buy1.extend(Buy)
+                    for b in Buy1:
+                        user1 = person.objects.filter(user=b.user).first()
+                        payment1 = paymentAccount.objects.filter(user=b.user).first()
+
+                        Buy1[Buy1.index(b)] = [b, user1, payment1, None]
+
+                    return render(request, template_name='Report.html',
+                                  context={'data': Buy1, 'resultSell': resultSell, 'resultBuy': resultBuy,
+                                           'resultGold': resultGold, 'resultMoney': resultMoney,
+                                           'resultGet_gold': resultGet_gold})
                 else:
                     Gold = convertGoldRequst.objects.filter(date__range=(start, end))
                     Gold1 = []
@@ -208,7 +246,8 @@ def getReport(request):
                         Gold1[Gold1.index(b)] = [b, user1, payment1, 'gold']
                     return render(request, template_name='Report.html',
                                   context={'data': Gold1, 'resultSell': resultSell, 'resultBuy': resultBuy,
-                                           'resultGold': resultGold})
+                                           'resultGold': resultGold, 'resultMoney': resultMoney,
+                                           'resultGet_gold': resultGet_gold})
             else:
                 messages.success(request, 'لطفا فیلد ها زمانی را پر کنید')
                 return redirect('report')
@@ -219,13 +258,23 @@ def getReport(request):
                 sell2 = sellRequst.objects.filter(date__range=(start, end)).all()
                 buy2 = BuyRequst.objects.filter(date__range=(start, end)).all()
                 gold2 = convertGoldRequst.objects.filter(date__range=(start, end)).all()
+                money2 = ConvertMoneyRequst.objects.filter(date__range=(start, end)).all()
+                get_gold = GetGoldRequst.objects.filter(date__range=(start, end)).all()
                 resultSell = 0
                 resultBuy = 0
                 resultGold = 0
-                for i, j, k in zip(sell2, buy2, gold2):
+                resultMoney = 0
+                resultGet_gold = 0
+                for i in sell2:
                     resultSell += i.price
+                for j in buy2:
                     resultBuy += j.price
+                for k in gold2:
                     resultGold += k.price
+                for u in money2:
+                    resultMoney += u.gold
+                for o in get_gold:
+                    resultGet_gold += o.gold
                 if requestType == 'واریز وجه':
                     sell = sellRequst.objects.filter(date__range=(start, end)).filter(user=request.user).all()
                     sell1 = []
@@ -234,9 +283,11 @@ def getReport(request):
                         user1 = person.objects.filter(user=request.user).first()
                         payment1 = paymentAccount.objects.filter(user=request.user).first()
                         sell1[sell1.index(b)] = [b, user1, payment1, None]
+
                     return render(request, template_name='ReportCustomer.html',
                                   context={'data': sell1, 'resultSell': resultSell, 'resultBuy': resultBuy,
-                                           'resultGold': resultGold})
+                                           'resultGold': resultGold, 'resultMoney': resultMoney,
+                                           'resultGet_gold': resultGet_gold})
 
                 elif requestType == 'برداشت وجه':
                     Buy = BuyRequst.objects.filter(date__range=(start, end)).filter(user=request.user).all()
@@ -250,8 +301,12 @@ def getReport(request):
 
                     return render(request, template_name='ReportCustomer.html',
                                   context={'data': Buy1, 'resultSell': resultSell, 'resultBuy': resultBuy,
-                                           'resultGold': resultGold})
-
+                                           'resultGold': resultGold, 'resultMoney': resultMoney,
+                                           'resultGet_gold': resultGet_gold})
+                elif requestType == 'تبدیل طلا به پول':
+                    pass
+                elif requestType == 'دریافت طلا':
+                    pass
                 else:
                     Gold = convertGoldRequst.objects.filter(date__range=(start, end)).filter(user=request.user).all()
                     Gold1 = []
@@ -262,7 +317,8 @@ def getReport(request):
                         Gold1[Gold1.index(g)] = [g, user1, payment1, 'gold']
                     return render(request, template_name='ReportCustomer.html',
                                   context={'data': Gold1, 'resultSell': resultSell, 'resultBuy': resultBuy,
-                                           'resultGold': resultGold})
+                                           'resultGold': resultGold, 'resultMoney': resultMoney,
+                                           'resultGet_gold': resultGet_gold})
             else:
                 messages.success(request, 'لطفا فیلد ها زمانی را پر کنید')
                 return redirect('reportCustomer')
@@ -273,13 +329,18 @@ def getReport(request):
 
 def RegisterBuyRequest(request):
     if request.method == 'POST':
-        invoice = request.FILES['files']
-        price = request.POST['price']
-        SellRequest = sellRequst(user=request.user, price=price, image=invoice, date=jdatetime.date.today())
-        SellRequest.save()
+        paymentAccount1 = paymentAccount.objects.filter(user=request.user).first()
+        if paymentAccount1.nameCart == request.user.first_name:
+            invoice = request.FILES['files']
+            price = request.POST['price']
 
-        messages.success(request, 'بعد از بررسی مدیر نتیجه در همینجا ذخیره میشود')
-        return redirect('settelmentCustomer')
+            SellRequest = sellRequst(user=request.user, price=price, image=invoice, date=jdatetime.date.today())
+            SellRequest.save()
+            messages.success(request, 'بعد از بررسی مدیر نتیجه در همینجا ذخیره میشود')
+            return redirect('settelmentCustomer')
+        else:
+            messages.success(request, 'اسم شماره کارت با صاحب اکانت مطابقت ندارد')
+            return redirect('settelmentCustomer')
 
     else:
         messages.success(request, 'در ثبت درخواست مشکلی پیش آمده است')
@@ -315,7 +376,7 @@ def withdrawalCustomer(request):
             return redirect('withdrawalCustomer')
         else:
             messages.success(request, 'اسم شماره کارت با صاحب اکانت مطابقت ندارد')
-            return redirect('settelmentCustomer')
+            return redirect('withdrawalCustomer')
     else:
         messages.success(request, 'در درخواست شما مشکلی پیش آمده است ')
         return redirect('withdrawalCustomer')

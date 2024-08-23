@@ -2,18 +2,7 @@
 {% load static %}
 {% block title %}درخواست ها{% endblock %}
 {% block link %} <link rel="stylesheet" href="{% static 'src/Style/settlement.css' %}">
-<script>
-        function formatNumber(input) {
-            // حذف هرگونه کاراکتر غیر عددی
-            let value = input.value.replace(/[^0-9]/g, '');
 
-            // فرمت بندی عدد به صورت هزارگان
-            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-            // قرار دادن عدد فرمت شده در ورودی
-            input.value = value;
-        }
-    </script>
 
 {% endblock %}
 {% load humanize %}
@@ -27,14 +16,7 @@
 
             <article class="mt-10 mx-10 ">
     
-               <div class=" grid-cols-0 lg:grid-cols-2">
-        <input name="goldPrice"  id="goldPrice"
-            class="bg-slate-50 px-2 py-2 rounded-md border border-blue-600" type="text" data-jdp
-            placeholder="معادل طلا به گرم  یا مبلغ به تومان "
-        oninput="formatNumber(this)"
-        />
 
-            </div>
                 <br>
 
                 <div class=" overflow-auto max-h-[58vh] shadow-md sm:rounded-lg">
@@ -60,7 +42,9 @@
                                 <th scope="col" class=" px-6 my-4">
                                     موجودی کیف پول
                                 </th>
-
+                                <th scope="col" class=" px-6 my-4">
+                                    موجودی کیف طلا
+                                </th>
                                 <th scope="col" class=" flex justify-center px-7 py-3">
                                     فیش واریز
                                 </th>
@@ -88,15 +72,18 @@
                                     {{ req.1.Mobile }}
                                 </td>
                                 <td class="px-6 py-4">
-                                      <span>{{ req.0.price|intcomma }} تومان  {{ req.0 }}</span>
+                                      <span>{{ req.0.price|intcomma }} ریال  {{ req.0 }}</span>
                                 </td>
 
                                  <td class="px-6 py-4">
                                       <span><b>{{ req.0.gold }}</b> گرم {{ req.0 }}</span>
                                 </td>
-
                                 <td class="px-6 py-4">
-                                   {{ req.2.moneyInventory|intcomma }}
+                                   {{ req.2.moneyInventory|intcomma }}ریال
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ req.2.goldInventory }}گرم
+
                                 </td>
                                 <!--see img btn-->
                                 
@@ -175,7 +162,7 @@
             );
         }   
          function confirm (requestID,requestName,price,gold){
-                var goldPrice=document.getElementById('goldPrice').value
+
               var CSRFTOKEN='{{ csrf_token }}';
             $.ajax(
             {
@@ -187,7 +174,7 @@
                     'requestName':requestName,
                     'price':price,
                     'gold':gold,
-                    'goldPrice':goldPrice,
+
                     'csrfmiddlewaretoken':CSRFTOKEN,
                 },
                 dataType:'json',

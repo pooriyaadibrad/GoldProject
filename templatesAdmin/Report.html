@@ -19,9 +19,10 @@
     <div
         class="flex  flex-col itmem-center  gap-1 md:gap-5 mt-5  mx-auto child:font-bold child:font-sans child:text-sm child:text-gray-600 ">
         <div> <span> مجموع واریزی ها :  </span><span> {{ resultSell|intcomma }}</span> </div>
-        
         <div><span> مجموع برداشتی ها :  </span><span>{{ resultBuy|intcomma }}</span></div>
         <div> <span> مجموع طلا های خریداری شده : </span><span>{{ resultGold|intcomma }}</span></div>
+        <div> <span> مجموع طلا های تبدیل به پول شده : </span><span>{{ resultMoney }}</span></div>
+        <div> <span> مجموع طلا های دریافت شده : </span><span>{{ resultGet_gold }}</span></div>
 
     </div>
 </div>
@@ -35,6 +36,8 @@
             <option>واریز وجه</option>
             <option>برداشت وجه</option>
             <option>تبدیل به طلا</option>
+            <option>تبدیل طلا به پول</option>
+            <option>دریافت طلا</option>
         </select>
     </div>
     <div class="grid gap-4 grid-cols-1 lg:grid-cols-2">
