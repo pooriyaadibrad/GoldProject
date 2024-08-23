@@ -127,3 +127,7 @@ def reportCustomer(request):
     else:
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')
+def convertToMoney(request):
+    return render(request=request, template_name='tabdileBeTala.html')
+def getGold(request):
+    return render(request=request, template_name='daryaftTala.html')

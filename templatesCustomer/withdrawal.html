@@ -21,12 +21,7 @@
                     <form method="post" action="/payment/withdrawalCustomer" class="flex flex-col justify-center items-center gap-10">
                        {% csrf_token %}
                         <div class="grid grid-cols-1 md:grid-cols-3 mx-10  gap-10 mt-10">
-                            <input name="cartNumber"
-                                class=" appearance-none border-2 rounded-xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
-                                autocomplete="off" placeholder="شماره کارت را وارد کنید" maxlength="16" minlength="16"  />
-                            <input name="NameCart"
-                                class=" appearance-none border-2 rounded-xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
-                                autocomplete="off" placeholder="نام صاحب کارت را وارد کنید" />
+
                                 <input name="price"
                                 class=" appearance-none border-2 rounded-xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
                                 autocomplete="off" placeholder="مبلغ را به ریال وارد کنید" />

@@ -35,9 +35,13 @@ def admin(request):
                 lastInvoices1 = BuyRequst.objects.filter(status=2).all().order_by('-id')
                 lastInvoices2 = sellRequst.objects.filter(status=2).all().order_by('-id')
                 lastInvoices3 = convertGoldRequst.objects.filter(status=2).all().order_by('-id')
+                lastInvoices4 = ConvertMoneyRequst.objects.filter(status=2).all().order_by('-id')
+
                 last4daysTransaction = []
+
                 for p in range(4):
                     daysTransactio = []
+
                     for i in lastInvoices1:
                         if i.date == jdatetime.date.today() - timedelta(days=p):
                             daysTransactio.append(i)
@@ -48,22 +52,41 @@ def admin(request):
                         if k.date == jdatetime.date.today() - timedelta(days=p):
                             daysTransactio.append(k)
 
+                    for u in lastInvoices4:
+                        if u.date == jdatetime.date.today() - timedelta(days=p):
+                            daysTransactio.append(u)
+
+
+
                     NumberdaysTransaction = 0
                     for i in daysTransactio:
                         NumberdaysTransaction += i.price
+
                     last4daysTransaction.append(NumberdaysTransaction)
+                day_gold=[]
+                day_gold.extend(lastInvoices3)
+                day_gold.extend(lastInvoices4)
+                gold=0
+                for i in day_gold:
+                    gold+=i.gold
                 lastInvoices1 = BuyRequst.objects.filter(status=0).all().order_by('-id')
                 lastInvoices2 = sellRequst.objects.filter(status=0).all().order_by('-id')
                 lastInvoices3 = convertGoldRequst.objects.filter(status=0).all().order_by('-id')
+                lastInvoices4 = ConvertMoneyRequst.objects.filter(status=0).all().order_by('-id')
+                lastInvoices5 = GetGoldRequst.objects.filter(status=0).all().order_by('-id')
                 lastInvoices = []
                 try:
                     lastInvoices.extend(lastInvoices1[0:3])
                     lastInvoices.extend(lastInvoices2[0:3])
                     lastInvoices.extend(lastInvoices3[0:3])
+                    lastInvoices.extend(lastInvoices4[0:3])
+                    lastInvoices.extend(lastInvoices5[0:3])
                 except IndexError:
                     lastInvoices.extend(lastInvoices1)
                     lastInvoices.extend(lastInvoices2)
                     lastInvoices.extend(lastInvoices3)
+                    lastInvoices.extend(lastInvoices4)
+                    lastInvoices.extend(lastInvoices5)
 
                 lastInvoices = sorted(lastInvoices, key=lambda obj: obj.date)
                 if len(lastInvoices) > 6:
@@ -79,7 +102,7 @@ def admin(request):
                 return render(request, template_name='Admin.html',
                               context={'invoicesNumber': invoicesNumber, 'payment': payment,
                                        'lastInvoices': lastInvoices, 'last4daysTransaction': last4daysTransaction,
-                                       'dayesX': dayesX, 'paymentDate': paymentDate1})
+                                       'dayesX': dayesX, 'paymentDate': paymentDate1, 'gold_day': gold})
         else:
 
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
@@ -106,7 +129,7 @@ def changeToGold(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
 
-            Gold = convertGoldRequst.objects.all().order_by('-id')
+            Gold = convertGoldRequst.objects.all().order_by('-date')
             Gold1 = []
             Gold1.extend(Gold)
             i = 0
@@ -172,7 +195,7 @@ def settlement(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
 
-            sell = sellRequst.objects.all().order_by('-id')
+            sell = sellRequst.objects.all().order_by('-date')
             sell1 = []
             sell1.extend(sell)
             i = 0
@@ -242,7 +265,7 @@ def userInfo(request):
 def withdrawal(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            Buy = BuyRequst.objects.all().order_by('-id')
+            Buy = BuyRequst.objects.all().order_by('-date')
             Buy1 = []
             Buy1.extend(Buy)
             i = 0
@@ -266,7 +289,7 @@ def withdrawal(request):
 def ConvertMoneyRequest(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            moneyRequst = ConvertMoneyRequst.objects.all().order_by('-id')
+            moneyRequst = ConvertMoneyRequst.objects.all().order_by('-date')
             Buy1 = []
             Buy1.extend(moneyRequst)
             i = 0
@@ -290,7 +313,7 @@ def ConvertMoneyRequest(request):
 def GetGoldRequest(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            GetGoldRequst1 = GetGoldRequst.objects.all().order_by('-id')
+            GetGoldRequst1 = GetGoldRequst.objects.all().order_by('-date')
             Buy1 = []
             Buy1.extend(GetGoldRequst1)
             i = 0

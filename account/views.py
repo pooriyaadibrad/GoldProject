@@ -1,3 +1,6 @@
+from wave import Error
+
+from django.forms.utils import ErrorDict
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
@@ -113,16 +116,27 @@ def changeBio(request):
         name=request.POST['name']
         cartNumber=request.POST['cartNumber']
         cartName=request.POST['cartName']
+        cartSheba=request.POST['cartSheba']
         NationCode = request.POST['NationCode']
         password = request.POST['password']
         repassword = request.POST['repassword']
         address=request.POST['address']
+        try:
+            picture=request.FILES['picture']
+        except ErrorDict :
+            pass
+        except TypeError:
+            pass
         user.first_name=name
         user1.address=address
         user1.LandlineNumber=lineNumber
-        user.username=NationCode
-        payment1.nameCart=cartName
-        payment1.number=cartNumber
+        user1.picture=picture
+        if NationCode !='':
+            user.username=NationCode
+        if cartSheba !='' and cartNumber !='' and cartName !='':
+            payment1.nameCart=cartName
+            payment1.number=cartNumber
+            payment1.sheba=cartSheba
         if password == repassword and password!='' and repassword!='':
             user.set_password(password)
         user.save()

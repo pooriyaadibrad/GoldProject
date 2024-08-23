@@ -7,4 +7,6 @@ urlpatterns = [
     path('settelment/', views.settelmentCustomer, name='settelmentCustomer'),
     path('ChangeGoldCustomer/',views.ChangeGoldCustomer,name='ChangeGoldCustomer'),
     path('reportCustomer/',views.reportCustomer,name='reportCustomer'),
+    path('convertToMoney/',views.convertToMoney,name='convertToMoney'),
+    path('getGold/',views.getGold,name='getGold'),
 ]

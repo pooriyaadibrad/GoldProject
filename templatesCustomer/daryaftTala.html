@@ -1,0 +1,203 @@
+{% extends 'mainCustomer.html' %}
+{% load static %}
+
+
+{% block content %}
+            <section>
+                <div class="grid grid-cols-1 md:grid-cols-2 items-center  justify-center px-10 mt-20">
+                    <span class="text-2xl font-bold text-gray-600">درخواست دریافت طلا</span>
+                    <div class="text-right md:text-left">
+                        <span class="font-bold text-gray-600">موجودی کیف پول: </span>
+                        <span class="font-bold text-green-400">1400$</span>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <form class="flex flex-col justify-center items-center gap-10">
+                    <div class="grid grid-cols-1 md:grid-cols-1 mx-10  gap-10 mt-10">
+                        <input
+                            class=" appearance-none border-2 rounded-xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
+                            autocomplete="off" placeholder="بر اساس گرم 000.000" />
+                        
+                    </div>
+
+                    <button type="submit"
+                        class="min-w-40 bg-green-600 hover:bg-green-500 text-white rounded-2xl px-4 py-2">تایید
+                    </button>
+                </form>
+            </section>
+
+            <!--table-->
+            <article class="mt-5 mx-10 w-[90%] ">
+                <span class="text-gray-600 text-2xl font-bold">سابقه </span>
+
+                <div class=" overflow-auto max-h-[40vh] md:max-h-[30vh] shadow-md sm:rounded-lg mt-5">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                        <!--header of table-->
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 child:text-nowrap">
+                            <tr class>
+                                <th scope="col" class="flex items-center justify-center my-4 text-nowrap">
+                                    نتیجه تراکنش
+                                </th>
+
+
+
+                                <th scope="col" class="px-6 my-4">
+                                    مبلغ
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    نوع تراکنش
+
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    تاریخ
+                                </th>
+
+
+
+                            </tr>
+                        </thead>
+                        <!--body of table-->
+                        <tbody>
+                            <!--nth row table-->
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <span class="text-green-400 font-bold">موفق</span>
+                                </th>
+                                <td class="px-6 py-4">
+                                    4000$
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    برداشت
+                                </td>
+                                <td class="px-6 py-4">
+                                    1403/02/6
+                                </td>
+
+                            </tr>
+
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <span class="text-red-400 font-bold ">ناموفق </span>
+                                </th>
+                                <td class="px-6 py-4">
+                                    1600$
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    واریز
+                                </td>
+                                <td class="px-6 py-4">
+                                    1403/02/6
+                                </td>
+
+                            </tr>
+
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <span class="text-gray-400 font-bold">درحال برسی</span>
+                                </th>
+                                <td class="px-6 py-4">
+                                    200$
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    برداشت
+                                </td>
+                                <td class="px-6 py-4">
+                                    1403/02/6
+                                </td>
+
+                            </tr>
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <span class="text-gray-400 font-bold">درحال برسی</span>
+                                </th>
+                                <td class="px-6 py-4">
+                                    200$
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    برداشت
+                                </td>
+                                <td class="px-6 py-4">
+                                    1403/02/6
+                                </td>
+
+                            </tr>
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <span class="text-gray-400 font-bold">درحال برسی</span>
+                                </th>
+                                <td class="px-6 py-4">
+                                    200$
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    برداشت
+                                </td>
+                                <td class="px-6 py-4">
+                                    1403/02/6
+                                </td>
+
+                            </tr>
+
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <span class="text-gray-400 font-bold">درحال برسی</span>
+                                </th>
+                                <td class="px-6 py-4">
+                                    200$
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    برداشت
+                                </td>
+                                <td class="px-6 py-4">
+                                    1403/02/6
+                                </td>
+
+                            </tr>
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <span class="text-gray-400 font-bold">درحال برسی</span>
+                                </th>
+                                <td class="px-6 py-4">
+                                    200$
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    برداشت
+                                </td>
+                                <td class="px-6 py-4">
+                                    1403/02/6
+                                </td>
+
+                            </tr>
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <span class="text-gray-400 font-bold">درحال برسی</span>
+                                </th>
+                                <td class="px-6 py-4">
+                                    200$
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    برداشت
+                                </td>
+                                <td class="px-6 py-4">
+                                    1403/02/6
+                                </td>
+
+                            </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </article>
+       {% endblock %}
