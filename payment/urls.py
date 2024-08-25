@@ -8,6 +8,6 @@ urlpatterns = [
     path('RegisterBuyRequest', views.RegisterBuyRequest, name='RegisterBuyRequest'),
     path('DeleteTransaction/<int:id>/<str:type>', views.DeleteTransaction, name='DeleteTransaction'),
     path('withdrawalCustomer', views.withdrawalCustomer, name='withdrawalCustomer'),
-    path('changeGoldRequest/', views.changeGoldRequest, name='changeGoldRequest'),
+    path('changeGoldRequest/<str:rate>', views.changeGoldRequest, name='changeGoldRequest'),
 
 ]

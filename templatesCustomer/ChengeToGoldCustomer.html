@@ -19,9 +19,11 @@
                         <span class="font-bold text-green-400">1400$</span>
                     </div>-->
                 </div>
+                <div style="text-align: center">
+            <span ><b>در هر درخواست شما %1.5 به عنوان کارمزد لحاظ میگردد </b></span></div>
             </section>
             <section>
-                <form method="post" action="/payment/changeGoldRequest/" class="flex flex-col justify-center items-center gap-10">
+                <form method="post" action="/payment/changeGoldRequest/{{ paymentDate.price }}" class="flex flex-col justify-center items-center gap-10">
                     {% csrf_token %}
                     <div class="grid grid-cols-1 md:grid-cols-2 mx-10  gap-10 mt-10">
                         <input name="price"
@@ -56,7 +58,7 @@
                                     مبلغ
                                 </th>
                                  <th scope="col" class="px-6 my-4">
-                                    ظلا
+                                    طلا
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     نوع تراکنش
@@ -94,10 +96,10 @@
                                 </th>
                                 {% endif  %}
                                 <td class="px-6 py-4">
-                                    {{ item.price|intcomma }}
+                                    {{ item.price|intcomma }}ریال
                                 </td>
                              <td class="px-6 py-4">
-                                    {{ item.gold }}
+                                    {{ item.gold }}گرم
                                 </td>
                                 <td class="px-6 py-4 ">
                                       {{ item }}

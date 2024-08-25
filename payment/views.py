@@ -382,23 +382,34 @@ def withdrawalCustomer(request):
         return redirect('withdrawalCustomer')
 
 
-def changeGoldRequest(request):
+def changeGoldRequest(request, rate):
     if request.method == 'POST':
         price = request.POST['price']
         gold = request.POST['gold']
         if gold == '':
             gold = 0
-        elif price == '':
+        if price == '':
             price = 0
         if (float(gold) == 0 and int(price) != 0) or (int(price) == 0 and float(gold) != 0):
-            if float(gold) > 99:
-                messages.success(request, 'مقدار ظلا نمی تواند بیشتر از ۹۹ کیلو باشد')
-                return redirect('ChangeGoldCustomer')
-            else:
-                Gold = convertGoldRequst(price=price, gold=gold, date=jdatetime.date.today(), user=request.user)
-                Gold.save()
-                messages.success(request, 'با موفقیت درخواست شما ثبت شد')
-                return redirect('ChangeGoldCustomer')
+            if gold == 0:
+
+                gold = int(price) / int(rate)
+                benfit = gold * 1.5 / 100
+                gold -= benfit
+
+            elif price == 0:
+                try:
+                    price = Decimal(gold) * int(rate)
+                    benfit = price * Decimal(1.5) / 100
+                    price += benfit
+                except ValueError:
+                    raise 'مقادیر ورودی دچار مشکل هست'
+
+            print(gold, price, rate)
+            Gold = convertGoldRequst(price=price, gold=gold, date=jdatetime.date.today(), user=request.user)
+            Gold.save()
+            messages.success(request, 'با موفقیت درخواست شما ثبت شد')
+            return redirect('ChangeGoldCustomer')
         else:
             messages.success(request, 'یا باید مقدار ظلا رو بدید یا مقدار مبلغ هر ۲ همزمان انجام شدنی نیست')
             return redirect('ChangeGoldCustomer')

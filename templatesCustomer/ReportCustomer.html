@@ -1,5 +1,5 @@
 {% extends 'mainCustomer.html' %}
- {% block link %}{% include 'linkJdata.html' %}{% endblock %}
+{% block link %}{% include 'linkJdata.html' %}{% endblock %}
 {% load static %}
 {% block title %}گزارشات{% endblock %}
 {% load humanize %}
@@ -7,127 +7,130 @@
 
 
 {% block content %}
-      {% if messages %}
-          {% for message in messages %}
-        <div class="absolute top-0 bg-lime-500 px-4 py-2 text-white rounded-3xl ">
-        {{ message }}
-        </div>
-        {% endfor %}
- {% endif %}
-            <div class="mt-20">
-                <span class="mx-20 font-bold font-sans text-xl">گزارشات</span>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="absolute top-0 bg-lime-500 px-4 py-2 text-white rounded-3xl ">
+                {{ message }}
             </div>
+        {% endfor %}
+    {% endif %}
+    <div class="mt-20">
+        <span class="mx-20 font-bold font-sans text-xl">گزارشات</span>
+    </div>
 
-            <!--start filter-->
-            <form method="post" action="/payment/getReport" class="container flex items-center justify-between gap-5 mt-20 px-20 ">
-            {% csrf_token %}
-                <div class="grid max-w-40">
-                    <select name="comboBox" id="comboBox"  class="appearance-none row-start-1 col-start-1 bg-slate-50 border border-blue-600 rounded-md px-4 py-1">
-                        <option>واریز وجه</option>
-                        <option>برداشت وجه</option>
-                        <option>تبدیل به طلا</option>
-                    </select>
-                </div>
-                <div class="grid gap-4 grid-cols-1 lg:grid-cols-2">
-                    <input name="start"  id="startDate" class="bg-slate-50 px-2 py-2 rounded-md border border-blue-600" type="text" data-jdp placeholder="تاریخ شروع" />
-                    <input name="end"  id="EndDate" class="bg-slate-50 px-3 py-2 rounded-md border border-blue-600" type="text" data-jdp placeholder="تاریخ پایان" />
-                </div>
-              <button style="color: white;background:#1d4ed8 "
-                        class="w-1/2 mx-auto my-5 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-700 to-blue-400 text-white font-bold hover:bg-gradient-to-l transition-all delay-200"
-                        type="submit">تایید نهایی</button>
+    <!--start filter-->
+    <form method="post" action="/payment/getReport"
+          class="container flex items-center justify-between gap-5 mt-20 px-20 ">
+        {% csrf_token %}
+        <div class="grid max-w-40">
+            <select name="comboBox" id="comboBox"
+                    class="appearance-none row-start-1 col-start-1 bg-slate-50 border border-blue-600 rounded-md px-4 py-1">
+                <option>واریز وجه</option>
+                <option>برداشت وجه</option>
+                <option>تبدیل به طلا</option>
+                <option>تبدیل طلا به پول</option>
+                <option>دریافت طلا</option>
+            </select>
+        </div>
+        <div class="grid gap-4 grid-cols-1 lg:grid-cols-2">
+            <input name="start" id="startDate" class="bg-slate-50 px-2 py-2 rounded-md border border-blue-600"
+                   type="text" data-jdp placeholder="تاریخ شروع"/>
+            <input name="end" id="EndDate" class="bg-slate-50 px-3 py-2 rounded-md border border-blue-600" type="text"
+                   data-jdp placeholder="تاریخ پایان"/>
+        </div>
+        <button style="color: white;background:#1d4ed8 "
+                class="w-1/2 mx-auto my-5 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-700 to-blue-400 text-white font-bold hover:bg-gradient-to-l transition-all delay-200"
+                type="submit">تایید نهایی
+        </button>
 
-            </form>
-            <!--end of filter-->
-            <!--start table-->
-            <article class="mt-5 mx-10 ">
-
-
-                <div class=" overflow-auto max-h-[58vh] shadow-md sm:rounded-lg">
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
-                        <!--header of table-->
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 child:text-nowrap">
-                            <tr class>
-                                <th scope="col" class="flex items-center justify-center my-4">
-                                    نام مشتری
-                                </th>
-                                <th scope="col" class="px-6 py-3flex items-center justify-center my-4">
-                                    کد ملی
-                                </th>
-                                <th scope="col" class="flex items-center px-6 my-4">
-                                    شماره تماس
-                                </th>
-                                <th scope="col" class="px-8 py-3 lowercase">
-                                    گرم(g)
-                                </th>
-                                <th scope="col" class="px-6 my-4">
-                                    مبلغ
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    وضعیت
-
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    موجودی کیف پول
-                                </th>
+    </form>
+    <!--end of filter-->
+    <!--start table-->
+    <article class="mt-5 mx-10 ">
 
 
+        <div class=" overflow-auto max-h-[58vh] shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                <!--header of table-->
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 child:text-nowrap">
+                <tr class>
+                    <th scope="col" class="flex items-center justify-center my-4">
+                        نام مشتری
+                    </th>
+                    <th scope="col" class="px-6 py-3flex items-center justify-center my-4">
+                        کد ملی
+                    </th>
+                    <th scope="col" class="flex items-center px-6 my-4">
+                        شماره تماس
+                    </th>
+                    <th scope="col" class="px-8 py-3 lowercase">
+                        گرم(g)
+                    </th>
+                    <th scope="col" class="px-6 my-4">
+                        مبلغ
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        وضعیت
 
-                            </tr>
-                        </thead>
-                        <!--body of table-->
-                        <tbody class="tableBody">
-                            <!--nth row table-->
-                            {% for d in data %}
-                            <tr class="bg-white border-b   hover:bg-gray-50 ">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    <span>{{ d.0.user.first_name }} {{ d.0.user.last_name }}</span>
-                                </th>
-                                <td class="px-6 py-4">
-                                   {{ d.0.user.username }}
-                                </td>
-                                <td class="px-6 py-4 ">
-                                     {{ d.1.Mobile }}
-                                </td>
-
-                                <td class="px-6 py-4">
-                                    {{ d.0.gold }}
-
-                                </td>
-                                <td class="px-6 py-4">
-                                    {{ d.0.price|intcomma }}
-                                </td>
-                                {% if d.0.status == 2 %}
-                                  <td class="px-6 py-4">
-                                    <span style="color: #0ec50e" class="text-lime-500 font-bold">تایید شد</span>
-                                </td>
-                                   {% elif d.0.status == 1 %}
-                                     <td class="px-6 py-4">
-                                    <span style="color: red" class="text-red-600 mx-auto font-bold">رد شد</span>
-                                </td>
-                                    {% else %}
-                                    <td class="px-6 py-4">
-                                    <span class="text-gray-600 mx-auto font-bold">درحال برسی</span>
-                                </td>
-                                {% endif %}
-                                <td class="px-6 py-4  gap-4 child:text-nowrap">
-                                   {{ d.2.moneyInventory|intcomma }}
-                                </td>
-                            </tr>
-                            {% endfor%}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        موجودی کیف پول
+                    </th>
 
 
+                </tr>
+                </thead>
+                <!--body of table-->
+                <tbody class="tableBody">
+                <!--nth row table-->
+                {% for d in data %}
+                    <tr class="bg-white border-b   hover:bg-gray-50 ">
+                        <th scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                            <span>{{ d.0.user.first_name }} {{ d.0.user.last_name }}</span>
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ d.0.user.username }}
+                        </td>
+                        <td class="px-6 py-4 ">
+                            {{ d.1.Mobile }}
+                        </td>
+
+                        <td class="px-6 py-4">
+                            {{ d.0.gold }}
+
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ d.0.price|intcomma }}
+                        </td>
+                        {% if d.0.status == 2 %}
+                            <td class="px-6 py-4">
+                                <span style="color: #0ec50e" class="text-lime-500 font-bold">تایید شد</span>
+                            </td>
+                        {% elif d.0.status == 1 %}
+                            <td class="px-6 py-4">
+                                <span style="color: red" class="text-red-600 mx-auto font-bold">رد شد</span>
+                            </td>
+                        {% else %}
+                            <td class="px-6 py-4">
+                                <span class="text-gray-600 mx-auto font-bold">درحال برسی</span>
+                            </td>
+                        {% endif %}
+                        <td class="px-6 py-4  gap-4 child:text-nowrap">
+                            {{ d.2.moneyInventory|intcomma }}
+                        </td>
+                    </tr>
+                {% endfor %}
 
 
+                </tbody>
+            </table>
+        </div>
 
-                        </tbody>
-                    </table>
-                </div>
-
-            </article>
+    </article>
 {% endblock %}
 {% block script %}
-        <script src="{% static 'jquery-3.7.1.min.js.js' %}"></script>
+    <script src="{% static 'jquery-3.7.1.min.js.js' %}"></script>
     <script>
 
         jalaliDatepicker.startWatch({

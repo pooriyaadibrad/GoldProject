@@ -124,13 +124,14 @@ def changeBio(request):
         try:
             picture=request.FILES['picture']
         except ErrorDict :
-            pass
+            picture=None
         except TypeError:
-            pass
-        user.first_name=name
-        user1.address=address
-        user1.LandlineNumber=lineNumber
-        user1.picture=picture
+            picture = None
+        if not name and not address and not lineNumber and not picture:
+            user.first_name=name
+            user1.address=address
+            user1.LandlineNumber=lineNumber
+            user1.picture=picture
         if NationCode !='':
             user.username=NationCode
         if cartSheba !='' and cartNumber !='' and cartName !='':

@@ -2,7 +2,7 @@ import jdatetime
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
-from payment.models import paymentAccount, BuyRequst, sellRequst, convertGoldRequst
+from payment.models import paymentAccount, BuyRequst, sellRequst, convertGoldRequst, paymentDate
 from account.models import person
 
 
@@ -55,9 +55,12 @@ def customer(request):
             for i in daysTransactio:
                 NumberdaysTransaction += i.price
 
+            paymentDate1 = paymentDate.objects.latest('datetime')
+
             return render(request=request, template_name='Dashbord.html',
                           context={'payment1': payment1, 'numberRequests': numberRequests,
-                                   'numberTransations': numberTransations, 'lastInvoices': lastInvoices})
+                                   'numberTransations': numberTransations, 'lastInvoices': lastInvoices,
+                                   'paymentDate': paymentDate1, })
     else:
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')
@@ -70,8 +73,12 @@ def profile(request):
         else:
             person1 = person.objects.get(user=request.user)
             account1 = paymentAccount.objects.get(user=request.user)
+
+            paymentDate1 = paymentDate.objects.latest('datetime')
+
             return render(request=request, template_name='Profile.html',
-                          context={'person1': person1, 'username': request.user.username, 'account': account1})
+                          context={'person1': person1, 'username': request.user.username, 'account': account1,
+                                   'paymentDate': paymentDate1, })
     else:
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')
@@ -83,7 +90,11 @@ def withdrawalCustomer(request):
             return redirect('adminAPP')
         else:
             buy = BuyRequst.objects.filter(user=request.user).all().order_by('-date')
-            return render(request=request, template_name='withdrawal.html', context={'buy': buy})
+
+            paymentDate1 = paymentDate.objects.latest('datetime')
+
+            return render(request=request, template_name='withdrawal.html',
+                          context={'buy': buy, 'paymentDate': paymentDate1})
     else:
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')
@@ -99,8 +110,12 @@ def settelmentCustomer(request):
             # payment2=paymentAccount.objects.filter(user=request.user).first()
             payment1 = [payment1.number, payment1.nameCart]
             sellrequst = sellRequst.objects.filter(user=request.user).all().order_by('-date')
+
+            paymentDate1 = paymentDate.objects.latest('datetime')
+
             return render(request=request, template_name='Settlement.html',
-                          context={'sellrequst': sellrequst, 'payment1': payment1})
+                          context={'sellrequst': sellrequst, 'payment1': payment1,
+                                   'paymentDate': paymentDate1, })
     else:
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')
@@ -112,7 +127,10 @@ def ChangeGoldCustomer(request):
             return redirect('adminAPP')
         else:
             gold = convertGoldRequst.objects.filter(user=request.user).all().order_by('-date').order_by('-id')
-            return render(request=request, template_name='ChengeToGoldCustomer.html', context={'gold': gold})
+            paymentDate1 = paymentDate.objects.latest('datetime')
+
+            return render(request=request, template_name='ChengeToGoldCustomer.html', context={'gold': gold,
+                                                                                               'paymentDate': paymentDate1, })
     else:
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')
@@ -123,11 +141,21 @@ def reportCustomer(request):
         if request.user.is_superuser:
             return redirect('adminAPP')
         else:
-            return render(request=request, template_name='ReportCustomer.html')
+            paymentDate1 = paymentDate.objects.latest('datetime')
+
+            return render(request=request, template_name='ReportCustomer.html',context={'paymentDate': paymentDate1, })
     else:
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')
+
+
 def convertToMoney(request):
-    return render(request=request, template_name='tabdileBeTala.html')
+    paymentDate1 = paymentDate.objects.latest('datetime')
+
+    return render(request=request, template_name='tabdileBeTala.html',context={'paymentDate': paymentDate1, })
+
+
 def getGold(request):
-    return render(request=request, template_name='daryaftTala.html')
+    paymentDate1 = paymentDate.objects.latest('datetime')
+
+    return render(request=request, template_name='daryaftTala.html',context={'paymentDate': paymentDate1, })
