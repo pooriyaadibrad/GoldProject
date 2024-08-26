@@ -2,7 +2,8 @@ import jdatetime
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
-from .models import paymentAccount, BuyRequst, sellRequst, convertGoldRequst, ConvertMoneyRequst, GetGoldRequst
+from .models import paymentAccount, BuyRequst, sellRequst, convertGoldRequst, ConvertMoneyRequst, GetGoldRequst, \
+    paymentDate
 from django.contrib import messages
 from account.models import person
 from decimal import Decimal
@@ -260,6 +261,8 @@ def getReport(request):
                 gold2 = convertGoldRequst.objects.filter(date__range=(start, end)).all()
                 money2 = ConvertMoneyRequst.objects.filter(date__range=(start, end)).all()
                 get_gold = GetGoldRequst.objects.filter(date__range=(start, end)).all()
+
+                paymentDate1=paymentDate.objects.latest('datetime')
                 resultSell = 0
                 resultBuy = 0
                 resultGold = 0
@@ -282,12 +285,13 @@ def getReport(request):
                     for b in sell1:
                         user1 = person.objects.filter(user=request.user).first()
                         payment1 = paymentAccount.objects.filter(user=request.user).first()
+
                         sell1[sell1.index(b)] = [b, user1, payment1, None]
 
                     return render(request, template_name='ReportCustomer.html',
                                   context={'data': sell1, 'resultSell': resultSell, 'resultBuy': resultBuy,
                                            'resultGold': resultGold, 'resultMoney': resultMoney,
-                                           'resultGet_gold': resultGet_gold})
+                                           'resultGet_gold': resultGet_gold,'paymentDate': paymentDate1})
 
                 elif requestType == 'برداشت وجه':
                     Buy = BuyRequst.objects.filter(date__range=(start, end)).filter(user=request.user).all()
@@ -302,23 +306,49 @@ def getReport(request):
                     return render(request, template_name='ReportCustomer.html',
                                   context={'data': Buy1, 'resultSell': resultSell, 'resultBuy': resultBuy,
                                            'resultGold': resultGold, 'resultMoney': resultMoney,
-                                           'resultGet_gold': resultGet_gold})
+                                           'resultGet_gold': resultGet_gold,'paymentDate': paymentDate1})
                 elif requestType == 'تبدیل طلا به پول':
-                    pass
+                    Buy = ConvertMoneyRequst.objects.filter(date__range=(start, end)).filter(user=request.user).all()
+                    Buy1 = []
+                    Buy1.extend(Buy)
+                    for b in Buy1:
+                        user1 = person.objects.filter(user=request.user).first()
+                        payment1 = paymentAccount.objects.filter(user=request.user).first()
+
+                        Buy1[Buy1.index(b)] = [b, user1, payment1, 'gold']
+
+                    return render(request, template_name='ReportCustomer.html',
+                                  context={'data': Buy1, 'resultSell': resultSell, 'resultBuy': resultBuy,
+                                           'resultGold': resultGold, 'resultMoney': resultMoney,
+                                           'resultGet_gold': resultGet_gold, 'paymentDate': paymentDate1})
+
                 elif requestType == 'دریافت طلا':
-                    pass
+                    Buy = GetGoldRequst.objects.filter(date__range=(start, end)).filter(user=request.user).all()
+                    Buy1 = []
+                    Buy1.extend(Buy)
+                    for b in Buy1:
+                        user1 = person.objects.filter(user=request.user).first()
+                        payment1 = paymentAccount.objects.filter(user=request.user).first()
+
+                        Buy1[Buy1.index(b)] = [b, user1, payment1, 'gold']
+
+                    return render(request, template_name='ReportCustomer.html',
+                                  context={'data': Buy1, 'resultSell': resultSell, 'resultBuy': resultBuy,
+                                           'resultGold': resultGold, 'resultMoney': resultMoney,
+                                           'resultGet_gold': resultGet_gold, 'paymentDate': paymentDate1})
+
                 else:
                     Gold = convertGoldRequst.objects.filter(date__range=(start, end)).filter(user=request.user).all()
                     Gold1 = []
                     Gold1.extend(Gold)
                     for g in Gold1:
-                        user1 = person.objects.filter(user=request.user)
+                        user1 = person.objects.filter(user=request.user).first()
                         payment1 = paymentAccount.objects.filter(user=request.user).first()
                         Gold1[Gold1.index(g)] = [g, user1, payment1, 'gold']
                     return render(request, template_name='ReportCustomer.html',
                                   context={'data': Gold1, 'resultSell': resultSell, 'resultBuy': resultBuy,
                                            'resultGold': resultGold, 'resultMoney': resultMoney,
-                                           'resultGet_gold': resultGet_gold})
+                                           'resultGet_gold': resultGet_gold,'paymentDate': paymentDate1})
             else:
                 messages.success(request, 'لطفا فیلد ها زمانی را پر کنید')
                 return redirect('reportCustomer')

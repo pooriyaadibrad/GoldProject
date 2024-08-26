@@ -53,7 +53,7 @@ class convertGoldRequst(Invoice):
 
 
 class ConvertMoneyRequst(Invoice):
-    gold = models.DecimalField(max_digits=3, decimal_places=3)
+    gold = models.DecimalField(max_digits=6, decimal_places=3)
 
     def __str__(self):
         return 'تبدیل به پول'
@@ -63,7 +63,7 @@ class GetGoldRequst(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2)])
     date = jalali_models.jDateField(auto_now_add=True)
-    gold = models.DecimalField(max_digits=3, decimal_places=3)
+    gold = models.DecimalField(max_digits=6, decimal_places=3)
 
     def __str__(self):
         return 'دریافت طلا'

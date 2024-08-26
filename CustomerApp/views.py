@@ -2,7 +2,9 @@ import jdatetime
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
-from payment.models import paymentAccount, BuyRequst, sellRequst, convertGoldRequst, paymentDate
+
+from adminAPP.views import userInfo
+from payment.models import paymentAccount, BuyRequst, sellRequst, convertGoldRequst, paymentDate, ConvertMoneyRequst
 from account.models import person
 
 
@@ -13,14 +15,11 @@ def customer(request):
             return redirect('adminAPP')
         else:
             payment1 = paymentAccount.objects.get(user=request.user)
-            Buy = BuyRequst.objects.filter(user=request.user).filter(status=0).all().order_by('-id')
-            sell = sellRequst.objects.filter(user=request.user).filter(status=0).all().order_by('-id')
-            Gold = convertGoldRequst.objects.filter(user=request.user).filter(status=0).all().order_by('-id')
-            request1 = []
-            request1.extend(Buy)
-            request1.extend(sell)
-            request1.extend(Gold)
-            numberRequests = len(request1)
+            Buy = BuyRequst.objects.filter(user=request.user).filter(status=0).count()
+            sell = sellRequst.objects.filter(user=request.user).filter(status=0).count()
+            Gold = convertGoldRequst.objects.filter(user=request.user).filter(status=0).count()
+            request1 = Buy + sell + Gold
+            numberRequests = request1
             daysTransactio = []
             lastInvoices1 = BuyRequst.objects.filter(user=request.user).all().order_by('-id')
             lastInvoices2 = sellRequst.objects.filter(user=request.user).all().order_by('-id')
@@ -34,19 +33,20 @@ def customer(request):
                 lastInvoices1 = lastInvoices1
                 lastInvoices2 = lastInvoices2
                 lastInvoices3 = lastInvoices3
+
             lastInvoices.extend(lastInvoices1)
             lastInvoices.extend(lastInvoices2)
             lastInvoices.extend(lastInvoices3)
             lastInvoices = sorted(lastInvoices, key=lambda x: x.date)
             lastInvoices.reverse()
             for i in lastInvoices1:
-                if i.date == jdatetime.date.today():
+                if i.date == jdatetime.date.today() and i.status == 2:
                     daysTransactio.append(i)
             for j in lastInvoices2:
-                if j.date == jdatetime.date.today():
+                if j.date == jdatetime.date.today() and j.status == 2:
                     daysTransactio.append(j)
             for k in lastInvoices3:
-                if k.date == jdatetime.date.today():
+                if k.date == jdatetime.date.today() and k.status == 2:
                     daysTransactio.append(k)
             numberTransations = 0
             for transaction in daysTransactio:
@@ -143,19 +143,35 @@ def reportCustomer(request):
         else:
             paymentDate1 = paymentDate.objects.latest('datetime')
 
-            return render(request=request, template_name='ReportCustomer.html',context={'paymentDate': paymentDate1, })
+            return render(request=request, template_name='ReportCustomer.html', context={'paymentDate': paymentDate1, })
     else:
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')
 
 
 def convertToMoney(request):
-    paymentDate1 = paymentDate.objects.latest('datetime')
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            return redirect('adminAPP')
+        else:
+            buy = ConvertMoneyRequst.objects.filter(user=request.user).all().order_by('-date')
+            account1 = paymentAccount.objects.filter(user=request.user).last()
+            paymentDate1 = paymentDate.objects.latest('datetime')
 
-    return render(request=request, template_name='tabdileBeTala.html',context={'paymentDate': paymentDate1, })
-
+            return render(request=request, template_name='tabdileBeTala.html',
+                          context={'buy': buy, 'paymentDate': paymentDate1, 'account': account1})
+    else:
+        messages.success(request, 'لظفا اول وارد شوید')
+        return redirect('login')
 
 def getGold(request):
-    paymentDate1 = paymentDate.objects.latest('datetime')
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            return redirect('adminAPP')
+        else:
+            paymentDate1 = paymentDate.objects.latest('datetime')
 
-    return render(request=request, template_name='daryaftTala.html',context={'paymentDate': paymentDate1, })
+            return render(request=request, template_name='daryaftTala.html', context={'paymentDate': paymentDate1, })
+    else:
+        messages.success(request, 'لظفا اول وارد شوید')
+        return redirect('login')

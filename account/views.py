@@ -114,6 +114,7 @@ def changeBio(request):
         payment1=paymentAccount.objects.get(user=user)
         lineNumber = request.POST['lineNumber']
         name=request.POST['name']
+        mobile=request.POST['mobile']
         cartNumber=request.POST['cartNumber']
         cartName=request.POST['cartName']
         cartSheba=request.POST['cartSheba']
@@ -123,15 +124,19 @@ def changeBio(request):
         address=request.POST['address']
         try:
             picture=request.FILES['picture']
-        except ErrorDict :
+        except :
             picture=None
-        except TypeError:
-            picture = None
-        if not name and not address and not lineNumber and not picture:
+
+        if  name!='' :
             user.first_name=name
+        if  address!='':
             user1.address=address
+        if  lineNumber!='':
             user1.LandlineNumber=lineNumber
+        if not picture:
             user1.picture=picture
+        if mobile!='':
+            user1.Mobile=mobile
         if NationCode !='':
             user.username=NationCode
         if cartSheba !='' and cartNumber !='' and cartName !='':
