@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 
 from adminAPP.views import userInfo
-from payment.models import paymentAccount, BuyRequst, sellRequst, convertGoldRequst, paymentDate, ConvertMoneyRequst
+from payment.models import paymentAccount, BuyRequst, sellRequst, convertGoldRequst, paymentDate, ConvertMoneyRequst, \
+    GetGoldRequst
 from account.models import person
 
 
@@ -164,14 +165,18 @@ def convertToMoney(request):
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')
 
+
 def getGold(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
             return redirect('adminAPP')
         else:
+            get_gold = GetGoldRequst.objects.filter(user=request.user).all().order_by('-date')
+            account1 = paymentAccount.objects.filter(user=request.user).last()
             paymentDate1 = paymentDate.objects.latest('datetime')
 
-            return render(request=request, template_name='daryaftTala.html', context={'paymentDate': paymentDate1, })
+            return render(request=request, template_name='daryaftTala.html', context={'paymentDate': paymentDate1,
+                                                                                      'get_gold': get_gold, 'account': account1})
     else:
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')
