@@ -9,5 +9,5 @@ urlpatterns = [
     path('DeleteTransaction/<int:id>/<str:type>', views.DeleteTransaction, name='DeleteTransaction'),
     path('withdrawalCustomer', views.withdrawalCustomer, name='withdrawalCustomer'),
     path('changeGoldRequest/<str:rate>', views.changeGoldRequest, name='changeGoldRequest'),
-
+    path('changeGoldToMoneyRequest/<str:rate>', views.changeGoldToMoneyRequest, name='changeGoldToMineyRequest'),
 ]

@@ -159,7 +159,7 @@ def convertToMoney(request):
             paymentDate1 = paymentDate.objects.latest('datetime')
 
             return render(request=request, template_name='tabdileBeTala.html',
-                          context={'buy': buy, 'paymentDate': paymentDate1, 'account': account1})
+                          context={'convert': buy, 'paymentDate': paymentDate1, 'account': account1})
     else:
         messages.success(request, 'لظفا اول وارد شوید')
         return redirect('login')

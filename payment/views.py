@@ -388,6 +388,16 @@ def DeleteTransaction(request, id, type):
         Buy.delete()
         messages.success(request, 'حذف موفقیت آمیز بود')
         return redirect('withdrawalCustomer')
+    elif type == 'تبدیل طلا به پول':
+        money = ConvertMoneyRequst.objects.get(id=id)
+        money.delete()
+        messages.success(request, 'حذف موفقیت آمیز بود')
+        return redirect('convertToMoney')
+    elif type == 'دریافت طلا':
+        get_gold = GetGoldRequst.objects.get(id=id)
+        get_gold.delete()
+        messages.success(request, 'حذف موفقیت آمیز بود')
+        return redirect('getGold')
     else:
         Gold = convertGoldRequst.objects.get(id=id)
         Gold.delete()
@@ -421,6 +431,7 @@ def changeGoldRequest(request, rate):
         if price == '':
             price = 0
         if (float(gold) == 0 and int(price) != 0) or (int(price) == 0 and float(gold) != 0):
+
             if gold == 0:
 
                 gold = int(price) / int(rate)
@@ -434,6 +445,9 @@ def changeGoldRequest(request, rate):
                     price += benfit
                 except ValueError:
                     raise 'مقادیر ورودی دچار مشکل هست'
+            if Decimal(gold)>=1000:
+                messages.success(request, 'نمیتوانید مقدار طلا بیشتر از 999 گرم و 999سوت وارد کنید')
+                return redirect('ChangeGoldCustomer')
 
             print(gold, price, rate)
             Gold = convertGoldRequst(price=price, gold=gold, date=jdatetime.date.today(), user=request.user)
@@ -447,6 +461,42 @@ def changeGoldRequest(request, rate):
         messages.success(request, 'در ثبت درخواست شما مشکلی پیش آمده است')
         return redirect('ChangeGoldCustomer')
 
+def changeGoldToMoneyRequest(request, rate):
+    if request.method == 'POST':
+        price = request.POST['price']
+        gold = request.POST['gold']
+        if gold == '':
+            gold = 0
+        if price == '':
+            price = 0
+        if (float(gold) == 0 and int(price) != 0) or (int(price) == 0 and float(gold) != 0):
+            if gold == 0:
+
+                gold = int(price) / int(rate)
+                benfit = gold * 1.5 / 100
+                gold += benfit
+
+            elif price == 0:
+                try:
+                    price = Decimal(gold) * int(rate)
+                    benfit = price * Decimal(1.5) / 100
+                    price -= benfit
+                except ValueError:
+                    raise 'مقادیر ورودی دچار مشکل هست'
+            if Decimal(gold)>=1000:
+                messages.success(request, 'نمیتوانید مقدار طلا بیشتر از 999 گرم و 999سوت وارد کنید')
+                return redirect('ChangeGoldCustomer')
+            print(gold, price, rate)
+            Gold = ConvertMoneyRequst(price=price, gold=gold, date=jdatetime.date.today(), user=request.user)
+            Gold.save()
+            messages.success(request, 'با موفقیت درخواست شما ثبت شد')
+            return redirect('convertToMoney')
+        else:
+            messages.success(request, 'یا باید مقدار ظلا رو بدید یا مقدار مبلغ هر ۲ همزمان انجام شدنی نیست')
+            return redirect('ChangeGoldCustomer')
+    else:
+        messages.success(request, 'در ثبت درخواست شما مشکلی پیش آمده است')
+        return redirect('ChangeGoldCustomer')
 
 """
 def getReport(request):
