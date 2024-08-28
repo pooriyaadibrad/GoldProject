@@ -8,7 +8,7 @@ from . import models
 from payment.models import paymentAccount
 from django.contrib import messages
 
-from . import models.person
+from . import account.models.person
 
 
 # Create your views here.
