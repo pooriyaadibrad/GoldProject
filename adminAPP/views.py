@@ -56,19 +56,17 @@ def admin(request):
                         if u.date == jdatetime.date.today() - timedelta(days=p):
                             daysTransactio.append(u)
 
-
-
                     NumberdaysTransaction = 0
                     for i in daysTransactio:
                         NumberdaysTransaction += i.price
 
                     last4daysTransaction.append(NumberdaysTransaction)
-                day_gold=[]
+                day_gold = []
                 day_gold.extend(lastInvoices3)
                 day_gold.extend(lastInvoices4)
-                gold=0
+                gold = 0
                 for i in day_gold:
-                    gold+=i.gold
+                    gold += i.gold
                 lastInvoices1 = BuyRequst.objects.filter(status=0).all().order_by('-id')
                 lastInvoices2 = sellRequst.objects.filter(status=0).all().order_by('-id')
                 lastInvoices3 = convertGoldRequst.objects.filter(status=0).all().order_by('-id')
@@ -116,7 +114,12 @@ def cartNumber(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
             payment = paymentAccount.objects.filter(user=request.user).first()
-            return render(request=request, template_name='Cardnumber.html', context={'payment': payment})
+            try:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')[0]
+            except IndexError:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')
+            return render(request=request, template_name='Cardnumber.html',
+                          context={'payment': payment, 'paymentDate': paymentDate1})
         else:
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
             return redirect('login')
@@ -128,7 +131,10 @@ def cartNumber(request):
 def changeToGold(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
-
+            try:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')[0]
+            except IndexError:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')
             Gold = convertGoldRequst.objects.all().order_by('-date')
             Gold1 = []
             Gold1.extend(Gold)
@@ -141,7 +147,8 @@ def changeToGold(request):
             if len(Gold1) > 10:
                 Gold1 = Gold1[0:10]
 
-            return render(request=request, template_name='ChengeToGold.html', context={'Gold': Gold1})
+            return render(request=request, template_name='ChengeToGold.html',
+                          context={'Gold': Gold1, 'paymentDate': paymentDate1})
         else:
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
             return redirect('login')
@@ -153,7 +160,12 @@ def changeToGold(request):
 def report(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            return render(request=request, template_name='Report.html', context={'data': []})
+            try:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')[0]
+            except IndexError:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')
+            return render(request=request, template_name='Report.html',
+                          context={'data': [], 'paymentDate': paymentDate1})
         else:
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
             return redirect('login')
@@ -165,6 +177,10 @@ def report(request):
 def requestCustomer(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
+            try:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')[0]
+            except IndexError:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')
             Buy = BuyRequst.objects.filter(status=0).all().order_by('-id')
             sell = sellRequst.objects.filter(status=0).all().order_by('-id')
             gold = convertGoldRequst.objects.filter(status=0).all().order_by('-id')
@@ -182,7 +198,8 @@ def requestCustomer(request):
                 payment = paymentAccount.objects.filter(user=req.user).first()
                 requestCustomer1[i] = [req, user1, payment]
                 i += 1
-            return render(request=request, template_name='request.html', context={'requestCustomer': requestCustomer1})
+            return render(request=request, template_name='request.html',
+                          context={'requestCustomer': requestCustomer1, 'paymentDate': paymentDate1})
         else:
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
             return redirect('login')
@@ -194,7 +211,10 @@ def requestCustomer(request):
 def settlement(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
-
+            try:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')[0]
+            except IndexError:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')
             sell = sellRequst.objects.all().order_by('-date')
             sell1 = []
             sell1.extend(sell)
@@ -207,7 +227,8 @@ def settlement(request):
             if len(sell) > 10:
                 sell1 = sell1[0:10]
 
-            return render(request=request, template_name='settlement-AdminPanel.html', context={'sell': sell1})
+            return render(request=request, template_name='settlement-AdminPanel.html',
+                          context={'sell': sell1, 'paymentDate': paymentDate1})
         else:
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
             return redirect('login')
@@ -219,6 +240,10 @@ def settlement(request):
 def userInfo(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
+            try:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')[0]
+            except IndexError:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')
             users = User.objects.filter(is_superuser=False).all()
             ResultUsers = []
             for user1 in users:
@@ -253,7 +278,8 @@ def userInfo(request):
                 helpVaribaleForBuildUserInformation.append(person1.Mobile)
                 helpVaribaleForBuildUserInformation.append(person1.blockStatus)
                 ResultUsers.append(helpVaribaleForBuildUserInformation)
-            return render(request=request, template_name='UserInfo-AdminPanel.html', context={'users': ResultUsers})
+            return render(request=request, template_name='UserInfo-AdminPanel.html',
+                          context={'users': ResultUsers, 'paymentDate': paymentDate1})
         else:
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
             return redirect('login')
@@ -265,6 +291,10 @@ def userInfo(request):
 def withdrawal(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
+            try:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')[0]
+            except IndexError:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')
             Buy = BuyRequst.objects.all().order_by('-date')
             Buy1 = []
             Buy1.extend(Buy)
@@ -277,7 +307,8 @@ def withdrawal(request):
             if len(Buy1) > 10:
                 Buy1 = Buy1[0:10]
 
-            return render(request=request, template_name='withdrawal-AdminPanel.html', context={'Buy': Buy1})
+            return render(request=request, template_name='withdrawal-AdminPanel.html',
+                          context={'Buy': Buy1, 'paymentDate': paymentDate1})
         else:
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
             return redirect('login')
@@ -289,6 +320,10 @@ def withdrawal(request):
 def ConvertMoneyRequest(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
+            try:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')[0]
+            except IndexError:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')
             moneyRequst = ConvertMoneyRequst.objects.all().order_by('-date')
             Buy1 = []
             Buy1.extend(moneyRequst)
@@ -301,7 +336,7 @@ def ConvertMoneyRequest(request):
             if len(Buy1) > 10:
                 Buy1 = Buy1[0:10]
 
-            return render(request=request, template_name='ConvertToMoney.html', context={'money': Buy1})
+            return render(request=request, template_name='ConvertToMoney.html', context={'money': Buy1,'paymentDate': paymentDate1})
         else:
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
             return redirect('login')
@@ -313,6 +348,10 @@ def ConvertMoneyRequest(request):
 def GetGoldRequest(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
+            try:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')[0]
+            except IndexError:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')
             GetGoldRequst1 = GetGoldRequst.objects.all().order_by('-date')
             Buy1 = []
             Buy1.extend(GetGoldRequst1)
@@ -325,7 +364,7 @@ def GetGoldRequest(request):
             if len(Buy1) > 10:
                 Buy1 = Buy1[0:10]
 
-            return render(request=request, template_name='getGold.html', context={'getGold': Buy1})
+            return render(request=request, template_name='getGold.html', context={'getGold': Buy1,'paymentDate': paymentDate1})
         else:
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
             return redirect('login')
@@ -343,7 +382,11 @@ def DeterminingGoldPrice(request):
                 paymentDate1.save()
                 return redirect('DeterminingGoldPrice')
             else:
-                return render(request=request, template_name='NerkhTala.html')
+                try:
+                    paymentDate1 = paymentDate.objects.all().order_by('-id')[0]
+                except IndexError:
+                    paymentDate1 = paymentDate.objects.all().order_by('-id')
+                return render(request=request, template_name='NerkhTala.html',context={'paymentDate': paymentDate1})
         else:
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
             return redirect('login')

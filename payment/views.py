@@ -43,7 +43,7 @@ def checkOrder(request):
                 buy = BuyRequst.objects.get(id=requestid)
                 account = paymentAccount.objects.get(user=buy.user)
                 if account.moneyInventory >= int(price):
-                    if account.nameCart == buy.user.first_name:
+
                         user = User.objects.get(is_superuser=True)
                         account1 = paymentAccount.objects.filter(user=user).first()
                         account.moneyInventory -= int(price)
@@ -55,9 +55,7 @@ def checkOrder(request):
                         buy.save()
                         messages = 'برداشت انجام شد'
                         return JsonResponse({'status': True, 'messages': messages})
-                    else:
-                        messages = 'اسم دارنده کارت و اسم صاحب اکانت مطابق نیست'
-                        return JsonResponse({'status': True, 'messages': messages})
+
                 else:
                     messages = 'موجودی کاربر برای این درخواست کافی نیست'
 
