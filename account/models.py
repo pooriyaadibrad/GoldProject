@@ -8,7 +8,7 @@ class person(models.Model):
     Mobile = models.CharField(max_length=15,default='09',blank=True)
     address = models.CharField(max_length =100,default='iran',blank=True)
     LandlineNumber = models.CharField(max_length =50,default='011',blank=True)
-    blockStatus=models.BooleanField(default=False)
-    picture = models.ImageField(upload_to="public/media/Nation_pictures/",default='default.jpg',blank=True)
+    blockStatus=models.BooleanField(default=True)
+    picture = models.ImageField(upload_to="Nation_pictures/",default='default.jpg',blank=True)
     def __str__(self):
         return self.user.username

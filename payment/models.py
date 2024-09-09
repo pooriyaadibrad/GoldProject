@@ -11,8 +11,7 @@ class paymentAccount(models.Model):
     nameCart = models.CharField(max_length=100, null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     moneyInventory = models.DecimalField(max_digits=12, decimal_places=0, default=0)
-    goldInventory = models.DecimalField(max_digits=12, decimal_places=6, default=0)
-
+    goldInventory = models.DecimalField(max_digits=12, decimal_places=3, default=0)
     # endurance=models.DecimalField(max_digits=12, decimal_places=0,default=0)
     def __str__(self):
         return f'{self.user.username} - {self.user.first_name} - {self.user.last_name}'

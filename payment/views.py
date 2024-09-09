@@ -15,6 +15,7 @@ def changeCartNumber(request):
         cartNumber = request.POST.get('cardNumber')
         name = request.POST.get('name')
         sheba = request.POST.get('sheba')
+        print(sheba)
         user = User.objects.get(is_superuser=True)
 
         payment = paymentAccount.objects.get(user=user)

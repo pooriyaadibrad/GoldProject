@@ -1,7 +1,12 @@
 {% extends 'mainCustomer.html' %}
 {% load static %}
 {% block title %}واریز وجه{% endblock %}
-{% block link %} <link rel="stylesheet" href="{% static 'src/Style/settlement.css' %}">{% endblock %}
+{% block link %} <link rel="stylesheet" href="{% static 'src/Style/settlement.css' %}">
+
+
+
+{% endblock %}
+
 {% block content %}
 {% load humanize %}
       {% if messages %}
@@ -18,10 +23,17 @@
                     <img src="{% static 'src/img/Magnetic Card.png' %}" class="mx-auto" alt="card">
                     <p>
                         <span class="font-bold text-xl text-gray-600">شماره کارت:</span>
-                        <span class="font-bold">{{ payment1.0 }}</span>
+                        <span id ='cartNumber' class="font-bold">{{ payment1.0 }}</span>
                     </p>
+                       <p>
+                    <span class="font-bold text-xl text-gray-600">شبا کارت:</span>
+                    <span id ='sheba' class="font-bold">{{ payment1.2 }}</span>
+                    </p>
+                     <p>
                     <span class="font-bold text-xl text-gray-600">صاحب کارت:</span>
                     <span class="font-bold">{{ payment1.1 }}</span>
+                         </p>
+
                 </div>
 
                 <!--input price-->

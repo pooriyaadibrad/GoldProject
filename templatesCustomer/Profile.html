@@ -350,7 +350,11 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
                                   </svg>
                                   </label>
+                             {% if person1.picture != 'default.jpg' and person1.picture %}
+                            <a style="color: #1d4ed8 " href="{{ person1.picture.url }}">عکس کارت ملی ارسالی کلیک کنید</a>
+                            {% endif %}
                             <input name="picture" id="files" style="visibility: hidden;" class="w-1" type="file">
+
                         </div>
                     </div>
 
@@ -365,6 +369,20 @@
 
 
             </div>
+            <ul style="padding-right: 200px;padding-top: 30px;list-style: circle">
+            <li style="padding-top: 20px">حتما باید نام و نام خانوادگی ثبت شده با نام صاحب کارت بانکی و کارت ملی ارسال شده یکی باشد</li>
+
+            <li style="padding-top: 20px">حتما شماره کارت و نام صاحب کارت و شبا با هم وارد کنید تا تایید شود</li>
+            <li style="padding-top: 20px">برای اطمینان از ارسال عکس کارت ملی روی لینک ارسال کارت ملی کلیک کنید و چک کنید اگر نبود بعد از واریز نمایش داده میشود</li>
+
+            <li style="padding-top: 20px">حتما اگر فیلدی میخواید تغییر ندهید خالی بزارید جز ۳ فیلد بانکی که باهم تغییر میکنن</li>
+
+            <li style="padding-top: 20px">برای تغییر پسورد باید هر ۲ فیلد مربوطه پر کنید</li>
+
+            <li style="padding-top: 20px">بعد از تایید اطلاعات اکانت شما فعال میشود میتوانید برای پیگیری با مرسده در تماس باشید</li>
+
+            <li style="padding-top: 10px;color: red;font-size: 20px">این صفحه حتما برای بار اول پر کنید وگرنه اجازه استفاده از این سیستم را احتراما ندارید!</li>
+            </ul>
 {% endblock %}
 
 

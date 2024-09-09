@@ -1,5 +1,6 @@
 {% extends 'mainAdmin.html' %}
 {% load static %}
+{% load humanize %}
 {% block title %}برداشت ها{% endblock %}
 
 {% block content %}
@@ -57,10 +58,10 @@
                                     {{ b.1.Mobile }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ b.0.price }}
+                                    {{ b.0.price|intcomma  }}
                                 </td>
                                 <td class="px-6 py-4">
-                                     {{ b.2.moneyInventory }}
+                                     {{ b.2.moneyInventory|intcomma }}
                                 </td>
                                 {% if b.0.status == 2 %}
                                 <td class="px-6 py-4">

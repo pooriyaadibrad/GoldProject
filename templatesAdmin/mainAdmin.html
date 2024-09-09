@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <html lang="en">
 
 <head>
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'src/Style/output.css' %}">
     <link rel="icon" href="{% static 'icon.png' %}">
     {% block link %}{% endblock %}
+
 </head>
 
 <body dir="rtl">
@@ -25,7 +27,8 @@
 
                     </div>
                     <div class="flex items-center justify-start  w-24  ">
-                        <span>{{ paymentDate }}</span>
+
+                        <span id="date">{{ paymentDate }}</span>
                     </div>
                 </li>
                 <li>
@@ -207,7 +210,7 @@
 
                     </div>
                     <div class="flex items-center justify-start  w-24  ">
-                        <span>{{ paymentDate }}</span>
+                        <span>{{ paymentDate  }}</span>
                     </div>
                 </li>
                 <li>
@@ -412,6 +415,7 @@
     <script src="{% static 'src/js/showHidde.js' %}"></script>
 
 {% block script %}{% endblock %}
+
 
 </body>
 
