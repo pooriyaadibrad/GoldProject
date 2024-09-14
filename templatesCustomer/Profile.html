@@ -4,6 +4,13 @@
 
 
 {% block content %}
+          {% if messages %}
+          {% for message in messages %}
+        <div class="absolute top-0 bg-lime-500 px-4 py-2 text-white rounded-3xl ">
+        {{ message }}
+        </div>
+                {% endfor %}
+            {% endif %}
             <div class=" mt-5 flex flex-col items-center  justify-center " style="display: flex;justify-content: center;align-items: center;">
                 <span class="text-2xl font-bold text-gray-700">پروفایل</span>
 
@@ -373,7 +380,7 @@
             <li style="padding-top: 20px">حتما باید نام و نام خانوادگی ثبت شده با نام صاحب کارت بانکی و کارت ملی ارسال شده یکی باشد</li>
 
             <li style="padding-top: 20px">حتما شماره کارت و نام صاحب کارت و شبا با هم وارد کنید تا تایید شود</li>
-            <li style="padding-top: 20px">برای اطمینان از ارسال عکس کارت ملی روی لینک ارسال کارت ملی کلیک کنید و چک کنید اگر نبود بعد از واریز نمایش داده میشود</li>
+            <li style="padding-top: 20px">برای اطمینان از ارسال عکس کارت ملی روی لینک ارسال کارت ملی کلیک کنید و چک کنید اگر نبود بعد از ارسال عکس کارت نمایش داده میشود</li>
 
             <li style="padding-top: 20px">حتما اگر فیلدی میخواید تغییر ندهید خالی بزارید جز ۳ فیلد بانکی که باهم تغییر میکنن</li>
 

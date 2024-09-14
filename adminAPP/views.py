@@ -274,10 +274,12 @@ def userInfo(request):
                     lastConvert = lastConvert[0]
                     helpVaribaleForBuildUserInformation.append(lastConvert.date)
                 else:
-                    helpVaribaleForBuildUserInformation.append('خرید ظلا نداشت')
+                    helpVaribaleForBuildUserInformation.append('خرید طلا نداشت')
                 helpVaribaleForBuildUserInformation.append(person1.Mobile)
                 helpVaribaleForBuildUserInformation.append(person1.blockStatus)
+                helpVaribaleForBuildUserInformation.append(person1.picture)
                 ResultUsers.append(helpVaribaleForBuildUserInformation)
+            ResultUsers.reverse()
             return render(request=request, template_name='UserInfo-AdminPanel.html',
                           context={'users': ResultUsers, 'paymentDate': paymentDate1})
         else:

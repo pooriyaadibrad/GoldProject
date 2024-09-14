@@ -2,7 +2,31 @@
 {% load static %}
 {% block title %}تبدیل به طلا{% endblock %}
 {% load humanize %}
+{% block link %}
+    <script>
+            function formatPrice(value) {
+            // Remove non-digit characters
+            const cleanedValue = value.replace(/\D/g, '');
 
+            // If the cleanedValue has 3 digits or less, return it as is
+            if (cleanedValue.length <= 3) {
+                return cleanedValue;
+            }
+
+            // If more than 3 digits, add commas
+            return cleanedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElement = document.getElementById('price');
+
+            inputElement.addEventListener('input', function() {
+                const formattedValue = formatPrice(this.value);
+                this.value = formattedValue; // Update the input value
+            });
+        });
+</script>
+{% endblock %}
         {% block content %}
               {% if messages %}
           {% for message in messages %}
@@ -20,13 +44,15 @@
                     </div>-->
                 </div>
                 <div style="text-align: center">
-            <span ><b>در هر درخواست شما %1.5 به عنوان کارمزد لحاظ میگردد </b></span></div>
+            <span ><b>در هر درخواست شما %1.5 به عنوان کارمزد لحاظ میگردد </b></span>
+                    <br>
+                <span style="color: red;font-size: 20px" >لطفا از مقادیر ورودی فقط یکی پر کنید</span></div>
             </section>
             <section>
                 <form method="post" action="/payment/changeGoldRequest/{{ paymentDate.price }}" class="flex flex-col justify-center items-center gap-10">
                     {% csrf_token %}
                     <div class="grid grid-cols-1 md:grid-cols-2 mx-10  gap-10 mt-10">
-                        <input name="price"
+                        <input id="price" name="price"
                             class=" appearance-none border-2 rounded-xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
                             autocomplete="off" placeholder="بر اساس مبلغ" />
                         <input name="gold"

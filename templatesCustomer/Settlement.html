@@ -2,9 +2,29 @@
 {% load static %}
 {% block title %}واریز وجه{% endblock %}
 {% block link %} <link rel="stylesheet" href="{% static 'src/Style/settlement.css' %}">
+<script>
+            function formatPrice(value) {
+            // Remove non-digit characters
+            const cleanedValue = value.replace(/\D/g, '');
 
+            // If the cleanedValue has 3 digits or less, return it as is
+            if (cleanedValue.length <= 3) {
+                return cleanedValue;
+            }
 
+            // If more than 3 digits, add commas
+            return cleanedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
 
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElement = document.getElementById('price');
+
+            inputElement.addEventListener('input', function() {
+                const formattedValue = formatPrice(this.value);
+                this.value = formattedValue; // Update the input value
+            });
+        });
+</script>
 {% endblock %}
 
 {% block content %}
@@ -41,7 +61,7 @@
                 <div class="flex flex-col gap-3 items-center justify-between">
                     <form method="POST" action="{% url 'RegisterBuyRequest' %}" enctype="multipart/form-data" class="flex flex-col gap-4 items-center justify-between">
                         {% csrf_token %}
-                        <input name="price"
+                        <input id="price" name="price"
                             class=" appearance-none border-2 rounded-xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
                             autocomplete="off" placeholder="مبلغ  را وارد کنید" />
 

@@ -15,7 +15,6 @@ def changeCartNumber(request):
         cartNumber = request.POST.get('cardNumber')
         name = request.POST.get('name')
         sheba = request.POST.get('sheba')
-        print(sheba)
         user = User.objects.get(is_superuser=True)
 
         payment = paymentAccount.objects.get(user=user)
@@ -180,7 +179,6 @@ def getReport(request):
                 for o in get_gold:
                     resultGet_gold += o.gold
 
-                print(resultMoney, resultGet_gold)
                 if requestType == 'واریز وجه':
                     sell = sellRequst.objects.filter(date__range=(start, end)).all()
                     sell1 = []
@@ -306,7 +304,7 @@ def getReport(request):
                                   context={'data': Buy1, 'resultSell': resultSell, 'resultBuy': resultBuy,
                                            'resultGold': resultGold, 'resultMoney': resultMoney,
                                            'resultGet_gold': resultGet_gold,'paymentDate': paymentDate1})
-                elif requestType == 'تبدیل طلا به پول':
+                elif requestType == 'تبدیل به پول':
                     Buy = ConvertMoneyRequst.objects.filter(date__range=(start, end)).filter(user=request.user).all()
                     Buy1 = []
                     Buy1.extend(Buy)
@@ -362,7 +360,7 @@ def RegisterBuyRequest(request):
         if paymentAccount1.nameCart == request.user.first_name:
             invoice = request.FILES['files']
             price = request.POST['price']
-
+            price = price.replace(',','')
             SellRequest = sellRequst(user=request.user, price=price, image=invoice, date=jdatetime.date.today())
             SellRequest.save()
             messages.success(request, 'بعد از بررسی مدیر نتیجه در همینجا ذخیره میشود')
@@ -387,7 +385,7 @@ def DeleteTransaction(request, id, type):
         Buy.delete()
         messages.success(request, 'حذف موفقیت آمیز بود')
         return redirect('withdrawalCustomer')
-    elif type == 'تبدیل طلا به پول':
+    elif type == 'تبدیل به پول':
         money = ConvertMoneyRequst.objects.get(id=id)
         money.delete()
         messages.success(request, 'حذف موفقیت آمیز بود')
@@ -407,6 +405,7 @@ def DeleteTransaction(request, id, type):
 def withdrawalCustomer(request):
     if request.method == 'POST':
         price = request.POST['price']
+        price = price.replace(',', '')
         paymentAccount1 = paymentAccount.objects.filter(user=request.user).first()
         if paymentAccount1.nameCart == request.user.first_name:
             Buy = BuyRequst(price=price, date=jdatetime.date.today(), user=request.user)
@@ -425,6 +424,7 @@ def changeGoldRequest(request, rate):
     if request.method == 'POST':
         price = request.POST['price']
         gold = request.POST['gold']
+        price = price.replace(',', '')
         if gold == '':
             gold = 0
         if price == '':
@@ -448,7 +448,6 @@ def changeGoldRequest(request, rate):
                 messages.success(request, 'نمیتوانید مقدار طلا بیشتر از 999 گرم و 999سوت وارد کنید')
                 return redirect('ChangeGoldCustomer')
 
-            print(gold, price, rate)
             Gold = convertGoldRequst(price=price, gold=gold, date=jdatetime.date.today(), user=request.user)
             Gold.save()
             messages.success(request, 'با موفقیت درخواست شما ثبت شد')
@@ -464,6 +463,7 @@ def changeGoldToMoneyRequest(request, rate):
     if request.method == 'POST':
         price = request.POST['price']
         gold = request.POST['gold']
+        price = price.replace(',', '')
         if gold == '':
             gold = 0
         if price == '':
@@ -485,7 +485,6 @@ def changeGoldToMoneyRequest(request, rate):
             if Decimal(gold)>=1000:
                 messages.success(request, 'نمیتوانید مقدار طلا بیشتر از 999 گرم و 999سوت وارد کنید')
                 return redirect('ChangeGoldCustomer')
-            print(gold, price, rate)
             Gold = ConvertMoneyRequst(price=price, gold=gold, date=jdatetime.date.today(), user=request.user)
             Gold.save()
             messages.success(request, 'با موفقیت درخواست شما ثبت شد')
@@ -497,6 +496,19 @@ def changeGoldToMoneyRequest(request, rate):
         messages.success(request, 'در ثبت درخواست شما مشکلی پیش آمده است')
         return redirect('ChangeGoldCustomer')
 
+def get_gold_request(request):
+    gold = request.POST['gold']
+    if gold == '':
+        gold = 0
+    else:
+        try:
+            gold = Decimal(gold)
+        except Exception as e:
+            print(e)
+    get_gold = GetGoldRequst(gold=gold, user=request.user)
+    get_gold.save()
+    messages.success(request, 'با موفقیت درخواست شما ثبت شد')
+    return redirect('getGold')
 """
 def getReport(request):
     if request.method == 'POST':

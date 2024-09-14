@@ -134,7 +134,6 @@ def changeBio(request):
             picture = request.FILES['picture']
         except:
             picture = None
-        print(picture)
         if name != '':
             user.first_name = name
         if address != '':
@@ -153,10 +152,14 @@ def changeBio(request):
             payment1.sheba = cartSheba
         if password == repassword and password != '' and repassword != '':
             user.set_password(password)
+
         user.save()
         user1.save()
         payment1.save()
         login(request, user)
+        if name != cartName:
+            messages.success(request, 'اسم وارد شده با اسم صاخب کارت مغایرت دارد لطفا بررسی کنید و برای فعال سازی اکانت برطرف کنیدش')
+            return redirect('profile')
         messages.success(request, 'تغغیرات با موفقیت اعمال شد')
         return redirect('profile')
     else:

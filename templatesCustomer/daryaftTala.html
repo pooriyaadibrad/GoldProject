@@ -18,7 +18,8 @@
         </div>
     </section>
     <section>
-        <form method="post" action="" class="flex flex-col justify-center items-center gap-10">
+        <form method="post" action="/payment/getGoldRequest/" class="flex flex-col justify-center items-center gap-10">
+            {% csrf_token %}
             <div class="grid grid-cols-1 md:grid-cols-1 mx-10  gap-10 mt-10">
                 <input name="gold"
                        class=" appearance-none border-2 rounded-xl w-full  py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-400 focus:bg-white text-gray-700 pr-16 font-bold js-password transition-all delay-150"
@@ -86,7 +87,7 @@
                             </th>
                         {% endif %}
                         <td class="px-6 py-4">
-                            {{ g.gold }}
+                            {{ g.gold }} گرم
                         </td>
                         <td class="px-6 py-4 ">
                             {{ g }}

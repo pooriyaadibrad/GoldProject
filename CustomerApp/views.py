@@ -54,8 +54,9 @@ def customer(request):
                     if k.date == jdatetime.date.today() and k.status == 2:
                         daysTransactio.append(k)
                 numberTransations = 0
+
                 for transaction in daysTransactio:
-                    numberTransations = +transaction.price
+                    numberTransations += transaction.price
                 NumberdaysTransaction = 0
                 for i in daysTransactio:
                     NumberdaysTransaction += i.price
@@ -164,7 +165,8 @@ def reportCustomer(request):
             else:
                 paymentDate1 = paymentDate.objects.latest('datetime')
 
-                return render(request=request, template_name='ReportCustomer.html', context={'paymentDate': paymentDate1, })
+                return render(request=request, template_name='ReportCustomer.html',
+                              context={'paymentDate': paymentDate1, })
         else:
             messages.success(request, 'لظفا اول وارد شوید')
             return redirect('login')
@@ -204,7 +206,8 @@ def getGold(request):
                 paymentDate1 = paymentDate.objects.latest('datetime')
 
                 return render(request=request, template_name='daryaftTala.html', context={'paymentDate': paymentDate1,
-                                                                                          'get_gold': get_gold, 'account': account1})
+                                                                                          'get_gold': get_gold,
+                                                                                          'account': account1})
         else:
             messages.success(request, 'لظفا اول وارد شوید')
             return redirect('login')
