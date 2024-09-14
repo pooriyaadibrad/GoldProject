@@ -16,6 +16,7 @@
             return cleanedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
+
         document.addEventListener('DOMContentLoaded', function() {
             const inputElement = document.getElementById('price');
 
@@ -184,6 +185,21 @@
 {% block script %}
     <script src="{% static 'jquery-3.7.1.min.js.js' %}"></script>
     <script>
+      function formatPrice1(value) {
+
+            return value.replace(/\B(?=(\d{4})+(?!\d))/g, ",");
+        }
+    document.addEventListener('DOMContentLoaded', function() {
+         let inputElement1 = document.getElementById('cartNumber').innerHTML;
+            let inputElement2 = document.getElementById('sheba').innerHTML;
+            cart = formatPrice1(inputElement1)
+            sheba = formatPrice1(inputElement2)
+            document.getElementById('cartNumber').innerHTML = cart
+            document.getElementById('sheba').innerHTML = sheba
+    })
+
+
+
         function showImage(e) {
             var imageContainer =
                 document.createElement("div");
