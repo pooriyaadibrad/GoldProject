@@ -1,6 +1,10 @@
 {% extends 'mainAdmin.html' %}
 {% load static %}
 {% load humanize %}
+{% block link %} <link rel="stylesheet" href="{% static 'src/Style/settlement.css' %}">
+
+
+{% endblock %}
 {% block title %}مشخصات مشتریان{% endblock %}
 
 
@@ -90,7 +94,7 @@
                                 </td>
                             <td class="px-6 py-4  ">
                                     <button class=""
-                                        onclick="showImage('{{ user.8.image.url }}')">
+                                        onclick="showImage('{{ user.8.url }}')">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                             class="size-6">
                                             <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
@@ -131,7 +135,6 @@
     {% block script %}
     <script>
     function showImage(e) {
-
             var imageContainer =
                 document.createElement("div");
             imageContainer.className =

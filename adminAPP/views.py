@@ -278,6 +278,7 @@ def userInfo(request):
                 helpVaribaleForBuildUserInformation.append(person1.Mobile)
                 helpVaribaleForBuildUserInformation.append(person1.blockStatus)
                 helpVaribaleForBuildUserInformation.append(person1.picture)
+
                 ResultUsers.append(helpVaribaleForBuildUserInformation)
             ResultUsers.reverse()
             return render(request=request, template_name='UserInfo-AdminPanel.html',
