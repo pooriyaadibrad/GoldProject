@@ -147,9 +147,10 @@ def changeBio(request):
         if NationCode != '':
             user.username = NationCode
         if cartSheba != '' and cartNumber != '' and cartName != '':
-            payment1.nameCart = cartName
-            payment1.number = cartNumber
-            payment1.sheba = cartSheba
+            if cartNumber.isdigit() and cartSheba.isdigit():
+                payment1.nameCart = cartName
+                payment1.number = cartNumber
+                payment1.sheba = cartSheba
         if password == repassword and password != '' and repassword != '':
             user.set_password(password)
 
@@ -159,6 +160,10 @@ def changeBio(request):
         login(request, user)
         if name != cartName:
             messages.success(request, 'اسم وارد شده با اسم صاخب کارت مغایرت دارد لطفا بررسی کنید و برای فعال سازی اکانت برطرف کنیدش')
+            return redirect('profile')
+        if not (cartNumber.isdigit() and cartSheba.isdigit()):
+            messages.success(request,
+                             'مقادیر شبا و شماره کارت با حتما عددی وارد بشود')
             return redirect('profile')
         messages.success(request, 'تغغیرات با موفقیت اعمال شد')
         return redirect('profile')

@@ -1,7 +1,7 @@
 {% extends 'mainAdmin.html' %}
 
 {% load static %}
-
+{% load humanize %}
 {% block title %}واریزی ها{% endblock %}
 
 {% block link %} <link rel="stylesheet" href="{% static 'src/Style/settlement.css' %}">{% endblock %}
@@ -62,10 +62,10 @@
                                     {{ b.1.Mobile }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ b.2.moneyInventory }}
+                                    {{ b.2.moneyInventory|intcomma }} ریال
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ b.0.price }}
+                                    {{ b.0.price|intcomma }}ریال
                                 </td>
                                  {% if b.0.status == 2 %}
                                 <td class="px-6 py-4">

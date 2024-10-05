@@ -1,5 +1,6 @@
 {% extends 'mainAdmin.html' %}
 {% load static %}
+{% load humanize %}
 {% block title %}تبدیل به طلا{% endblock %}
 
 
@@ -71,7 +72,7 @@
                                      {{ g.0.gold }}
                                 </td>
                                 <td class="px-6 py-4">
-                                     {{ g.0.price }}
+                                     {{ g.0.price|intcomma }}ریال
                                 </td>
                                 
                                 {% if g.0.status == 2 %}
@@ -90,7 +91,7 @@
                                 {% endif %}
                                 
                                 <td class="px-6 py-4  gap-4 child:text-nowrap">
-                                    {{ g.2.moneyInventory }}
+                                    {{ g.2.moneyInventory|intcomma }}ریال
                                 </td>
                             </tr>
 
