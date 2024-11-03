@@ -23,12 +23,21 @@
 
                  <li style="background-color: #ffd200;padding-top:5px ;padding-bottom: 5px;padding-right: 5px;color: black;white-space: nowrap;">
                     <div  >
-                       قیمت طلا :
+                        قیمت فروش طلا :
 
                     </div>
                     <div class="flex items-center justify-start  w-24  ">
 
                         <span id="date">{{ paymentDate }}</span>
+                    </div>
+                </li>
+                 <li style="background-color: #ffd200;padding-top:5px ;padding-bottom: 5px;padding-right: 5px;color: black;white-space: nowrap;">
+                    <div  >
+                        قیمت خرید طلا :
+
+                    </div>
+                    <div class="flex items-center justify-start  w-24  ">
+                        <span  id="date-1">{{ paymentDate }}</span>
                     </div>
                 </li>
                 <li>
@@ -206,11 +215,20 @@
                 class="p-4 text-white child:flex child:items-center child:justify-between child:rounded-3xl child:py-1   child:my-6  child:mx-4   child-hover:text-slate-600 child-hover:bg-neutral-50 child-hover:cursor-pointer child:transition-all child:delay-100">
                 <li style="background-color: #ffd200;padding-top:5px ;padding-bottom: 5px;padding-right: 5px;color: black;white-space: nowrap;">
                     <div  >
-                       قیمت طلا :
+                       قیمت فروش طلا :
 
                     </div>
                     <div class="flex items-center justify-start  w-24  ">
                         <span>{{ paymentDate  }}</span>
+                    </div>
+                </li>
+                  <li style="background-color: #ffd200;padding-top:5px ;padding-bottom: 5px;padding-right: 5px;color: black;white-space: nowrap;">
+                    <div  >
+                       قیمت خرید طلا :
+
+                    </div>
+                    <div class="flex items-center justify-start  w-24  ">
+                        <span id="buy-payment">{{ paymentDate }}</span>
                     </div>
                 </li>
                 <li>
@@ -413,7 +431,13 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{% static 'src/js/showHidde.js' %}"></script>
+    <script>
+        buy_payment=document.getElementById('buy-payment').innerHTML
+        document.getElementById('buy-payment').innerHTML=buy_payment-100000
 
+        buy_payment=document.getElementById('date-1').innerHTML
+        document.getElementById('date-1').innerHTML=buy_payment-100000
+    </script>
 {% block script %}{% endblock %}
 
 

@@ -100,6 +100,7 @@ def BlockCustomer(request, id):
     user1 = User.objects.get(id=id)
     person = models.person.objects.get(user=user1)
     person.blockStatus = True
+
     person.save()
     messages.success(request, 'با موفقیت مسدود شد')
     return redirect('userInfo')
@@ -109,6 +110,7 @@ def activeCustomer(request, id):
     user1 = User.objects.get(id=id)
     person = models.person.objects.get(user=user1)
     person.blockStatus = False
+    person.new_customer_status = False
     person.save()
     messages.success(request, 'با موفقیت کاربر فعال شد')
     return redirect('userInfo')

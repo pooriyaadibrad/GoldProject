@@ -53,7 +53,14 @@
                     <img src="{% static 'src/img/ID not Verified.png' %}" class="w-20 absolute -top-8" alt="">
                     <span>درخواست های تایید نشده</span>
                     <span>{{ invoicesNumber }}</span>
-                </div>
+                    {% if  new_persons == 0%}
+
+                   {% else %}
+                         <span style="margin-top: 10px">مشتریان جدید</span>
+                    <span style="margin-top: 10px;">  تعداد<span style="margin-right: 10px;font-size: 25px;background: #ff0338;border-radius: 45%;padding: 2px">{{ new_persons }}</span></span>
+
+                    {% endif %}
+                        </div>
                 <div
                         class="relative flex flex-col  items-center justify-center  bg-gradient-to-b from-blue-900 to-blue-400  px-10 py-10">
                     <img src="{% static 'src/img/Gold Bars.png' %}" class="w-20 absolute -top-8" alt="">

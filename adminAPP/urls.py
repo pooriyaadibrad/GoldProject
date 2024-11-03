@@ -12,4 +12,5 @@ urlpatterns = [
     path('DeterminingGoldPrice/', views.DeterminingGoldPrice, name='DeterminingGoldPrice'),
     path('ConvertMoneyRequest/', views.ConvertMoneyRequest, name='ConvertMoneyRequest'),
     path('GetGoldRequest/', views.GetGoldRequest, name='GetGoldRequest'),
+    path('search_customer/', views.search_customer, name='search_customer'),
 ]

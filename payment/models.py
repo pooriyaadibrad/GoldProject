@@ -26,7 +26,7 @@ class paymentDate(models.Model):
 
 
 class Invoice(models.Model):
-    date = jalali_models.jDateField(auto_now_add=True)
+    date = jalali_models.jDateTimeField(auto_now_add=True)
     price = models.DecimalField(max_digits=12, decimal_places=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2)])
@@ -61,7 +61,7 @@ class ConvertMoneyRequst(Invoice):
 class GetGoldRequst(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2)])
-    date = jalali_models.jDateField(auto_now_add=True)
+    date = jalali_models.jDateTimeField(auto_now_add=True)
     gold = models.DecimalField(max_digits=6, decimal_places=3)
 
     def __str__(self):

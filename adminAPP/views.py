@@ -1,10 +1,15 @@
+from inspect import stack
+
 import jdatetime
 from jdatetime import timedelta
 from django.shortcuts import render, redirect
+
+from CustomerApp.views import customer
 from account.models import User, person
 from payment.models import paymentAccount, BuyRequst, sellRequst, convertGoldRequst, ConvertMoneyRequst, GetGoldRequst, \
     Invoice, paymentDate
 from django.contrib import messages
+from django.db.models import Q
 
 
 # Create your views here.
@@ -97,10 +102,12 @@ def admin(request):
                 for i in range(0, 4):
                     calendarLine = jdatetime.date.today() - timedelta(days=i)
                     dayesX.append(calendarLine.strftime('%Y-%m-%d'))
+                new_persons = person.objects.filter(new_customer_status=True).all()
                 return render(request, template_name='Admin.html',
                               context={'invoicesNumber': invoicesNumber, 'payment': payment,
                                        'lastInvoices': lastInvoices, 'last4daysTransaction': last4daysTransaction,
-                                       'dayesX': dayesX, 'paymentDate': paymentDate1, 'gold_day': gold})
+                                       'dayesX': dayesX, 'paymentDate': paymentDate1, 'gold_day': gold,
+                                       'new_persons': len(new_persons)})
         else:
 
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
@@ -278,7 +285,7 @@ def userInfo(request):
                 helpVaribaleForBuildUserInformation.append(person1.Mobile)
                 helpVaribaleForBuildUserInformation.append(person1.blockStatus)
                 helpVaribaleForBuildUserInformation.append(person1.picture)
-
+                helpVaribaleForBuildUserInformation.append(person1.new_customer_status)
                 ResultUsers.append(helpVaribaleForBuildUserInformation)
             ResultUsers.reverse()
             return render(request=request, template_name='UserInfo-AdminPanel.html',
@@ -339,7 +346,8 @@ def ConvertMoneyRequest(request):
             if len(Buy1) > 10:
                 Buy1 = Buy1[0:10]
 
-            return render(request=request, template_name='ConvertToMoney.html', context={'money': Buy1,'paymentDate': paymentDate1})
+            return render(request=request, template_name='ConvertToMoney.html',
+                          context={'money': Buy1, 'paymentDate': paymentDate1})
         else:
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
             return redirect('login')
@@ -367,7 +375,8 @@ def GetGoldRequest(request):
             if len(Buy1) > 10:
                 Buy1 = Buy1[0:10]
 
-            return render(request=request, template_name='getGold.html', context={'getGold': Buy1,'paymentDate': paymentDate1})
+            return render(request=request, template_name='getGold.html',
+                          context={'getGold': Buy1, 'paymentDate': paymentDate1})
         else:
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
             return redirect('login')
@@ -389,7 +398,118 @@ def DeterminingGoldPrice(request):
                     paymentDate1 = paymentDate.objects.all().order_by('-id')[0]
                 except IndexError:
                     paymentDate1 = paymentDate.objects.all().order_by('-id')
-                return render(request=request, template_name='NerkhTala.html',context={'paymentDate': paymentDate1})
+                return render(request=request, template_name='NerkhTala.html', context={'paymentDate': paymentDate1})
+        else:
+            messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
+            return redirect('login')
+    else:
+        messages.success(request, 'لطفا اول وارد شوید')
+        return redirect('login')
+
+
+def search_customer(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            try:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')[0]
+            except IndexError:
+                paymentDate1 = paymentDate.objects.all().order_by('-id')
+            query = request.POST.get('search')
+            if query:
+                if query[0] != '0':
+                    users = User.objects.filter(
+                        Q(is_superuser=False) & Q(first_name__icontains=query) | Q(username__icontains=query)).all()
+                    ResultUsers = []
+                    print(users)
+                    for user1 in users:
+                        helpVaribaleForBuildUserInformation = [user1]
+                        payment = paymentAccount.objects.filter(user=user1).all()
+                        lastBuy = BuyRequst.objects.filter(user=user1).all().order_by('-id')
+                        lastSell = sellRequst.objects.filter(user=user1).all().order_by('-id')
+                        lastConvert = convertGoldRequst.objects.filter(user=user1).all().order_by('-id')
+                        person1 = person.objects.filter(user=user1).first()
+                        print(person1)
+                        if len(payment) > 0:
+                            payment = payment[0]
+                            helpVaribaleForBuildUserInformation.append(payment.moneyInventory)
+                            helpVaribaleForBuildUserInformation.append(payment.goldInventory)
+                        else:
+                            helpVaribaleForBuildUserInformation.append('این کاربر حسابی ندارد')
+                        if len(lastBuy) > 0:
+                            lastBuy = lastBuy[0]
+                            helpVaribaleForBuildUserInformation.append(lastBuy.date)
+                        else:
+                            helpVaribaleForBuildUserInformation.append('خرید نداشت')
+                        if len(lastSell) > 0:
+                            lastSell = lastSell[0]
+                            helpVaribaleForBuildUserInformation.append(lastSell.date)
+                        else:
+                            helpVaribaleForBuildUserInformation.append('فروش نداشت')
+
+                        if len(lastConvert) > 0:
+                            lastConvert = lastConvert[0]
+                            helpVaribaleForBuildUserInformation.append(lastConvert.date)
+                        else:
+                            helpVaribaleForBuildUserInformation.append('خرید طلا نداشت')
+                        try:
+                            helpVaribaleForBuildUserInformation.append(person1.Mobile)
+                            helpVaribaleForBuildUserInformation.append(person1.blockStatus)
+                            helpVaribaleForBuildUserInformation.append(person1.picture)
+                        except AttributeError:
+                            helpVaribaleForBuildUserInformation.append('این یوزر نباید اجازه فعالیت داشته باشید')
+                            helpVaribaleForBuildUserInformation.append('این یوزر نباید اجازه فعالیت داشته باشید')
+                            helpVaribaleForBuildUserInformation.append('این یوزر نباید اجازه فعالیت داشته باشید')
+
+                        ResultUsers.append(helpVaribaleForBuildUserInformation)
+                    ResultUsers.reverse()
+                    return render(request=request, template_name='UserInfo-AdminPanel.html',
+                                  context={'users': ResultUsers, 'paymentDate': paymentDate1})
+                else:
+                    persons = person.objects.filter(Q(Mobile=query)).all()
+                    stack_user = []
+                    ResultUsers = []
+                    for pers in persons:
+                        stack_user.append(pers.user)
+                    for user1 in stack_user:
+                        user1 = User.objects.filter(username=user1.username).first()
+                        helpVaribaleForBuildUserInformation = [user1]
+                        payment = paymentAccount.objects.filter(user=user1).all()
+                        lastBuy = BuyRequst.objects.filter(user=user1).all().order_by('-id')
+                        lastSell = sellRequst.objects.filter(user=user1).all().order_by('-id')
+                        lastConvert = convertGoldRequst.objects.filter(user=user1).all().order_by('-id')
+                        person1 = person.objects.filter(user=user1).first()
+                        if len(payment) > 0:
+                            payment = payment[0]
+                            helpVaribaleForBuildUserInformation.append(payment.moneyInventory)
+                            helpVaribaleForBuildUserInformation.append(payment.goldInventory)
+                        else:
+                            helpVaribaleForBuildUserInformation.append('این کاربر حسابی ندارد')
+                        if len(lastBuy) > 0:
+                            lastBuy = lastBuy[0]
+                            helpVaribaleForBuildUserInformation.append(lastBuy.date)
+                        else:
+                            helpVaribaleForBuildUserInformation.append('خرید نداشت')
+                        if len(lastSell) > 0:
+                            lastSell = lastSell[0]
+                            helpVaribaleForBuildUserInformation.append(lastSell.date)
+                        else:
+                            helpVaribaleForBuildUserInformation.append('فروش نداشت')
+
+                        if len(lastConvert) > 0:
+                            lastConvert = lastConvert[0]
+                            helpVaribaleForBuildUserInformation.append(lastConvert.date)
+                        else:
+                            helpVaribaleForBuildUserInformation.append('خرید طلا نداشت')
+                        helpVaribaleForBuildUserInformation.append(person1.Mobile)
+                        helpVaribaleForBuildUserInformation.append(person1.blockStatus)
+                        helpVaribaleForBuildUserInformation.append(person1.picture)
+
+                        ResultUsers.append(helpVaribaleForBuildUserInformation)
+                    ResultUsers.reverse()
+                    return render(request=request, template_name='UserInfo-AdminPanel.html',
+                                  context={'users': ResultUsers, 'paymentDate': paymentDate1})
+            else:
+                return redirect('userInfo')
         else:
             messages.success(request, 'لطفا اول با اکانت ادمین وارد شوید')
             return redirect('login')

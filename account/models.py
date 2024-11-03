@@ -10,5 +10,6 @@ class person(models.Model):
     LandlineNumber = models.CharField(max_length =50,default='011',blank=True)
     blockStatus=models.BooleanField(default=True)
     picture = models.ImageField(upload_to="Nation_pictures/",default='default.jpg',blank=True)
+    new_customer_status = models.BooleanField(default=True)
     def __str__(self):
         return self.user.username

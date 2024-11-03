@@ -154,6 +154,7 @@ def getReport(request):
         requestType = request.POST['comboBox']
         startDate = request.POST['start']
         endDate = request.POST['end']
+        search = request.POST.get('search')
         if request.user.is_superuser:
             if startDate != '' and endDate != '':
                 start = startDate.replace('/', '-')
@@ -178,7 +179,6 @@ def getReport(request):
                     resultMoney += u.gold
                 for o in get_gold:
                     resultGet_gold += o.gold
-
                 if requestType == 'واریز وجه':
                     sell = sellRequst.objects.filter(date__range=(start, end)).all()
                     sell1 = []
